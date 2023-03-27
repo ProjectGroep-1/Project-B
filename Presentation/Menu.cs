@@ -31,7 +31,7 @@ static class Menu
             }
             if (input == "4")
             {
-                Console.WriteLine(message);
+                AccountsAccess.GetConactInformation();
                 break;
             }
             Console.WriteLine("Invalid input");
