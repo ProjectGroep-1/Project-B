@@ -36,8 +36,8 @@ static class Menu
                         int id = Convert.ToInt32(Console.ReadLine());
                         if (FoodMenuFunctions.FindItem(id) != null)
                             {
-                                Console.WriteLine($"There is already an item with ID {id}! Use the modification option instead");
-                                Thread.Sleep(750);
+                                Console.WriteLine($"There is already an item with ID {id}! Use the modification option instead (press Escape to return to main menu)");
+                                Console.ReadKey(true);
                                 break;
                             }
                         else{}
