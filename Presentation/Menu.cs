@@ -7,7 +7,7 @@ static class Menu
     static public void Start()
     {
         while (true)
-        {
+        {   Console.WriteLine("\n");
             Console.WriteLine("Main menu" + "\n");
             Console.WriteLine("1: Current menu" + "\n" + "2: Information about our restaurant" + "\n" + "3: Your reservation" + "\n" + "4: Contact" + "\n");
 
@@ -17,22 +17,22 @@ static class Menu
             if (input == "1")
             {
                 FoodMenuFunctions.MenuSummary();
-                break;
+                
             }
-            if (input == "2")
+            else if (input == "2")
             {
                 Console.WriteLine(message);
-                break;
+                
             }
-            if (input == "3")
+            else if (input == "3")
             {
                 Console.WriteLine(message);
-                break;
+                
             }
-            if (input == "4")
+            else if (input == "4")
             {
                 AccountsAccess.GetConactInformation();
-                break;
+                
             }
             else{
                 Console.WriteLine("Invalid input");
