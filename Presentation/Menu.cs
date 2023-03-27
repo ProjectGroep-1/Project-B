@@ -16,7 +16,7 @@ static class Menu
             
             if (input == "1")
             {
-                Console.WriteLine(message);
+                FoodMenuFunctions.MenuSummary();
                 break;
             }
             if (input == "2")
@@ -34,7 +34,10 @@ static class Menu
                 AccountsAccess.GetConactInformation();
                 break;
             }
-            Console.WriteLine("Invalid input");
+            else{
+                Console.WriteLine("Invalid input");
+            }
+            
         }
 
 

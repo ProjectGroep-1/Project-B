@@ -19,7 +19,7 @@ static class AccountsAccess
         File.WriteAllText(path, json);
     }
 
-    public static void GetConactInformation()
+    public static void GetContactInformation()
     {
         ContactInformation.DisplayInformation();
     }
