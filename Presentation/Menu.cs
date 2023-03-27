@@ -7,7 +7,7 @@ static class Menu
     static public void Start()
     {
         while (true)
-        {
+        {   Console.WriteLine("\n");
             Console.WriteLine("Main menu" + "\n");
             Console.WriteLine("1: Current menu" + "\n" + "2: Information about our restaurant" + "\n" + "3: Your reservation" + "\n" + "4: Contact" + "\n");
 
