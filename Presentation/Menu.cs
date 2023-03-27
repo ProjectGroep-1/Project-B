@@ -17,22 +17,22 @@ static class Menu
             if (input == "1")
             {
                 FoodMenuFunctions.MenuSummary();
-                break;
+                
             }
-            if (input == "2")
+            else if (input == "2")
             {
                 Console.WriteLine(message);
-                break;
+                
             }
-            if (input == "3")
+            else if (input == "3")
             {
                 Console.WriteLine(message);
-                break;
+                
             }
-            if (input == "4")
+            else if (input == "4")
             {
                 AccountsAccess.GetConactInformation();
-                break;
+                
             }
             else{
                 Console.WriteLine("Invalid input");
