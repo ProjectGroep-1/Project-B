@@ -11,7 +11,7 @@ static class FoodMenuAccess{
     }
 
     public static void WriteAll(List<MenuItem> menu){
-        string json = JsonSerializer.Serialize(menu);
+        string json = JsonSerializer.Serialize(menu, new JsonSerializerOptions { WriteIndented = true });
         File.WriteAllText(data, json);
     }
 }
