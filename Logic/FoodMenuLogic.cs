@@ -9,10 +9,6 @@ class FoodMenuLogic
 {
     public List<MenuItem> _menuitems;
 
-    //Static properties are shared across all instances of the class
-    //This can be used to get the current logged in account from anywhere in the program
-    //private set, so this can only be set by the class itself
-
     public FoodMenuLogic()
     {
         _menuitems = FoodMenuAccess.LoadMenuJSON();
@@ -42,5 +38,12 @@ class FoodMenuLogic
     {
         return _menuitems.Find(i => i.Id == id);
     }
+
+    public void RemoveItem(MenuItem item){
+        _menuitems.Remove(item);
+        _menuitems.IndexOf(item);
+        FoodMenuAccess.WriteAll(_menuitems);
+    }
+
 
 }
