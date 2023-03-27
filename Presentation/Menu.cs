@@ -31,7 +31,7 @@ static class Menu
             }
             else if (input == "4")
             {
-                AccountsAccess.GetConactInformation();
+                AccountsAccess.GetContactInformation();
                 
             }
             else{
