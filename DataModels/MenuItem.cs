@@ -27,7 +27,7 @@ class MenuItem
 
     public override string ToString()
     {
-        return $"ID: {this.Id} | Name: {this.Name} | Category: {this.Category} | Course: {this.Course} | Price: {this.Price}";
+        return $"ID: {this.Id} | Name: {this.Name} | Category: {this.Category} | Course: {this.Course} | Price: {$"{this.Price:0.00}"} EUR";
     }
 
 }
