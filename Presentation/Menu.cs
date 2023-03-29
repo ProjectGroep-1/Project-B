@@ -10,12 +10,12 @@ static class Menu
         {   
             Console.Clear();
             Console.WriteLine("Main menu" + "\n");
-            Console.WriteLine("1: Menu options" + "\n" + "2: Information about our restaurant" + "\n" + "3: Your reservation" + "\n" + "4: Contact" + "\n");
+            Console.WriteLine("1: Restaurant menu" + "\n" + "2: Information about our restaurant" + "\n" + "3: Your reservation" + "\n" + "4: Contact" + "\n");
 
             string message = "Under maintenance";
             string input = Console.ReadLine();
             
-            if (input == "1")
+            if (input == "1" && AccountsLogic.CurrentAccount.UserType == "admin")
             {
                 Console.Clear();
                 Console.WriteLine("1: View the menu" + "\n" + "2: Add item" + "\n" + "3: Modify item" + "\n" + "4: Remove items", "\n");
@@ -117,10 +117,17 @@ static class Menu
                 }
                 
             }
+            else if (input == "1" && AccountsLogic.CurrentAccount.UserType == "user")
+            {
+                Console.Clear();
+                FoodMenuFunctions.MenuSummary();
+                Console.ReadKey(true);
+            }
             else if (input == "2")
             {
-                Console.WriteLine(message);
-                
+                Console.Clear();
+                InformationAccess.LoadAll();
+                Console.ReadKey(true);
             }
             else if (input == "3")
             {
