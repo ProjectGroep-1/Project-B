@@ -1,1 +1,30 @@
-[{"Id":0,"Name":"Carpaccio","Category":"Soup","Course":"Voor","Price":2.3},{"Id":1,"Name":"Tagiatella al carbonara","Category":"Vegan","Course":"Main","Price":2.4},{"Id":2,"Name":"Schnitzel","Category":"Meat","Course":"Hoofd","Price":13.5}]
+[
+  {
+    "Id": 2,
+    "Name": "Test2",
+    "Category": "Test2",
+    "Course": "Test",
+    "Price": 13
+  },
+  {
+    "Id": 1,
+    "Name": "Test",
+    "Category": "Test",
+    "Course": "Test",
+    "Price": 12
+  },
+  {
+    "Id": 12,
+    "Name": "Eartde",
+    "Category": "emfh",
+    "Course": "fwjef",
+    "Price": 10.42
+  },
+  {
+    "Id": 34,
+    "Name": "Pea soup",
+    "Category": "Soup",
+    "Course": "Appetizer",
+    "Price": 5.7
+  }
+]

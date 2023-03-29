@@ -10,7 +10,7 @@ static class Menu
         {   
             Console.Clear();
             Console.WriteLine("Main menu" + "\n");
-            Console.WriteLine("1: Restaurant menu" + "\n" + "2: Information about our restaurant" + "\n" + "3: Your reservation" + "\n" + "4: Contact" + "\n");
+            Console.WriteLine("1: Restaurant menu" + "\n" + "2: Information about our restaurant" + "\n" + "3: Your reservation" + "\n" + "4: Contact" + "\n" + "5: Close application" + "\n");
 
             string message = "Under maintenance";
             string input = Console.ReadLine();
@@ -131,7 +131,9 @@ static class Menu
             }
             else if (input == "3")
             {
-                Console.WriteLine(message);
+                Console.Clear();
+                Console.WriteLine("Under construction \nPress escape to exit");
+                Console.ReadKey(true);
                 
             }
             else if (input == "4")
@@ -141,6 +143,10 @@ static class Menu
                 Console.ReadKey(true);
                 
             }
+             else if (input == "5"){
+                break;
+             }
+
             else{
                 Console.WriteLine("Invalid input");
                 Console.ReadKey(true);

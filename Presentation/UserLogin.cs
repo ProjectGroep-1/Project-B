@@ -14,9 +14,11 @@ static class UserLogin
         if (acc != null)
         {
             Console.WriteLine("Welcome back " + acc.FullName);
+            Console.WriteLine($"You are a {acc.UserType}");
             Console.WriteLine("Your email number is " + acc.EmailAddress);
-
+            Console.WriteLine("Press escape to continue");
             //Write some code to go back to the menu
+            Console.ReadKey(true);
             Menu.Start();
         }
         else
