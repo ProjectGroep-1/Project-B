@@ -40,7 +40,7 @@ static class Menu
                                 Console.ReadKey(true);
                                 break;
                             }
-                        else{}
+                        
                         Console.Write("Enter the name for the dish: ");
                         string name = Console.ReadLine();
                         Console.Write("Enter the category of the dish: ");
@@ -129,12 +129,14 @@ static class Menu
             }
             else if (input == "4")
             {
+                Console.Clear();
                 AccountsAccess.GetContactInformation();
+                Console.ReadKey(true);
                 
             }
             else{
                 Console.WriteLine("Invalid input");
-                Thread.Sleep(750);
+                Console.ReadKey(true);
             }
             
         }
