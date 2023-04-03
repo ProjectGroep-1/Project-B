@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 public static class FoodMenuFunctions{
     static private FoodMenuLogic menuLogic = new FoodMenuLogic();
-=======
-static class FoodMenuFunctions{
-    private static FoodMenuLogic menuLogic = new FoodMenuLogic();
->>>>>>> 8c3a2b33b3ac74a0478ba61e21e42c2c48f383ad
     public static void MenuSummary(){
         Console.WriteLine("Current menu:");
         Console.Write("Choose page: ");
