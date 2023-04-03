@@ -1,5 +1,5 @@
 static class FoodMenuFunctions{
-    static private FoodMenuLogic menuLogic = new FoodMenuLogic();
+    private static FoodMenuLogic menuLogic = new FoodMenuLogic();
     public static void MenuSummary(){
         Console.WriteLine("Current menu:");
         Console.Write("Choose page: ");

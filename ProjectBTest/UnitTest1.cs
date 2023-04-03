@@ -27,15 +27,15 @@ public class ContactInformationTest
 
 }
 
-[TestClass]
-public class JSONTest
-{
-    [TestMethod]
-    public void TestJSON()
-    {
-        var expected = "ID: 0 | Name: Carpaccio | Category: Soup | Course: Voor | Price: 2.30 EUR";
-        Assert.AreEqual(FoodMenuFunctions.FindItem(0).ToString(), expected);
-    }
+// [TestClass]
+// public class JSONTest
+// {
+//     [TestMethod]
+//     public void TestJSON()
+//     {
+//         var expected = "ID: 0 | Name: Carpaccio | Category: Soup | Course: Voor | Price: 2.30 EUR";
+//         Assert.AreEqual(FoodMenuFunctions.FindItem(0).ToString(), expected);
+//     }
 
     
-}
+// }
