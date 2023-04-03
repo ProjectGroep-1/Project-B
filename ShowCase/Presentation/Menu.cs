@@ -10,12 +10,12 @@ static class Menu
         {   
             Console.Clear();
             Console.WriteLine("Main menu" + "\n");
-            Console.WriteLine("1: Menu options" + "\n" + "2: Information about our restaurant" + "\n" + "3: Your reservation" + "\n" + "4: Contact" + "\n");
+            Console.WriteLine("1: Information about our restaurant" + "\n" + "2: Your reservation" + "\n" + "3: Contact" + "\n");
 
             string message = "Under maintenance";
             string input = Console.ReadLine();
             
-            if (input == "1")
+            if (input == Admin.Login())
             {
                 Console.Clear();
                 Console.WriteLine("1: View the menu" + "\n" + "2: Add item" + "\n" + "3: Modify item" + "\n" + "4: Remove items", "\n");
@@ -117,17 +117,17 @@ static class Menu
                 }
                 
             }
+            else if (input == "1")
+            {
+                Console.WriteLine(message);
+                
+            }
             else if (input == "2")
             {
                 Console.WriteLine(message);
                 
             }
             else if (input == "3")
-            {
-                Console.WriteLine(message);
-                
-            }
-            else if (input == "4")
             {
                 Console.Clear();
                 AccountsAccess.GetContactInformation();
