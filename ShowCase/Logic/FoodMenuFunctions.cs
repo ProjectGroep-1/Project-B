@@ -1,4 +1,4 @@
-static class FoodMenuFunctions{
+public static class FoodMenuFunctions{
     static private FoodMenuLogic menuLogic = new FoodMenuLogic();
     public static void MenuSummary(){
         Console.WriteLine("Current menu:");

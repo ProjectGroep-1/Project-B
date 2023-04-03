@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 
 
-static class FoodMenuAccess{
+public static class FoodMenuAccess{
     static string data = System.IO.Path.GetFullPath(System.IO.Path.Combine(Environment.CurrentDirectory, @"DataSources/menu.json"));
     
     public static List<MenuItem> LoadMenuJSON()

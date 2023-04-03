@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-class MenuItem
+public class MenuItem
 {
     [JsonPropertyName("Id")]
     public int Id { get; set; }
