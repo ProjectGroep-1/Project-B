@@ -160,9 +160,9 @@ static class Menu
                 
             }
             else if (input == "4")
-            {
+            {   TextFile ContactFile  = new TextFile(@"DataSources\ContactFile.txt");
+                if (AccountsLogic.CurrentAccount.UserType == "admin"){
                 Console.WriteLine("1: View contact information"+ "\n" + "2: Edit contact information");
-                TextFile ContactFile  = new TextFile(@"DataSources\ContactFile.txt");
                 string ContactInput = Console.ReadLine();
                 int variable = 0;
                 int.TryParse(ContactInput, out variable);
@@ -194,7 +194,12 @@ static class Menu
                             Console.WriteLine("Invalid input");
                             Console.ReadKey(true);
                          }
-                    break;
+                    break;}
+                }
+                else{
+                    Console.Clear();
+                    Console.WriteLine(ContactFile.Read());
+                    Console.ReadKey(true); 
                 }
             }
                 
