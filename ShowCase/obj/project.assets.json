@@ -8,24 +8,26 @@
     "net6.0": []
   },
   "packageFolders": {
-    "C:\\Users\\jesse\\.nuget\\packages\\": {}
+    "C:\\Users\\Rusty\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\jesse\\Project B Lokaal Testing\\Project-B\\ShowCase\\ShowCase.csproj",
+      "projectUniqueName": "C:\\Users\\Rusty\\Documents\\HogeSchool\\Blok2\\Cloned Project\\Project-B\\ShowCase\\ShowCase.csproj",
       "projectName": "ShowCase",
-      "projectPath": "C:\\Users\\jesse\\Project B Lokaal Testing\\Project-B\\ShowCase\\ShowCase.csproj",
-      "packagesPath": "C:\\Users\\jesse\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\jesse\\Project B Lokaal Testing\\Project-B\\ShowCase\\obj\\",
+      "projectPath": "C:\\Users\\Rusty\\Documents\\HogeSchool\\Blok2\\Cloned Project\\Project-B\\ShowCase\\ShowCase.csproj",
+      "packagesPath": "C:\\Users\\Rusty\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Rusty\\Documents\\HogeSchool\\Blok2\\Cloned Project\\Project-B\\ShowCase\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\jesse\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\Rusty\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -59,7 +61,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.405\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
       }
     }
   }

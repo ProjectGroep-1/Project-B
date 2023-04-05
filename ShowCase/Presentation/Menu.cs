@@ -18,8 +18,8 @@ static class Menu
             if (input == "1" && AccountsLogic.CurrentAccount.UserType == "admin")
             {
                 Console.Clear();
-                Console.WriteLine("1: View the menu" + "\n" + "2: Add item" + "\n" + "3: Modify item" + "\n" + "4: Remove items", "\n");
-                Console.WriteLine("5: Go back" + "\n");
+                Console.WriteLine("1: View the menu" + "\n" + "2: Add item" + "\n" + "3: Modify item" + "\n" + "4: Remove items" + "\n" + "5: Search items" + "\n");
+                Console.WriteLine("6: Go back" + "\n");
                 string subinput1 = Console.ReadLine();
                 int variable = 0;
                 int.TryParse(subinput1, out variable);
@@ -110,6 +110,29 @@ static class Menu
                         }
                         break;
                     case 5:
+                        Console.WriteLine("Search by: [1] Max Price, [2] Category, [3] Dish Name");
+                        string searchType = Console.ReadLine();
+                        
+                        if (searchType == "1")
+                        {
+                            Console.WriteLine("Enter a max price");
+                            string maxPrice = Console.ReadLine();
+                            FoodMenuFunctions.SearchSummary(searchType, maxPrice);
+
+                        }
+                        if (searchType == "2")
+                        {
+                            Console.WriteLine("Enter a category");
+                            string category = Console.ReadLine();
+                            FoodMenuFunctions.SearchSummary(searchType, category);
+                        }
+                        if (searchType == "3")
+                        {
+                            Console.WriteLine("Enter a dish name");
+                            string dish = Console.ReadLine();
+                            FoodMenuFunctions.SearchSummary(searchType, dish);
+                        }
+                        Console.ReadKey(true);
                         break;
                     default:
                         Console.WriteLine("You've entered an invalid input, try again");
