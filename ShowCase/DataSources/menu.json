@@ -1,1 +1,87 @@
-[{"Id":0,"Name":"Carpaccio","Category":"Soup","Course":"Voor","Price":2.3},{"Id":1,"Name":"Tagiatella al carbonara","Category":"Vegan","Course":"Main","Price":2.4},{"Id":2,"Name":"Schnitzel","Category":"Meat","Course":"Hoofd","Price":13.5}]
+[
+    {
+      "Id": 1,
+      "Name": "Pea soup",
+      "Category": "Soup",
+      "Course": "Appetizer",
+      "Price": 5.7
+    },
+    {
+      "Id": 2,
+      "Name": "Pumpkin soup",
+      "Category": "Soup",
+      "Course": "Appetizer",
+      "Price": 3.7
+    },
+    {
+      "Id": 3,
+      "Name": "Chicken noodle soup",
+      "Category": "Soup",
+      "Course": "Appetizer",
+      "Price": 2.7
+    },
+    {
+      "Id": 4,
+      "Name": "Cauliflower soup",
+      "Category": "Soup",
+      "Course": "Appetizer",
+      "Price": 2.3
+    },
+    {
+      "Id": 5,
+      "Name": "Tomato soup",
+      "Category": "Soup",
+      "Course": "Appetizer",
+      "Price": 4.7
+    },
+    {
+      "Id": 6,
+      "Name": "Lentil soup",
+      "Category": "Soup",
+      "Course": "Appetizer",
+      "Price": 1.7
+    },
+    {
+      "Id": 7,
+      "Name": "French onion soup",
+      "Category": "Soup",
+      "Course": "Appetizer",
+      "Price": 2.0
+    },
+    {
+      "Id": 8,
+      "Name": "Buttnernut squash soup",
+      "Category": "Soup",
+      "Course": "Appetizer",
+      "Price": 3.5
+    },
+    {
+      "Id": 9,
+      "Name": "Beef and Barley soup",
+      "Category": "Soup",
+      "Course": "Appetizer",
+      "Price": 4.0
+    },
+    {
+      "Id": 10,
+      "Name": "Chicken and Rice soup",
+      "Category": "Soup",
+      "Course": "Appetizer",
+      "Price": 3.9
+    },
+    {
+      "Id": 11,
+      "Name": "Miso soup",
+      "Category": "Soup",
+      "Course": "Appetizer",
+      "Price": 5.5
+    },
+    {
+      "Id": 12,
+      "Name": "Carrot soup",
+      "Category": "Soup",
+      "Course": "Appetizer",
+      "Price": 2.8
+    }
+
+  ]

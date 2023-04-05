@@ -25,6 +25,37 @@ public static class FoodMenuFunctions{
         }
        
     }
+
+    public static void SearchSummary(string searchType, string searchTerm)
+    {
+        List<MenuItem> SearchedItems = menuLogic.Search(searchType, searchTerm);
+        Console.WriteLine("Current menu:");
+        Console.Write("Choose page: ");
+        int Page = 1;
+        try{
+            var itemsOnPage= (dynamic)null;
+            int pageNumber = Convert.ToInt32(Console.ReadLine());
+            int pageTotal = SearchedItems.Count / 10;
+            if (pageTotal < 1)
+            {
+                pageTotal = 1;
+            }
+            if (SearchedItems.Count > 10){
+                itemsOnPage = SearchedItems.Skip((pageNumber - 1) * 10).Take(10);
+            }
+            else{
+                itemsOnPage = SearchedItems;
+            }
+            foreach (MenuItem CurrentItem in itemsOnPage)
+            {
+                Console.WriteLine($"{CurrentItem.Name} | {CurrentItem.Price} EUR");
+            }
+            Console.WriteLine($"End of page {pageTotal}");
+        }
+        catch (Exception ArgumentOutOfRangeException){
+            Console.WriteLine($"End of page {Page}, press Escape to go back to the main menu");
+        }
+    }
     
     public static MenuItem FindItem(int id){
         return menuLogic.GetById(id);
