@@ -17,7 +17,7 @@ public class AccountModel
     
     [JsonPropertyName("userType")]
 
-    public string UserType { get; private set; }
+    public string UserType {get; private set;}
 
     [JsonPropertyName("ReservationID")]
 

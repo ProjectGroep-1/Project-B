@@ -4,15 +4,13 @@
 		"emailAddress": "n@b.c",
 		"password": "xyz",
 		"fullName": "Nikola Tesla",
-		"userType": "admin",
-		"ReservationID" : 0
+		"userType": "admin"
 	},
 	{
 		"id": 2,
 		"emailAddress": "t@b.c",
 		"password": "xyz",
 		"fullName": "Thomas Edison",
-		"userType": "user",
-		"ReservationID" : 0
+		"userType": "user"
 	}
 ]

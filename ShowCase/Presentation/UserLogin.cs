@@ -12,7 +12,7 @@ static class UserLogin
         string password = Console.ReadLine();
         AccountModel acc = accountsLogic.CheckLogin(email, password);
         Console.Clear();
-        if (acc != null)
+        if (acc != null && acc.UserType != "admin")
         {
             Console.WriteLine("Welcome back " + acc.FullName);
             Console.WriteLine("Your email number is " + acc.EmailAddress);

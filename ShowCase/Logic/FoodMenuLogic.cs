@@ -34,6 +34,43 @@ public class FoodMenuLogic
 
     }
 
+    public List<MenuItem> Search(string searchType, string searchTerm)
+    {
+        List<MenuItem> SearchItems = new List<MenuItem>();
+        foreach (var item in _menuitems)
+        {   try
+            {
+                if (searchType == "1")
+                {
+                    if (item.Price < Convert.ToDouble(searchTerm))
+                    {
+                        SearchItems.Add(item);
+                    }
+                }
+                if (searchType == "2")
+                {
+                    if (item.Category.ToLower() == searchTerm.ToLower())
+                    {
+                        SearchItems.Add(item);
+                    }
+                }
+                if (searchType == "3")
+                {
+                    if (item.Name.ToLower().Contains(searchTerm.ToLower()))
+                    {
+                        SearchItems.Add(item);
+                    }
+                }
+            }
+            catch (System.FormatException WrongFormatting)
+            {
+                Console.WriteLine($"Error: You've entered the wrong type of value for this attribute");
+            }
+        }
+        return SearchItems;
+    }
+        
+
     public MenuItem GetById(int id)
     {
         return _menuitems.Find(i => i.Id == id);
