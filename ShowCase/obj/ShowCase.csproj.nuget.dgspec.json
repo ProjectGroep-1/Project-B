@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jesse\\Project B Lokaal Testing\\Project-B\\ShowCase\\ShowCase.csproj": {}
+    "C:\\Users\\jesse\\Project B Login\\Project-B\\ShowCase\\ShowCase.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jesse\\Project B Lokaal Testing\\Project-B\\ShowCase\\ShowCase.csproj": {
+    "C:\\Users\\jesse\\Project B Login\\Project-B\\ShowCase\\ShowCase.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jesse\\Project B Lokaal Testing\\Project-B\\ShowCase\\ShowCase.csproj",
+        "projectUniqueName": "C:\\Users\\jesse\\Project B Login\\Project-B\\ShowCase\\ShowCase.csproj",
         "projectName": "ShowCase",
-        "projectPath": "C:\\Users\\jesse\\Project B Lokaal Testing\\Project-B\\ShowCase\\ShowCase.csproj",
+        "projectPath": "C:\\Users\\jesse\\Project B Login\\Project-B\\ShowCase\\ShowCase.csproj",
         "packagesPath": "C:\\Users\\jesse\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jesse\\Project B Lokaal Testing\\Project-B\\ShowCase\\obj\\",
+        "outputPath": "C:\\Users\\jesse\\Project B Login\\Project-B\\ShowCase\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\jesse\\AppData\\Roaming\\NuGet\\NuGet.Config"
