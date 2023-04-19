@@ -15,7 +15,15 @@ static class Menu
             string message = "Under maintenance";
             string input = Console.ReadLine();
             
-            if (input == "1" && AccountsLogic.CurrentAccount.UserType == "admin")
+            
+            if (input == "1" && AccountsLogic.CurrentAccount == null)
+            {
+                Console.Clear();
+                FoodMenuFunctions.MenuSummary();
+                Console.ReadKey(true);
+            }
+
+            else if (input == "1" && AccountsLogic.CurrentAccount.UserType == "admin")
             {
                 Console.Clear();
                 Console.WriteLine("1: View the menu" + "\n" + "2: Add item" + "\n" + "3: Modify item" + "\n" + "4: Remove items" + "\n" + "5: Search items" + "\n");
@@ -140,12 +148,7 @@ static class Menu
                 }
                 
             }
-            else if (input == "1" && AccountsLogic.CurrentAccount.UserType == "user")
-            {
-                Console.Clear();
-                FoodMenuFunctions.MenuSummary();
-                Console.ReadKey(true);
-            }
+
             else if (input == "2")
             {
                 Console.Clear();
@@ -155,7 +158,12 @@ static class Menu
             else if (input == "3")
             {
                 Console.Clear();
-                Console.WriteLine("Under construction \nPress escape to exit");
+                if (AccountsLogic.CurrentAccount == null){
+                    UserLogin.Start();
+                }
+                else{
+
+                }
                 Console.ReadKey(true);
                 
             }
