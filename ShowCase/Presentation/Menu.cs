@@ -10,7 +10,7 @@ static class Menu
         {   
             Console.Clear();
             Console.WriteLine("Main menu" + "\n");
-            Console.WriteLine("1: Information about our restaurant" + "\n" + "2: View menu" + "\n" + "3: Your reservation" + "\n" + "4: Contact" + "\n" + "5: Close application" + "\n");
+            Console.WriteLine("1: Information about our restaurant" + "\n" + "2: View menu" + "\n" + "3: Search for specific dish" + "\n" + "4: Your reservation" + "\n" + "5: Contact" + "\n" + "6: Close application" + "\n");
 
             string message = "Under maintenance";
             string input = Console.ReadLine();
@@ -110,29 +110,7 @@ static class Menu
                         }
                         break;
                     case 5:
-                        Console.WriteLine("Search by: [1] Max Price, [2] Category, [3] Dish Name");
-                        string searchType = Console.ReadLine();
-                        
-                        if (searchType == "1")
-                        {
-                            Console.WriteLine("Enter a max price");
-                            string maxPrice = Console.ReadLine();
-                            FoodMenuFunctions.SearchSummary(searchType, maxPrice);
-
-                        }
-                        if (searchType == "2")
-                        {
-                            Console.WriteLine("Enter a category");
-                            string category = Console.ReadLine();
-                            FoodMenuFunctions.SearchSummary(searchType, category);
-                        }
-                        if (searchType == "3")
-                        {
-                            Console.WriteLine("Enter a dish name");
-                            string dish = Console.ReadLine();
-                            FoodMenuFunctions.SearchSummary(searchType, dish);
-                        }
-                        Console.ReadKey(true);
+                        FoodMenuFunctions.GetSearchOptions();
                         break;
                     case 6:
                     Console.WriteLine("Under Maintenance");
@@ -193,11 +171,18 @@ static class Menu
             else if (input == "3")
             {
                 Console.Clear();
+                FoodMenuFunctions.GetSearchOptions();
+                Console.ReadKey(true);
+            }
+
+            else if (input == "4")
+            {
+                Console.Clear();
                 ReservationFunctions.ReservationMenu();
                 Console.ReadKey(true);
                 
             }
-            else if (input == "4")
+            else if (input == "5")
             {   TextFile ContactFile  = new TextFile(@"DataSources\ContactFile.txt");
             
                     Console.Clear();
@@ -207,9 +192,9 @@ static class Menu
             }
                 
             
-             else if (input == "5"){
+            else if (input == "6"){
                 break;
-             }
+            }
 
             else{
                 Console.WriteLine("Invalid input");
