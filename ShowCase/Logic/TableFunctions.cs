@@ -9,7 +9,7 @@ public static class TableFunctions
         {
             if (table.RemainingSeats > 0 /* && Reservation.CustomersAmount <= table.RemainingSeats */)
             {
-                Console.WriteLine($"Table: {table.Id}. Available Seats: {table.RemainingSeats}/{table.TotalSeats}");
+                Console.WriteLine($"Table: \x1b[1m{table.Id}\x1b[0m. Available Seats: \x1b[1m{table.RemainingSeats}/{table.TotalSeats}\x1b[0m");
             }
         }
         Console.WriteLine();
