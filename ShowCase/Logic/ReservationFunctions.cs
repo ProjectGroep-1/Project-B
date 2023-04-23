@@ -17,7 +17,15 @@ public static class ReservationFunctions
 
         else if (user == "2")
         {
-            Console.WriteLine("Under maintenance");
+            Console.WriteLine("For how many people is this reservation?");
+            string groupSize = Console.ReadLine();
+            if (groupSize == "1" || groupSize == "2" || groupSize == "3" || groupSize == "4" || groupSize == "5" || groupSize == "6")
+            {
+                // Should be CustomersAmount from the Reservation Model.
+                int CustomersAmount = Convert.ToInt32(groupSize);
+            }
+            TableFunctions.ShowCapacity();
+            
         }
 
         else { Console.WriteLine("Wrong input"); }
@@ -36,4 +44,5 @@ public static class ReservationFunctions
             Console.WriteLine("\n" + "Reservation");
         }
     }
+
 }
