@@ -13,7 +13,7 @@ class ReservationModel
     public int CustomersAmount { get; set; }
     
     [JsonPropertyName("ItemList")]
-    public List<string> ItemList {get; private set;}
+    public List<MenuItem> ItemList {get; private set;}
 
     [JsonPropertyName("TimeDuration")]
     public double TimeDuration { get; set; }
@@ -29,7 +29,7 @@ class ReservationModel
         Id = id;
         FullName = fullName;
         CustomersAmount = customersAmount;
-        ItemList = new List<string>();
+        ItemList = new List<MenuItem>();
         TimeDuration = timeDuration;
         TableId = tableId;
         CategoryPreference = categoryPreference;
