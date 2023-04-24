@@ -27,10 +27,24 @@ public static class ReservationFunctions
                 Console.WriteLine(err);
             }
             Table ChosenTable = TableFunctions.PickTable(CustomersAmount);
-            Console.WriteLine($"You have been given table {ChosenTable.Id}.");
+
+            if (ChosenTable == null)
+            {
+                Console.WriteLine("No tables available");
+                return;
+            }
+
+            AccountModel new_costumer = UserLogin.CreateAccount();
+            if (new_costumer == null) { return; }
             
-            
-            
+            Random r = new Random();
+            int n = r.Next(1,9999);
+
+            ReservationModel new_reservation_model = new ReservationModel(n, new_costumer.FullName, ChosenTable.TotalSeats, ChosenTable.Id, null);
+            List<ReservationModel> new_reservation = new List<ReservationModel>(){new_reservation_model};
+            ReservationAccess.WriteAll(new_reservation);
+            new_costumer.ReservationID = n;
+            UserLogin.accountsLogic.UpdateList(new_costumer);
         }
 
         else { Console.WriteLine("Wrong input"); }

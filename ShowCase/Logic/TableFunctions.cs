@@ -8,6 +8,8 @@ public static class TableFunctions
         {
             if (people <= table.RemainingSeats)
             {
+                table.RemainingSeats -= people;
+                tableLogic.UpdateList(table);
                 return table;
             }
         }

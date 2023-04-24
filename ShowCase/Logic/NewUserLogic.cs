@@ -1,4 +1,4 @@
-public class NewUserLogic{
+/* public class NewUserLogic{
     public string Mail;
     public string Pass;
     public string Name;
@@ -24,7 +24,7 @@ public class NewUserLogic{
         AccountsAccess.WriteAll(accountlist);
     }
 }
-
+*/
 
 
 

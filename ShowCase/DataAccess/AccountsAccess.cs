@@ -23,5 +23,4 @@ static class AccountsAccess
     {
         ContactInformation.DisplayInformation();
     }
-
 }
