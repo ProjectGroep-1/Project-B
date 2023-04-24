@@ -9,6 +9,11 @@ public static class TableAccess{
         string load_json = File.ReadAllText(data);
         return JsonSerializer.Deserialize<List<Table>>(load_json);
     }
+    public static void WriteAll(List<Table> tables)
+    {
+        string json = JsonSerializer.Serialize(tables, new JsonSerializerOptions { WriteIndented = true });
+        File.WriteAllText(data, json);
+    }
 
 }
 
