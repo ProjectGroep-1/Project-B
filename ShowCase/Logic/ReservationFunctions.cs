@@ -26,8 +26,10 @@ public static class ReservationFunctions
             catch (Exception err){
                 Console.WriteLine(err);
             }
-
-            TableFunctions.ShowCapacity(CustomersAmount);
+            Table ChosenTable = TableFunctions.PickTable(CustomersAmount);
+            Console.WriteLine($"You have been given table {ChosenTable.Id}.");
+            
+            
             
         }
 
