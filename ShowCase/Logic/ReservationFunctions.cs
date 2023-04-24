@@ -34,8 +34,7 @@ public static class ReservationFunctions
                 return;
             }
 
-            UserLogin.CreateAccount();
-            AccountModel new_costumer = UserLogin.Start();
+            AccountModel new_costumer = UserLogin.CreateAccount();
             if (new_costumer == null) { return; }
             
             Random r = new Random();
@@ -44,6 +43,9 @@ public static class ReservationFunctions
             ReservationModel new_reservation_model = new ReservationModel(n, new_costumer.FullName, ChosenTable.TotalSeats, ChosenTable.Id, null);
             List<ReservationModel> new_reservation = new List<ReservationModel>(){new_reservation_model};
             ReservationAccess.WriteAll(new_reservation);
+            new_costumer.ReservationID = n;
+            List<AccountModel> update = new List<AccountModel>(){new_costumer};
+            AccountsAccess.WriteAll(update);
         }
 
         else { Console.WriteLine("Wrong input"); }

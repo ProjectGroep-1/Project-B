@@ -21,17 +21,12 @@ static class UserLogin
         else
         {
             Console.WriteLine("No account found with that email and password" + "\n");
-            Console.WriteLine("Create a account? y/n");
-            string choice = Console.ReadLine().ToLower();
-            if (choice == "y") { CreateAccount(); }
-            if (choice == "yes") { CreateAccount(); }
-
             return null;
         }
     }
 
 
-        public static void CreateAccount()
+        public static AccountModel CreateAccount()
         { Console.Clear();
         Console.WriteLine("Enter a emailadress:");
         string mail_1 = Console.ReadLine();
@@ -39,10 +34,18 @@ static class UserLogin
         string password_1 = Console.ReadLine();
         Console.WriteLine("Enter your name:");
         string name_1 = Console.ReadLine();
-        var User = new NewUserLogic(mail_1, password_1, name_1);
-        User.add_acc();
+
+        Random r = new Random();
+        int n = r.Next(1,9999);
+        AccountModel Acc = new AccountModel(n, mail_1, password_1, name_1, "user");
+        List<AccountModel> accountlist = new List<AccountModel>();
+        accountlist = AccountsAccess.LoadAll();
+        accountlist.Add(Acc);
+        AccountsAccess.WriteAll(accountlist);
         
         Console.Clear();
         Console.WriteLine("Your account has been created, you can now login");
+
+        return Acc;
     }
 }
