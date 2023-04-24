@@ -55,7 +55,7 @@ public static class FoodMenuFunctions{
             Console.WriteLine($"{foodCounter}. {CurrentItem.Name} | {CurrentItem.Price} EUR");
             foodCounter++;
         }
-        Console.WriteLine($"Page {pageNumber}/{pageTotal}");
+        Console.WriteLine($"\x1b[1mPage {pageNumber}/{pageTotal}\x1b[0m");
         Console.WriteLine("Previous Page[1], Next Page[2], Add an item to reservation[3], Quit[4]");
         
         string pageFlip = Console.ReadLine();

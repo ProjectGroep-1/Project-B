@@ -3,14 +3,14 @@ using System.Text.Json.Serialization;
 
 class ReservationModel
 {
-    [JsonPropertyName("id")]
+    [JsonPropertyName("Id")]
     public int Id { get; set; }
 
     [JsonPropertyName("Fullname")]
     public string FullName { get; set; }
 
-    [JsonPropertyName("CostumersAmount")]
-    public int CostumersAmount { get; set; }
+    [JsonPropertyName("CustomersAmount")]
+    public int CustomersAmount { get; set; }
     
     [JsonPropertyName("ItemList")]
     public List<string> ItemList {get; private set;}
@@ -21,18 +21,18 @@ class ReservationModel
     [JsonPropertyName("TableId")]
     public int TableId { get; set; }
 
-    [JsonPropertyName("CatagoryPreference")]
-    public string CatagoryPreference { get; set; }
+    [JsonPropertyName("CategoryPreference")]
+    public string CategoryPreference { get; set; }
 
-    public ReservationModel(int id, string fullName, int costumersAmount, double timeDuration, int tableId, string catagoryPreference)
+    public ReservationModel(int id, string fullName, int customersAmount, double timeDuration, int tableId, string categoryPreference)
     {
         Id = id;
         FullName = fullName;
-        CostumersAmount = costumersAmount;
+        CustomersAmount = customersAmount;
         ItemList = new List<string>();
         TimeDuration = timeDuration;
         TableId = tableId;
-        CatagoryPreference = catagoryPreference;
+        CategoryPreference = categoryPreference;
     }
 
 }

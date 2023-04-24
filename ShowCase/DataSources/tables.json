@@ -1,0 +1,77 @@
+[
+    {
+      "Id": 1,
+      "Seats": 2,
+      "RemainingSeats": 2
+    },
+    {
+      "Id": 2,
+      "Seats": 2,
+      "RemainingSeats": 2
+    },
+    {
+      "Id": 3,
+      "Seats": 2,
+      "RemainingSeats": 2
+    },
+    {
+      "Id": 4,
+      "Seats": 2,
+      "RemainingSeats": 2
+    },
+    {
+      "Id": 5,
+      "Seats": 2,
+      "RemainingSeats": 2
+    },
+    {
+      "Id": 6,
+      "Seats": 2,
+      "RemainingSeats": 2
+    },
+    {
+      "Id": 7,
+      "Seats": 2,
+      "RemainingSeats": 2
+    },
+    {
+      "Id": 8,
+      "Seats": 2,
+      "RemainingSeats": 2
+    },
+    {
+      "Id": 9,
+      "Seats": 4,
+      "RemainingSeats": 4
+    },
+    {
+      "Id": 10,
+      "Seats": 4,
+      "RemainingSeats": 4
+    },
+    {
+      "Id": 11,
+      "Seats": 4,
+      "RemainingSeats": 4
+    },
+    {
+      "Id": 12,
+      "Seats": 4,
+      "RemainingSeats": 4
+    },
+    {
+      "Id": 13,
+      "Seats": 4,
+      "RemainingSeats": 4
+    },
+    {
+      "Id": 14,
+      "Seats": 6,
+      "RemainingSeats": 6
+    },
+    {
+      "Id": 15,
+      "Seats": 6,
+      "RemainingSeats": 6
+    }
+  ]
