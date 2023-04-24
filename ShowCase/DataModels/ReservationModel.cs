@@ -24,13 +24,13 @@ class ReservationModel
     [JsonPropertyName("CategoryPreference")]
     public string CategoryPreference { get; set; }
 
-    public ReservationModel(int id, string fullName, int customersAmount, double timeDuration, int tableId, string categoryPreference)
+    public ReservationModel(int id, string fullName, int customersAmount, int tableId, string categoryPreference)
     {
         Id = id;
         FullName = fullName;
         CustomersAmount = customersAmount;
         ItemList = new List<string>();
-        TimeDuration = timeDuration;
+        TimeDuration = 2;
         TableId = tableId;
         CategoryPreference = categoryPreference;
     }
