@@ -6,10 +6,6 @@ static class UserLogin
     public static AccountModel? Start()
     {
         Console.WriteLine("Welcome to the login page");
-        Console.WriteLine("1: Login with a exisiting account"+ "\n"+ "2: Create a new account");
-        string input = Console.ReadLine();
-        if (input == "1")
-        {
         Console.WriteLine("Please enter your email address");
         string email = Console.ReadLine();
         Console.WriteLine("Please enter your password");
@@ -24,11 +20,18 @@ static class UserLogin
         }
         else
         {
-            Console.WriteLine("No account found with that email and password");
+            Console.WriteLine("No account found with that email and password" + "\n");
+            Console.WriteLine("Create a account? y/n");
+            string choice = Console.ReadLine().ToLower();
+            if (choice == "y") { CreateAccount(); }
+            if (choice == "yes") { CreateAccount(); }
+
             return null;
         }
-        }
-        else if (input == "2")
+    }
+
+
+        private static void CreateAccount()
         { Console.Clear();
         Console.WriteLine("Enter a emailadress:");
         string mail_1 = Console.ReadLine();
@@ -41,8 +44,5 @@ static class UserLogin
         
         Console.Clear();
         Console.WriteLine("Your account has been created, you can now login");
-        return null;
-        }
-        return null;
     }
 }
