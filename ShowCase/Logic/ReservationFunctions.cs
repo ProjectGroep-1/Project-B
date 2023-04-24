@@ -19,12 +19,15 @@ public static class ReservationFunctions
         {
             Console.WriteLine("For how many people is this reservation?");
             string groupSize = Console.ReadLine();
-            if (groupSize == "1" || groupSize == "2" || groupSize == "3" || groupSize == "4" || groupSize == "5" || groupSize == "6")
-            {
-                // Should be CustomersAmount from the Reservation Model.
-                int CustomersAmount = Convert.ToInt32(groupSize);
+            int CustomersAmount = 0;
+            try{
+                CustomersAmount = Convert.ToInt32(groupSize);
             }
-            TableFunctions.ShowCapacity();
+            catch (Exception err){
+                Console.WriteLine(err);
+            }
+
+            TableFunctions.ShowCapacity(CustomersAmount);
             
         }
 
