@@ -31,7 +31,7 @@ static class UserLogin
     }
 
 
-        private static void CreateAccount()
+        public static void CreateAccount()
         { Console.Clear();
         Console.WriteLine("Enter a emailadress:");
         string mail_1 = Console.ReadLine();
