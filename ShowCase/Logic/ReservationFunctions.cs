@@ -44,8 +44,7 @@ public static class ReservationFunctions
             List<ReservationModel> new_reservation = new List<ReservationModel>(){new_reservation_model};
             ReservationAccess.WriteAll(new_reservation);
             new_costumer.ReservationID = n;
-            List<AccountModel> update = new List<AccountModel>(){new_costumer};
-            AccountsAccess.WriteAll(update);
+            UserLogin.accountsLogic.UpdateList(new_costumer);
         }
 
         else { Console.WriteLine("Wrong input"); }
