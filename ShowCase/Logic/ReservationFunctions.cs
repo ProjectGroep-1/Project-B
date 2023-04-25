@@ -1,5 +1,6 @@
 public static class ReservationFunctions
 {
+    public static ReservationLogic reservationLogic = new ReservationLogic();
     public static void ReservationMenu()
     {
         Console.WriteLine("Reservation Menu" + "\n" + "\n" + "1: Your reservations" + "\n" + "2: Make a reservation");
@@ -34,15 +35,14 @@ public static class ReservationFunctions
                 return;
             }
 
-            AccountModel new_costumer = UserLogin.CreateAccount();
-            if (new_costumer == null) { return; }
+            AccountModel new_costumer = UserLogin.Start();
+            if (new_costumer == null) { new_costumer = UserLogin.CreateAccount(); }
             
             Random r = new Random();
             int n = r.Next(1,9999);
 
-            ReservationModel new_reservation_model = new ReservationModel(n, new_costumer.FullName, ChosenTable.TotalSeats, ChosenTable.Id, null);
-            List<ReservationModel> new_reservation = new List<ReservationModel>(){new_reservation_model};
-            ReservationAccess.WriteAll(new_reservation);
+            ReservationModel new_reservation_model = new ReservationModel(new_costumer.Id, new_costumer.FullName, ChosenTable.TotalSeats, ChosenTable.Id, null);
+            reservationLogic.UpdateList(new_reservation_model);
             new_costumer.ReservationID = n;
             UserLogin.accountsLogic.UpdateList(new_costumer);
         }
@@ -52,7 +52,7 @@ public static class ReservationFunctions
 
     public static void CheckOrder(AccountModel account)
     {
-        if (account.ReservationID == 0) 
+        if (reservationLogic.GetById(account.Id) == null) 
         { 
             Console.WriteLine("\n" + "You currently have 0 reservations");
             return;
@@ -60,7 +60,7 @@ public static class ReservationFunctions
 
         else
         {
-            Console.WriteLine("\n" + "Reservation");
+            Console.WriteLine("\n" + $"{reservationLogic.GetById(account.Id)}");
         }
     }
 
