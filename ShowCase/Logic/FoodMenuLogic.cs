@@ -64,7 +64,10 @@ public class FoodMenuLogic
             }
             catch (System.FormatException WrongFormatting)
             {
-                Console.WriteLine($"Error: You've entered the wrong type of value for this attribute");
+                Console.WriteLine($"You've entered the wrong type of value. Press any key to continue.");
+                Console.ReadKey();
+                Console.Clear();
+                FoodMenuFunctions.GetSearchOptions();
             }
         }
         return SearchItems;

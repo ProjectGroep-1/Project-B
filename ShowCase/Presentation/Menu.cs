@@ -27,7 +27,7 @@ static class Menu
 
                 switch (variable){
                     case 1:
-                        FoodMenuFunctions.MenuSummary();
+                        FoodMenuFunctions.MenuSummary(1);
                         Console.ReadKey(true);
                         break;
                     case 2:
@@ -165,7 +165,7 @@ static class Menu
             else if (input == "2")
             {
                 Console.Clear();
-                FoodMenuFunctions.MenuSummary();
+                FoodMenuFunctions.MenuSummary(1);
                 Console.ReadKey(true);
             }
             else if (input == "3")
