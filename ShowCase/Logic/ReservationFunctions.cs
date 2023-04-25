@@ -25,26 +25,39 @@ public static class ReservationFunctions
                 CustomersAmount = Convert.ToInt32(groupSize);
             }
             catch (Exception err){
-                Console.WriteLine(err);
+                Console.WriteLine("Please enter a number. Press any key to continue.");
+                return;
             }
             Table ChosenTable = TableFunctions.PickTable(CustomersAmount);
 
             if (ChosenTable == null)
             {
-                Console.WriteLine("No tables available");
+                Console.WriteLine("No tables available for that amount of people.");
                 return;
             }
-
-            AccountModel new_costumer = UserLogin.Start();
-            if (new_costumer == null) { new_costumer = UserLogin.CreateAccount(); }
             
-            Random r = new Random();
-            int n = r.Next(1,9999);
 
-            ReservationModel new_reservation_model = new ReservationModel(new_costumer.Id, new_costumer.FullName, ChosenTable.TotalSeats, ChosenTable.Id, null);
+            Console.WriteLine("Already have an account? y/n");
+            string question = Console.ReadLine().ToLower();
+            AccountModel new_customer = null;
+            if (question == "yes" || question == "y")
+            {
+                 new_customer = UserLogin.Start();
+            }
+            else
+            {
+                new_customer = UserLogin.CreateAccount();
+             }
+            if (new_customer == null) { return; }
+            
+            int n = RandomId();
+
+            ReservationModel new_reservation_model = new ReservationModel(new_customer.Id, new_customer.FullName, CustomersAmount, ChosenTable.Id, null);
             reservationLogic.UpdateList(new_reservation_model);
-            new_costumer.ReservationID = n;
-            UserLogin.accountsLogic.UpdateList(new_costumer);
+            
+            ReservationAccess.WriteAll(reservationLogic._reservations);
+            new_customer.ReservationID = n;
+            Console.WriteLine("Your reservation has been made. You can check your reservation in the 'Your reservations' tab. Press any key to continue.");
         }
 
         else { Console.WriteLine("Wrong input"); }
@@ -62,6 +75,13 @@ public static class ReservationFunctions
         {
             Console.WriteLine("\n" + $"{reservationLogic.GetById(account.Id)}");
         }
+    }
+
+    public static int RandomId()
+    {
+        Random r = new Random();
+        int n = r.Next(1,999999);
+        return n;
     }
 
 }

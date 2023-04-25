@@ -108,25 +108,25 @@ public static class FoodMenuFunctions{
                     pageNumber++;
                 break;
             case "3":
-                if (pageFlip == "3")
+                Console.WriteLine($"Enter the number of the dish you want.[1-{foodCounter-1}]");
+                bool foundItem = false;
+                string dishChoice = Console.ReadLine();
+                int dishCounter = 1;
+                foreach (MenuItem item in itemsOnPageList)
                 {
-                    Console.WriteLine($"Enter the number of the dish you want.[1-{foodCounter-1}]");
-                    bool foundItem = false;
-                    string dishChoice = Console.ReadLine();
-                    int dishCounter = 1;
-                    foreach (MenuItem item in itemsOnPageList)
-                    {
-                            if (dishChoice == $"{dishCounter}")
-                            {
-                                Console.WriteLine($"{item}\nThis is your dish. Press any key to continue.");
-                                foundItem = true;
-                            }
-                            dishCounter++;
-                    }
-                    if (!foundItem)
-                        Console.WriteLine($"Please enter a value between [1-{foodCounter-1}]. Press any key to continue.");
-                        Console.ReadKey();
-                        return (pageNumber, pageTotal, foodCounter);
+                        if (dishChoice == $"{dishCounter}")
+                        {
+                            Console.WriteLine($"{item.Name}\nThis is your dish. Press any key to continue.");
+                            Console.ReadKey();
+                            foundItem = true;
+                        }
+                        dishCounter++;
+                }
+                if (!foundItem)
+                {
+                    Console.WriteLine($"Please enter a value between [1-{foodCounter-1}]. Press any key to continue.");
+                    Console.ReadKey();
+                    return (pageNumber, pageTotal, foodCounter);
                 }
                 break;
             case "4":
@@ -140,7 +140,7 @@ public static class FoodMenuFunctions{
     }
     public static void GetSearchOptions()
     {
-        Console.WriteLine("Search by: [1] Max Price, [2] Category, [3] Dish Name");
+        Console.WriteLine("Search by: [1] Max Price, [2] Category, [3] Dish Name or [4] Quit");
         string searchType = Console.ReadLine();
         
         switch(searchType)
@@ -160,11 +160,11 @@ public static class FoodMenuFunctions{
                 string dish = Console.ReadLine();
                 FoodMenuFunctions.SearchSummary(searchType, dish, 1);
                 break;
+            case "4":
+                Console.WriteLine("Going back to Main Menu. Press any key to continue");
+                return;
             default:
                 Console.WriteLine("You entered the wrong value. Press any key to continue.");
-                Console.ReadKey();
-                Console.Clear();
-                GetSearchOptions();
                 break;
         }
     }
