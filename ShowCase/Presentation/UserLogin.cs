@@ -36,15 +36,15 @@ static class UserLogin
         string name_1 = Console.ReadLine();
 
         Random r = new Random();
-        int n = r.Next(1,9999);
+        int n = r.Next(1,999999);
         AccountModel Acc = new AccountModel(n, mail_1, password_1, name_1, "user");
         List<AccountModel> accountlist = new List<AccountModel>();
+        if (!accountsLogic.UpdateList(Acc))
+            return null;
+
         accountlist = AccountsAccess.LoadAll();
-        accountlist.Add(Acc);
         AccountsAccess.WriteAll(accountlist);
-        
         Console.Clear();
-        Console.WriteLine("Your account has been created, you can now login");
 
         return Acc;
     }

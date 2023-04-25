@@ -20,23 +20,36 @@ class AccountsLogic
     }
 
 
-    public void UpdateList(AccountModel acc)
+    public bool UpdateList(AccountModel acc)
     {
+        
+        int index = _accounts.FindIndex(s => s.EmailAddress == acc.EmailAddress);
         //Find if there is already an model with the same id
-        int index = _accounts.FindIndex(s => s.Id == acc.Id);
-
+        int index2 = _accounts.FindIndex(s => s.Id == acc.Id);
+        
         if (index != -1)
         {
-            //update existing model
-            _accounts[index] = acc;
+            Console.WriteLine("An account with that Email Address already exists.");
+            return false;
         }
         else
         {
-            //add new model
-            _accounts.Add(acc);
+            if (index2 != -1)
+            {
+                acc.Id = ReservationFunctions.RandomId();
+                Console.WriteLine("test");
+                UpdateList(acc);
+            }
+            else
+            {
+                //add new model
+                _accounts.Add(acc);
+            }
         }
         AccountsAccess.WriteAll(_accounts);
-
+        return true;
+        
+    	
     }
 
     public AccountModel GetById(int id)
