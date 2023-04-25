@@ -1,7 +1,7 @@
 static class UserLogin
 {
     static public AccountsLogic accountsLogic = new AccountsLogic();
-
+    
 
     public static AccountModel? Start()
     {
@@ -15,7 +15,7 @@ static class UserLogin
         if (acc != null && acc.UserType != "admin")
         {
             Console.WriteLine("Welcome back " + acc.FullName);
-            Console.WriteLine("Your email number is " + acc.EmailAddress);
+            Console.WriteLine("Your e-mail is " + acc.EmailAddress);
             return acc;
         }
         else

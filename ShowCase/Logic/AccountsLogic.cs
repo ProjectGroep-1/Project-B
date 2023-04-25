@@ -46,6 +46,7 @@ class AccountsLogic
 
     public AccountModel CheckLogin(string email, string password)
     {
+        AccountsAccess.LoadAll();
         if (email == null || password == null)
         {
             return null;
