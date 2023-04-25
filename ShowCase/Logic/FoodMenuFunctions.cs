@@ -1,28 +1,40 @@
 public static class FoodMenuFunctions{
     static private FoodMenuLogic menuLogic = new FoodMenuLogic();
-    public static void MenuSummary(){
-        Console.WriteLine("Current menu:");
-        Console.Write("Choose page: ");
-        int Page = 1;
-        try{
-            var itemsOnPage= (dynamic)null;
-            int pageNumber = Convert.ToInt32(Console.ReadLine());
-            if (menuLogic._menuitems.Count > 10){
-                itemsOnPage = menuLogic._menuitems.Skip((pageNumber - 1) * 10).Take(10);
-            }
-            else{
-                itemsOnPage = menuLogic._menuitems;
-            }
-             // pagination, partly from https://stackoverflow.com/questions/319973/how-to-get-first-n-elements-of-a-list-in-c
-            foreach (MenuItem CurrentItem in itemsOnPage)
-            {
-                Console.WriteLine(CurrentItem.ToString());
-            }
-            Console.WriteLine($"End of page {Page}, press Escape to go back to the main menu");
+    private static List<MenuItem> itemsOnPageList = new List<MenuItem>();
+    public static void MenuSummary(int pageNumber){
+        
+        int pageTotal = Convert.ToInt32(Math.Ceiling(menuLogic._menuitems.Count / 10.0));
+        var itemsOnPage= (dynamic)null;
+        itemsOnPageList.Clear();
+        if (menuLogic._menuitems.Count > 10){
+            itemsOnPage = menuLogic._menuitems.Skip((pageNumber - 1) * 10).Take(10);
         }
-        catch (Exception ArgumentOutOfRangeException){
-            Console.WriteLine($"End of page {Page}, press Escape to go back to the main menu");
+        else{
+            itemsOnPage = menuLogic._menuitems;
         }
+        foreach (MenuItem item in itemsOnPage)
+        {
+            itemsOnPageList.Add(item);
+        }
+        int foodCounter = 1;
+        Console.WriteLine("Menu:");
+        foreach (MenuItem CurrentItem in itemsOnPageList)
+        {
+            Console.WriteLine($"{foodCounter}. {CurrentItem.Name} | {CurrentItem.Price} EUR");
+            foodCounter++;
+        }
+        Console.WriteLine($"\x1b[1mPage {pageNumber}/{pageTotal}\x1b[0m");
+        var pageFlipTuple = FlipPage(pageNumber, pageTotal, foodCounter);
+        pageNumber = pageFlipTuple.Item1;
+        if (pageNumber == 0)
+        {
+            Console.WriteLine("Going back to Main menu. Press any key to confirm.");
+            return;
+        }
+        pageTotal = pageFlipTuple.Item2;
+        foodCounter = pageFlipTuple.Item3;
+        Console.Clear();
+        MenuSummary(pageNumber);
        
     }
 
@@ -32,7 +44,7 @@ public static class FoodMenuFunctions{
         int pageTotal = Convert.ToInt32(Math.Ceiling(SearchedItems.Count / 10.0));
         
         var itemsOnPage = (dynamic)null;
-        List<MenuItem> itemsOnPageList = new List<MenuItem>();
+        itemsOnPageList.Clear();
         if (SearchedItems.Count > 10){
             itemsOnPage = SearchedItems.Skip((pageNumber - 1) * 10).Take(10);
         }
@@ -46,8 +58,10 @@ public static class FoodMenuFunctions{
         int foodCounter = 1;
         if (itemsOnPage == null || itemsOnPageList.Count == 0)
         {
-            Console.WriteLine("There aren't any dishes that comply with your search term.");
-            return;
+            Console.WriteLine("There aren't any dishes that comply with your search term. Press any key to continue.");
+            Console.ReadKey();
+            Console.Clear();
+            GetSearchOptions();
         }
         Console.WriteLine("Menu");
         foreach (MenuItem CurrentItem in itemsOnPageList)
@@ -56,8 +70,22 @@ public static class FoodMenuFunctions{
             foodCounter++;
         }
         Console.WriteLine($"\x1b[1mPage {pageNumber}/{pageTotal}\x1b[0m");
+        var pageFlipTuple = FlipPage(pageNumber, pageTotal, foodCounter);
+        pageNumber = pageFlipTuple.Item1;
+        if (pageNumber == 0)
+        {
+            Console.WriteLine("Going back to Main menu. Press any key to confirm.");
+            return;
+        }
+        pageTotal = pageFlipTuple.Item2;
+        foodCounter = pageFlipTuple.Item3;
+        Console.Clear();
+        SearchSummary(searchType, searchTerm, pageNumber);
+    }
+    
+    public static (int, int, int) FlipPage(int pageNumber, int pageTotal, int foodCounter)
+    {
         Console.WriteLine("Previous Page[1], Next Page[2], Add an item to reservation[3], Quit[4]");
-        
         string pageFlip = Console.ReadLine();
         switch(pageFlip)
         {
@@ -66,48 +94,50 @@ public static class FoodMenuFunctions{
                 {   
                     Console.WriteLine("You are already on the first page. Press any key to continue.");
                     Console.ReadKey();
-                    SearchSummary(searchType, searchTerm, pageNumber);
                 }
                 else
                     pageNumber--;
-                    SearchSummary(searchType, searchTerm, pageNumber);
                 break;
             case "2":
                 if (pageNumber == pageTotal)
                 {
                     Console.WriteLine("You are already on the last page. Press any key to continue.");
                     Console.ReadKey();
-                    SearchSummary(searchType, searchTerm, pageNumber);
                 }
                 else
                     pageNumber++;
-                    SearchSummary(searchType, searchTerm, pageNumber);
                 break;
             case "3":
                 if (pageFlip == "3")
                 {
                     Console.WriteLine($"Enter the number of the dish you want.[1-{foodCounter-1}]");
-                    int dishChoice = Convert.ToInt32(Console.ReadLine());
+                    bool foundItem = false;
+                    string dishChoice = Console.ReadLine();
                     int dishCounter = 1;
-                    foreach (var item in itemsOnPageList)
+                    foreach (MenuItem item in itemsOnPageList)
                     {
-                        if (dishChoice == dishCounter)
-                        {
-                            Console.WriteLine(item);
-                            Console.ReadKey();
-                        }
-                        dishCounter++;
+                            if (dishChoice == $"{dishCounter}")
+                            {
+                                Console.WriteLine($"{item}\nThis is your dish. Press any key to continue.");
+                                foundItem = true;
+                            }
+                            dishCounter++;
                     }
+                    if (!foundItem)
+                        Console.WriteLine($"Please enter a value between [1-{foodCounter-1}]. Press any key to continue.");
+                        Console.ReadKey();
+                        return (pageNumber, pageTotal, foodCounter);
                 }
                 break;
             case "4":
-                break;
+                return (0,0,0);
             default:
-                Console.WriteLine("You entered the wrong value.");
+                Console.WriteLine("You entered the wrong value. Press any key to continue.");
+                Console.ReadKey();
                 break;
         }
+        return (pageNumber, pageTotal, foodCounter);
     }
-    
     public static void GetSearchOptions()
     {
         Console.WriteLine("Search by: [1] Max Price, [2] Category, [3] Dish Name");
@@ -131,7 +161,10 @@ public static class FoodMenuFunctions{
                 FoodMenuFunctions.SearchSummary(searchType, dish, 1);
                 break;
             default:
-                Console.WriteLine("You entered the wrong value.");
+                Console.WriteLine("You entered the wrong value. Press any key to continue.");
+                Console.ReadKey();
+                Console.Clear();
+                GetSearchOptions();
                 break;
         }
     }
