@@ -1,0 +1,20 @@
+[
+  {
+    "Id": 6981,
+    "Fullname": "test",
+    "CustomersAmount": 4,
+    "ItemList": [],
+    "TimeDuration": 2,
+    "TableId": 10,
+    "CategoryPreference": null
+  },
+  {
+    "Id": 7520,
+    "Fullname": "Storm",
+    "CustomersAmount": 6,
+    "ItemList": [],
+    "TimeDuration": 2,
+    "TableId": 14,
+    "CategoryPreference": null
+  }
+]

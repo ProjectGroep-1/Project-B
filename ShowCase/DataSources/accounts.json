@@ -14,5 +14,29 @@
     "fullName": "Thomas Edison",
     "userType": "user",
     "ReservationID": 0
+  },
+  {
+    "id": 7520,
+    "emailAddress": "storm@hr.nl",
+    "password": "test",
+    "fullName": "Storm",
+    "userType": "user",
+    "ReservationID": 1793
+  },
+  {
+    "id": 7842,
+    "emailAddress": "test@test.test",
+    "password": "test",
+    "fullName": "Test",
+    "userType": "user",
+    "ReservationID": 0
+  },
+  {
+    "id": 6981,
+    "emailAddress": "test",
+    "password": "test",
+    "fullName": "test",
+    "userType": "user",
+    "ReservationID": 1096
   }
 ]
