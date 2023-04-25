@@ -7,7 +7,7 @@ using System.Text.Json;
 //This class is not static so later on we can use inheritance and interfaces
 class ReservationLogic
 {
-    private List<ReservationModel> _reservations;
+    public List<ReservationModel> Reservations;
 
     //Static properties are shared across all instances of the class
     //This can be used to get the current logged in account from anywhere in the program
@@ -15,32 +15,32 @@ class ReservationLogic
 
     public ReservationLogic()
     {
-        _reservations = ReservationAccess.LoadAll();
+        Reservations = ReservationAccess.LoadAll();
     }
 
 
     public void UpdateList(ReservationModel reservation)
     {
         //Find if there is already an model with the same id
-        int index = _reservations.FindIndex(s => s.Id == reservation.Id);
+        int index = Reservations.FindIndex(s => s.Id == reservation.Id);
 
         if (index != -1)
         {
             //update existing model
-            _reservations[index] = reservation;
+            Reservations[index] = reservation;
         }
         else
         {
             //add new model
-            _reservations.Add(reservation);
+            Reservations.Add(reservation);
         }
-        ReservationAccess.WriteAll(_reservations);
+        ReservationAccess.WriteAll(Reservations);
 
     }
 
     public ReservationModel GetById(int id)
     {
-        return _reservations.Find(i => i.Id == id);
+        return Reservations.Find(i => i.Id == id);
     }
 
 }

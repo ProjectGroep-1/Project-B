@@ -1,5 +1,6 @@
 public static class ReservationFunctions
 {
+    private static ReservationLogic reservationLogic = new ReservationLogic();
     public static void ReservationMenu()
     {
         Console.WriteLine("Reservation Menu" + "\n" + "\n" + "1: Your reservations" + "\n" + "2: Make a reservation");
@@ -41,8 +42,8 @@ public static class ReservationFunctions
             int n = r.Next(1,9999);
 
             ReservationModel new_reservation_model = new ReservationModel(n, new_costumer.FullName, ChosenTable.TotalSeats, ChosenTable.Id, null);
-            List<ReservationModel> new_reservation = new List<ReservationModel>(){new_reservation_model};
-            ReservationAccess.WriteAll(new_reservation);
+            reservationLogic.Reservations.Add(new_reservation_model);
+            ReservationAccess.WriteAll(reservationLogic.Reservations);
             new_costumer.ReservationID = n;
             UserLogin.accountsLogic.UpdateList(new_costumer);
         }
