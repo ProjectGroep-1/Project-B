@@ -38,38 +38,38 @@ public class FoodMenuLogic
     {
         List<MenuItem> SearchItems = new List<MenuItem>();
         foreach (var item in _menuitems)
-        {   try
+        { 
+            if (searchType == "1")
             {
-                if (searchType == "1")
+                double.TryParse(searchTerm, out double searchTermDouble);
+                if (searchTermDouble == 0)
                 {
-                    if (item.Price < Convert.ToDouble(searchTerm))
-                    {
-                        SearchItems.Add(item);
-                    }
+                    Console.WriteLine($"You've entered the wrong type of value. Press any key to continue.");
+                    Console.ReadKey();
+                    Console.Clear();  
                 }
-                if (searchType == "2")
+                if (item.Price < Convert.ToDouble(searchTermDouble))
                 {
-                    if (item.Category.ToLower() == searchTerm.ToLower())
-                    {
-                        SearchItems.Add(item);
-                    }
-                }
-                if (searchType == "3")
-                {
-                    if (item.Name.ToLower().Contains(searchTerm.ToLower()))
-                    {
-                        SearchItems.Add(item);
-                    }
+                    SearchItems.Add(item);
                 }
             }
-            catch (System.FormatException WrongFormatting)
+            if (searchType == "2")
             {
-                Console.WriteLine($"You've entered the wrong type of value. Press any key to continue.");
-                Console.ReadKey();
-                Console.Clear();
-                Menu.Start();
+                if (item.Category.ToLower() == searchTerm.ToLower())
+                {
+                    SearchItems.Add(item);
+                }
+            }
+            if (searchType == "3")
+            {
+                if (item.Name.ToLower().Contains(searchTerm.ToLower()))
+                {
+                    SearchItems.Add(item);
+                }
             }
         }
+            
+        
         return SearchItems;
     }
         
