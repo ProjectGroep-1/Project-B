@@ -42,7 +42,8 @@ public static class FoodMenuFunctions{
     {
         List<MenuItem> SearchedItems = menuLogic.Search(searchType, searchTerm);
         int pageTotal = Convert.ToInt32(Math.Ceiling(SearchedItems.Count / 10.0));
-        
+        if (SearchedItems == null)
+            return;
         var itemsOnPage = (dynamic)null;
         itemsOnPageList.Clear();
         if (SearchedItems.Count > 10){
@@ -63,6 +64,9 @@ public static class FoodMenuFunctions{
             Console.Clear();
             GetSearchOptions();
         }
+        if (pageTotal == 0)
+            return;
+        
         Console.WriteLine("Menu");
         foreach (MenuItem CurrentItem in itemsOnPageList)
         {
@@ -70,17 +74,24 @@ public static class FoodMenuFunctions{
             foodCounter++;
         }
         Console.WriteLine($"\x1b[1mPage {pageNumber}/{pageTotal}\x1b[0m");
+
         var pageFlipTuple = FlipPage(pageNumber, pageTotal, foodCounter);
-        pageNumber = pageFlipTuple.Item1;
-        if (pageNumber == 0)
+        if (pageFlipTuple.Item1 == 0)
         {
             Console.WriteLine("Going back to Main menu. Press any key to confirm.");
+            pageNumber = 1;
+            pageTotal = 1;
+            foodCounter = 1;
             return;
         }
-        pageTotal = pageFlipTuple.Item2;
-        foodCounter = pageFlipTuple.Item3;
-        Console.Clear();
-        SearchSummary(searchType, searchTerm, pageNumber);
+        else
+        {
+            pageNumber = pageFlipTuple.Item1;
+            pageTotal = pageFlipTuple.Item2;
+            foodCounter = pageFlipTuple.Item3;
+            Console.Clear();
+            SearchSummary(searchType, searchTerm, pageNumber);
+        }
     }
     
     public static (int, int, int) FlipPage(int pageNumber, int pageTotal, int foodCounter)

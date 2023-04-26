@@ -1,7 +1,7 @@
 public static class ContactInformation
 {
     public static string PhoneNumber = "0104962016";
-    public static string Adress = "Wijnhaven 107, 3011 WN in Rotterdam";
+    public static string Address = "Wijnhaven 107, 3011 WN in Rotterdam";
     public static string Email = "JakeDarcy@email.com";
 
     public static void ChangePhoneNumber(string new_PhoneNumber)
@@ -9,9 +9,9 @@ public static class ContactInformation
         PhoneNumber = new_PhoneNumber;
     }
 
-    public static void ChangeAdress(string new_Adress)
+    public static void ChangeAdress(string new_Address)
     {
-        Adress = new_Adress;
+        Address = new_Address;
     }
 
     public static void ChangeEmail(string new_Email)
@@ -21,7 +21,7 @@ public static class ContactInformation
 
     public static void DisplayInformation()
     {
-        Console.WriteLine("Contact Information:" + "\n" + "\n" + "Phone Number: " + PhoneNumber + "\n" + "Adress: " + Adress + "\n" + "Email: " + Email);
+        Console.WriteLine("Contact Information:" + "\n" + "\n" + "Phone Number: " + PhoneNumber + "\n" + "Address: " + Address + "\n" + "Email: " + Email);
     }
 
 }
