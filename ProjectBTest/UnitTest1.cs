@@ -15,7 +15,7 @@ public class ContactInformationTest
     {
         string New_Adress = "Rotterdam 2177 BN";
         ContactInformation.ChangeAdress(New_Adress);
-        Assert.AreEqual(ContactInformation.Adress, New_Adress);
+        Assert.AreEqual(ContactInformation.Address, New_Adress);
     }
 
     public void TestChangeEmail()
