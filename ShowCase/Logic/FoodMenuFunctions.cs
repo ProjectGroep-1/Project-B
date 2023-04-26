@@ -41,9 +41,9 @@ public static class FoodMenuFunctions{
     private static void SearchSummary(string searchType, string searchTerm, int pageNumber)
     {
         List<MenuItem> SearchedItems = menuLogic.Search(searchType, searchTerm);
-        int pageTotal = Convert.ToInt32(Math.Ceiling(SearchedItems.Count / 10.0));
         if (SearchedItems == null)
             return;
+        int pageTotal = Convert.ToInt32(Math.Ceiling(SearchedItems.Count / 10.0));
         var itemsOnPage = (dynamic)null;
         itemsOnPageList.Clear();
         if (SearchedItems.Count > 10){

@@ -28,6 +28,7 @@ static class UserLogin
 
         public static AccountModel CreateAccount()
         { Console.Clear();
+        Console.WriteLine("This is the account page");
         Console.WriteLine("Enter an emailadress:");
         string mail_1 = Console.ReadLine();
         Console.WriteLine("Enter a Password:");
