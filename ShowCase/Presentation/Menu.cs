@@ -167,11 +167,6 @@ static class Menu
                     
                 }
                 break;
-                
-            
-            
-
-                        
                     
                     case 7:
                         TableAccess.ShowCapacity();
