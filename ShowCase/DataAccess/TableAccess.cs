@@ -15,6 +15,10 @@ public static class TableAccess{
         File.WriteAllText(data, json);
     }
 
+    public static void ShowCapacity()
+    {
+        TableFunctions.Capacity();
+    }
 }
 
 

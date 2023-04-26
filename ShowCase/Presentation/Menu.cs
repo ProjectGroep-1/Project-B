@@ -19,7 +19,7 @@ static class Menu
             {
                 Console.Clear();
                 Console.WriteLine("1: View the menu" + "\n" + "2: Add item" + "\n" + "3: Modify item" + "\n" + "4: Remove items" + "\n" + "5: Search items" + "\n" + "6: Edit Contact Information");
-                Console.WriteLine("7: Go back" + "\n");
+                Console.WriteLine("7: View Capacity" + "\n" + "8: Go back" + "\n");
                 string subinput1 = Console.ReadLine();
                 int variable = 0;
                 int.TryParse(subinput1, out variable);
@@ -148,6 +148,13 @@ static class Menu
                                 Console.WriteLine("Invalid input");
                                 Console.ReadKey(true);
                             } */
+
+                        break;
+                    
+                    case 7:
+                        TableAccess.ShowCapacity();
+                        Console.WriteLine("Press any key");
+                        string PressEnter2 = Console.ReadLine();
 
                         break; 
                     default:
