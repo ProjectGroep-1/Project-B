@@ -31,6 +31,8 @@ public static class TableFunctions
 
     public static void Capacity()
     {
+        Console.Clear();
+        
         int totalcapacity = 0;
         int totalremaining = 0;
 
