@@ -113,7 +113,8 @@ static class Menu
                         FoodMenuFunctions.GetSearchOptions();
                         break;
                     case 6:
-                    Console.WriteLine("Under Maintenance");
+                    Console.WriteLine("Under Maintenance" + "\n" + "Press any key");
+                    string PressEnter = Console.ReadLine();
 
                     /* Console.WriteLine("1: View contact information"+ "\n" + "2: Edit contact information");
                     string ContactInput = Console.ReadLine();
