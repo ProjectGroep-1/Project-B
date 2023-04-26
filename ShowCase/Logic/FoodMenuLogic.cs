@@ -46,7 +46,8 @@ public class FoodMenuLogic
                 {
                     Console.WriteLine($"You've entered the wrong type of value. Press any key to continue.");
                     Console.ReadKey();
-                    Console.Clear();  
+                    Console.Clear(); 
+                    return null; 
                 }
                 if (item.Price < Convert.ToDouble(searchTermDouble))
                 {
