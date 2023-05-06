@@ -1,9 +1,9 @@
 
-public class TextFile
+public class Logic_Contact
 {
     private string filePath;
 
-    public TextFile(string filePath)
+    public Logic_Contact(string filePath)
     {
         this.filePath = filePath;
     }

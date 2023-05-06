@@ -27,14 +27,14 @@ static class Menu
 
                 switch (variable){
                     case 1:
-                        FoodMenuFunctions.MenuSummary(1);
+                        Functions_Menu.MenuSummary(1);
                         Console.ReadKey(true);
                         break;
                     case 2:
                     try{
                         Console.Write("Enter the ID for the item (a number): ");
                         int id = Convert.ToInt32(Console.ReadLine());
-                        if (FoodMenuFunctions.FindItem(id) != null)
+                        if (Functions_Menu.FindItem(id) != null)
                             {
                                 Console.WriteLine($"There is already an item with ID {id}! Use the modification option instead (press Escape to return to main menu)");
                                 Console.ReadKey(true);
@@ -51,7 +51,7 @@ static class Menu
                         double price =  Convert.ToDouble(Console.ReadLine());
                         
                            
-                        FoodMenuFunctions.AddItem(id, name, category, course, price);
+                        Functions_Menu.AddItem(id, name, category, course, price);
                     }
                     catch (System.FormatException WrongFormatting){
                         Console.WriteLine($"Error: You've entered the wrong type of value for this attribute");
@@ -64,7 +64,7 @@ static class Menu
                         try{
                             Console.Write("Enter the ID to modify (a number): ");
                             int id = Convert.ToInt32(Console.ReadLine());
-                            MenuItem ItemToModify = FoodMenuFunctions.FindItem(id);
+                            Model_Menu ItemToModify = Functions_Menu.FindItem(id);
                             Console.WriteLine($"Found item: {ItemToModify}");
                             Console.WriteLine("What do you want to modify?");
                             string WhatToModify = Console.ReadLine().ToLower();
@@ -87,7 +87,7 @@ static class Menu
                                     break;
                             }
                         Console.WriteLine($"Changed item: {ItemToModify}");
-                        FoodMenuFunctions.ReplaceItem(ItemToModify);
+                        Functions_Menu.ReplaceItem(ItemToModify);
 
 
                         }
@@ -102,60 +102,21 @@ static class Menu
                         try{
                             Console.Write("Enter the ID to delete (a number): ");
                             int id = Convert.ToInt32(Console.ReadLine());
-                            MenuItem ItemToDelete = FoodMenuFunctions.FindItem(id);
-                            FoodMenuFunctions.RemoveItem(ItemToDelete);
+                            Model_Menu ItemToDelete = Functions_Menu.FindItem(id);
+                            Functions_Menu.RemoveItem(ItemToDelete);
                             }
                         catch (Exception err){
                             Console.WriteLine(err.Message);
                         }
                         break;
                     case 5:
-                        FoodMenuFunctions.GetSearchOptions();
+                        Functions_Menu.GetSearchOptions();
                         break;
                     case 6:
-                    Console.WriteLine("Under Maintenance" + "\n" + "Press any key");
-                    string PressEnter = Console.ReadLine();
-
-                    /* Console.WriteLine("1: View contact information"+ "\n" + "2: Edit contact information");
-                    string ContactInput = Console.ReadLine();
-                    int variable = 0;
-                    int.TryParse(ContactInput, out variable);
-                    switch (variable){
-                        case 1:
-                            Console.Clear();
-                            Console.WriteLine(ContactFile.Read());
-                            Console.ReadKey(true);
-                            break;
-                        case 2: 
-                            Console.Clear();
-                            Console.WriteLine("1: Edit Phone number"+ "\n" + "2: Edit Adress" + "\n" + "3: Edit E-mail");
-                            string contactinput_2 = Console.ReadLine();
-                            if(contactinput_2 == "1"){
-                                Console.WriteLine("What is your new phone number?");
-                                string new_number = $"Phone number: {Console.ReadLine()}";
-                                ContactFile.ChangeValueById(0, new_number);}
-
-                            else if(contactinput_2 == "2"){
-                                Console.WriteLine("What is your new Adress?");
-                                string new_adress = $"Adress: {Console.ReadLine()}";
-                                ContactFile.ChangeValueById(1, new_adress);}
-
-                            else if(contactinput_2 == "3"){
-                                Console.WriteLine("What is your new Email adress?");
-                                string new_email = $"Email : {Console.ReadLine()}";
-                                ContactFile.ChangeValueById(2, new_email);}
-                            else{
-                                Console.WriteLine("Invalid input");
-                                Console.ReadKey(true);
-                            } */
-
+                        Functions_Contact.EditContactInformation();
                         break;
-                    
                     case 7:
-                        TableAccess.ShowCapacity();
-                        Console.WriteLine("Press any key");
-                        string PressEnter2 = Console.ReadLine();
-
+                        Functions_Capacity.DisplayReservations();
                         break; 
                     default:
                         Console.WriteLine("You've entered an invalid input, try again");
@@ -167,34 +128,33 @@ static class Menu
             else if (input == "1")
             {
                 Console.Clear();
-                InformationAccess.LoadAll();
+                Access_Information.LoadAll();
                 Console.ReadKey(true);
             }
             else if (input == "2")
             {
                 Console.Clear();
-                FoodMenuFunctions.MenuSummary(1);
+                Functions_Menu.MenuSummary(1);
                 Console.ReadKey(true);
             }
             else if (input == "3")
             {
                 Console.Clear();
-                FoodMenuFunctions.GetSearchOptions();
+                Functions_Menu.GetSearchOptions();
                 Console.ReadKey(true);
             }
 
             else if (input == "4")
             {
                 Console.Clear();
-                ReservationFunctions.ReservationMenu();
+                Functions_Reservation.ReservationMenu();
                 Console.ReadKey(true);
                 
             }
             else if (input == "5")
-            {   TextFile ContactFile  = new TextFile(@"DataSources\ContactFile.txt");
-            
+            {   
                     Console.Clear();
-                    Console.WriteLine(ContactFile.Read());
+                    Functions_Contact.DisplayContactInformation();
                     Console.ReadKey(true); 
                 
             }

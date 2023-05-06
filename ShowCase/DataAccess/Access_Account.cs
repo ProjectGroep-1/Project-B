@@ -1,18 +1,18 @@
 using System.Text.Json;
 
-static class AccountsAccess
+static class Access_Account
 {
     static string path = System.IO.Path.GetFullPath(System.IO.Path.Combine(Environment.CurrentDirectory, @"DataSources/accounts.json"));
 
 
-    public static List<AccountModel> LoadAll()
+    public static List<Model_Account> LoadAll()
     {
         string json = File.ReadAllText(path);
-        return JsonSerializer.Deserialize<List<AccountModel>>(json);
+        return JsonSerializer.Deserialize<List<Model_Account>>(json);
     }
 
 
-    public static void WriteAll(List<AccountModel> accounts)
+    public static void WriteAll(List<Model_Account> accounts)
     {
         var options = new JsonSerializerOptions { WriteIndented = true };
         string json = JsonSerializer.Serialize(accounts, options);

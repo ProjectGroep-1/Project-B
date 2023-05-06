@@ -34,7 +34,7 @@ public class JSONTest
     public void TestJSON()
     {
         var expected = "ID: 0 | Name: Carpaccio | Category: Soup | Course: Voor | Price: 2.30 EUR";
-        Assert.AreEqual(FoodMenuFunctions.FindItem(0).ToString(), expected);
+        Assert.AreEqual(Functions_Menu.FindItem(0).ToString(), expected);
     }
 
     

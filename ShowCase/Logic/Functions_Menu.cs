@@ -1,6 +1,6 @@
-public static class FoodMenuFunctions{
-    static private FoodMenuLogic menuLogic = new FoodMenuLogic();
-    private static List<MenuItem> itemsOnPageList = new List<MenuItem>();
+public static class Functions_Menu{
+    static private Logic_Menu menuLogic = new Logic_Menu();
+    private static List<Model_Menu> itemsOnPageList = new List<Model_Menu>();
     public static void MenuSummary(int pageNumber){
         
         int pageTotal = Convert.ToInt32(Math.Ceiling(menuLogic._menuitems.Count / 10.0));
@@ -12,13 +12,13 @@ public static class FoodMenuFunctions{
         else{
             itemsOnPage = menuLogic._menuitems;
         }
-        foreach (MenuItem item in itemsOnPage)
+        foreach (Model_Menu item in itemsOnPage)
         {
             itemsOnPageList.Add(item);
         }
         int foodCounter = 1;
         Console.WriteLine("Menu:");
-        foreach (MenuItem CurrentItem in itemsOnPageList)
+        foreach (Model_Menu CurrentItem in itemsOnPageList)
         {
             Console.WriteLine($"{foodCounter}. {CurrentItem.Name} | {CurrentItem.Price} EUR");
             foodCounter++;
@@ -40,7 +40,7 @@ public static class FoodMenuFunctions{
 
     private static void SearchSummary(string searchType, string searchTerm, int pageNumber)
     {
-        List<MenuItem> SearchedItems = menuLogic.Search(searchType, searchTerm);
+        List<Model_Menu> SearchedItems = menuLogic.Search(searchType, searchTerm);
         if (SearchedItems == null)
             return;
         int pageTotal = Convert.ToInt32(Math.Ceiling(SearchedItems.Count / 10.0));
@@ -52,7 +52,7 @@ public static class FoodMenuFunctions{
         else{
             itemsOnPage = SearchedItems;
         }
-        foreach (MenuItem item in itemsOnPage)
+        foreach (Model_Menu item in itemsOnPage)
         {
             itemsOnPageList.Add(item);
         }
@@ -68,7 +68,7 @@ public static class FoodMenuFunctions{
             return;
         
         Console.WriteLine("Menu");
-        foreach (MenuItem CurrentItem in itemsOnPageList)
+        foreach (Model_Menu CurrentItem in itemsOnPageList)
         {
             Console.WriteLine($"{foodCounter}. {CurrentItem.Name} | {CurrentItem.Price} EUR");
             foodCounter++;
@@ -123,7 +123,7 @@ public static class FoodMenuFunctions{
                 bool foundItem = false;
                 string dishChoice = Console.ReadLine();
                 int dishCounter = 1;
-                foreach (MenuItem item in itemsOnPageList)
+                foreach (Model_Menu item in itemsOnPageList)
                 {
                         if (dishChoice == $"{dishCounter}")
                         {
@@ -159,17 +159,17 @@ public static class FoodMenuFunctions{
             case "1":
                 Console.WriteLine("Enter a max price");
                 string maxPrice = Console.ReadLine();
-                FoodMenuFunctions.SearchSummary(searchType, maxPrice, 1);
+                Functions_Menu.SearchSummary(searchType, maxPrice, 1);
                 break;
             case "2":
                 Console.WriteLine("Enter a category");
                 string category = Console.ReadLine();
-                FoodMenuFunctions.SearchSummary(searchType, category, 1);
+                Functions_Menu.SearchSummary(searchType, category, 1);
                 break;
             case "3":
                 Console.WriteLine("Enter a dish name");
                 string dish = Console.ReadLine();
-                FoodMenuFunctions.SearchSummary(searchType, dish, 1);
+                Functions_Menu.SearchSummary(searchType, dish, 1);
                 break;
             case "4":
                 Console.WriteLine("Going back to Main Menu. Press any key to continue");
@@ -180,19 +180,19 @@ public static class FoodMenuFunctions{
         }
     }
     
-    public static MenuItem FindItem(int id){
+    public static Model_Menu FindItem(int id){
         return menuLogic.GetById(id);
     }
 
     public static void AddItem(int id, string name, string category, string course, double price){
-        menuLogic.UpdateList(new MenuItem(id, name, category, course, price));
+        menuLogic.UpdateList(new Model_Menu(id, name, category, course, price));
     }
 
-    public static void ReplaceItem(MenuItem ItemReplace){
+    public static void ReplaceItem(Model_Menu ItemReplace){
         menuLogic.UpdateList(ItemReplace);
     }
 
-    public static void RemoveItem(MenuItem item){
+    public static void RemoveItem(Model_Menu item){
         menuLogic.RemoveItem(item);
     }
 }

@@ -1,4 +1,4 @@
-static class InformationAccess
+static class Access_Information
 {
     static string path = System.IO.Path.GetFullPath(System.IO.Path.Combine(Environment.CurrentDirectory, @"DataSources/RestaurantInfo.txt"));
 
