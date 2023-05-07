@@ -1,6 +1,6 @@
 public static class Functions_Contact
 {   
-    static string path = System.IO.Path.GetFullPath(System.IO.Path.Combine(Environment.CurrentDirectory, @"DataSources/ContactFile.txt.json"));
+    static string path = System.IO.Path.GetFullPath(System.IO.Path.Combine(Environment.CurrentDirectory, @"DataSources/ContactFile.txt"));
     static Logic_Contact contactlogic = new(path);
 
     public static void EditContactInformation()
