@@ -23,28 +23,14 @@ class Logic_Account
     public bool UpdateList(Model_Account acc)
     {
         
-        int index = _accounts.FindIndex(s => s.EmailAddress == acc.EmailAddress);
-        //Find if there is already an model with the same id
-        int index2 = _accounts.FindIndex(s => s.Id == acc.Id);
+        int index = _accounts.FindIndex(s => s.Id == acc.Id);
         
-        if (index != -1)
+        if (index == -1)
         {
             return false;
         }
-        else
-        {
-            if (index2 != -1)
-            {
-                acc.Id = Functions_Reservation.RandomId();
-                UpdateList(acc);
-            }
-            else
-            {
-                //add new model
-                _accounts.Add(acc);
-            }
-        }
-        Access_Account.WriteAll(_accounts);
+        this._accounts.Add(acc);
+        Access_Account.WriteAll(this._accounts);
         return true;
         
     	

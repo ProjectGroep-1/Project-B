@@ -117,6 +117,7 @@ static class Menu
                         break;
                     case 7:
                         Functions_Capacity.DisplayReservations();
+                        Console.ReadKey(true);
                         break; 
                     default:
                         Console.WriteLine("You've entered an invalid input, try again");
