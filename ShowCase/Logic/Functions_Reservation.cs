@@ -119,7 +119,7 @@ public static class Functions_Reservation
             reservationLogic.UpdateList(new_reservation_model);
             
             Access_Reservation.WriteAll(reservationLogic._reservations);
-            new_customer.ReservationID = n;
+            new_customer.ReservationID = new_res.ID;
             UserLogin.accountsLogic.UpdateList(new_customer);
             
 
@@ -131,7 +131,7 @@ public static class Functions_Reservation
 
     public static void CheckOrder(Model_Account account)
     {
-        if (reservationLogic.GetById(account.Id) == null) 
+        if (reservationLogic.GetById(account.ReservationID) == null) 
         { 
             Console.WriteLine("\n" + "You currently have 0 reservations");
             return;
@@ -139,7 +139,7 @@ public static class Functions_Reservation
 
         else
         {
-            Console.WriteLine("\n" + $"{reservationLogic.GetById(account.Id)}");
+            Console.WriteLine("\n" + $"{reservationLogic.GetById(account.ReservationID)}");
         }
     }
 
