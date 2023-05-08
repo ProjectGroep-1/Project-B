@@ -5,17 +5,17 @@ using System.Text.Json;
 
 
 //This class is not static so later on we can use inheritance and interfaces
-public class FoodMenuLogic
+public class Logic_Menu
 {
-    public List<MenuItem> _menuitems;
+    public List<Model_Menu> _menuitems;
 
-    public FoodMenuLogic()
+    public Logic_Menu()
     {
-        _menuitems = FoodMenuAccess.LoadMenuJSON();
+        _menuitems = Access_Menu.LoadMenuJSON();
     }
 
 
-    public void UpdateList(MenuItem item)
+    public void UpdateList(Model_Menu item)
     {
         //Find if there is already an model with the same id
         int index = _menuitems.FindIndex(s => s.Id == item.Id);
@@ -30,13 +30,13 @@ public class FoodMenuLogic
             //add new model
             _menuitems.Add(item);
         }
-        FoodMenuAccess.WriteAll(_menuitems);
+        Access_Menu.WriteAll(_menuitems);
 
     }
 
-    public List<MenuItem> Search(string searchType, string searchTerm)
+    public List<Model_Menu> Search(string searchType, string searchTerm)
     {
-        List<MenuItem> SearchItems = new List<MenuItem>();
+        List<Model_Menu> SearchItems = new List<Model_Menu>();
         foreach (var item in _menuitems)
         { 
             if (searchType == "1")
@@ -75,15 +75,15 @@ public class FoodMenuLogic
     }
         
 
-    public MenuItem GetById(int id)
+    public Model_Menu GetById(int id)
     {
         return _menuitems.Find(i => i.Id == id);
     }
 
-    public void RemoveItem(MenuItem item){
+    public void RemoveItem(Model_Menu item){
         _menuitems.Remove(item);
         _menuitems.IndexOf(item);
-        FoodMenuAccess.WriteAll(_menuitems);
+        Access_Menu.WriteAll(_menuitems);
     }
 
 

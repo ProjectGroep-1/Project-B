@@ -1,21 +1,22 @@
 static class UserLogin
 {
-    static public AccountsLogic accountsLogic = new AccountsLogic();
+    static public Logic_Account accountsLogic = new Logic_Account();
     
 
-    public static AccountModel? Start()
+    public static Model_Account? Start()
     {
         Console.WriteLine("Welcome to the login page");
         Console.WriteLine("Please enter your email address");
         string email = Console.ReadLine();
         Console.WriteLine("Please enter your password");
         string password = Console.ReadLine();
-        AccountModel acc = accountsLogic.CheckLogin(email, password);
+        Model_Account acc = accountsLogic.CheckLogin(email, password);
         Console.Clear();
         if (acc != null && acc.UserType != "admin")
         {
             Console.WriteLine("Welcome back " + acc.FullName);
             Console.WriteLine("Your e-mail is " + acc.EmailAddress);
+            accountsLogic.SetCurrentAccount(acc);
             return acc;
         }
         else
@@ -26,7 +27,7 @@ static class UserLogin
     }
 
 
-        public static AccountModel CreateAccount()
+        public static Model_Account CreateAccount()
         { Console.Clear();
         Console.WriteLine("This is the account page");
         Console.WriteLine("Enter an emailadress:");
@@ -38,13 +39,14 @@ static class UserLogin
 
         Random r = new Random();
         int n = r.Next(1,999999);
-        AccountModel Acc = new AccountModel(n, mail_1, password_1, name_1, "user");
-        List<AccountModel> accountlist = new List<AccountModel>();
+        Model_Account Acc = new Model_Account(n, mail_1, password_1, name_1, "user");
+        List<Model_Account> accountlist = new List<Model_Account>();
         if (!accountsLogic.UpdateList(Acc))
             return null;
 
-        accountlist = AccountsAccess.LoadAll();
-        AccountsAccess.WriteAll(accountlist);
+        accountlist = Access_Account.LoadAll();
+        accountsLogic.SetCurrentAccount(Acc);
+        Access_Account.WriteAll(accountlist);
         Console.Clear();
 
         return Acc;

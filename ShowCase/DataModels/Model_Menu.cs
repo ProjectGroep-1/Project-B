@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-public class MenuItem
+public class Model_Menu
 {
     [JsonPropertyName("Id")]
     public int Id { get; set; }
@@ -16,7 +16,7 @@ public class MenuItem
     [JsonPropertyName("Price")]
     public double Price {get; set;}
 
-    public MenuItem(int id, string name, string category, string course, double price)
+    public Model_Menu(int id, string name, string category, string course, double price)
     {
         Id = id;
         Name = name;

@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 
 
-public class ReservationModel
+public class Model_Reservation
 {
     [JsonPropertyName("Id")]
     public int Id { get; set; }
@@ -13,29 +13,25 @@ public class ReservationModel
     public int CustomersAmount { get; set; }
     
     [JsonPropertyName("ItemList")]
-    public List<MenuItem> ItemList {get; private set;}
+    public List<Model_Menu> ItemList {get; private set;}
 
-    [JsonPropertyName("TimeDuration")]
-    public double TimeDuration { get; set; }
-
-    [JsonPropertyName("TableId")]
-    public int TableId { get; set; }
+    [JsonPropertyName("Arrival")]
+    public string Arrival { get; set; }
 
     [JsonPropertyName("CategoryPreference")]
     public string CategoryPreference { get; set; }
 
-    public ReservationModel(int id, string fullName, int customersAmount, int tableId, string categoryPreference)
+    public Model_Reservation(int id, string fullName, int customersAmount, string arrival, string categoryPreference)
     {
         Id = id;
         FullName = fullName;
         CustomersAmount = customersAmount;
-        ItemList = new List<MenuItem>();
-        TimeDuration = 2;
-        TableId = tableId;
+        ItemList = new List<Model_Menu>();
+        Arrival = arrival;
         CategoryPreference = categoryPreference;
     }
     public override string ToString()
     {
-        return $"Reservation {Id}, Reserved by: {FullName}, {CustomersAmount} people, {TimeDuration} hours, Table {TableId}";
+        return $"Reservation {Id}, Reserved by: {FullName}, {CustomersAmount} people";
     }
 }

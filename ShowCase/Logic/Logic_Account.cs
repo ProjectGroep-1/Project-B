@@ -5,67 +5,62 @@ using System.Text.Json;
 
 
 //This class is not static so later on we can use inheritance and interfaces
-class AccountsLogic
+class Logic_Account
 {
-    private List<AccountModel> _accounts;
+    private List<Model_Account> _accounts;
 
     //Static properties are shared across all instances of the class
     //This can be used to get the current logged in account from anywhere in the program
     //private set, so this can only be set by the class itself
-    static public AccountModel? CurrentAccount { get; private set; }
+    static public Model_Account? CurrentAccount { get; private set; }
 
-    public AccountsLogic()
+    public Logic_Account()
     {
-        _accounts = AccountsAccess.LoadAll();
+        _accounts = Access_Account.LoadAll();
     }
 
 
-    public bool UpdateList(AccountModel acc)
-    {
-        
+    public bool UpdateList(Model_Account acc)
+    {   
         int index = _accounts.FindIndex(s => s.EmailAddress == acc.EmailAddress);
         //Find if there is already an model with the same id
         int index2 = _accounts.FindIndex(s => s.Id == acc.Id);
         
-        if (index != -1)
-        {
-            Console.WriteLine("An account with that Email Address already exists.");
-            return false;
-        }
-        else
-        {
-            if (index2 != -1)
+        if (index2 != -1)
             {
-                acc.Id = ReservationFunctions.RandomId();
-                Console.WriteLine("test");
-                UpdateList(acc);
+                acc.Id = Functions_Reservation.RandomId();
+                _accounts[index2] = acc;
             }
             else
             {
                 //add new model
                 _accounts.Add(acc);
             }
-        }
-        AccountsAccess.WriteAll(_accounts);
-        return true;
-        
-    	
-    }
 
-    public AccountModel GetById(int id)
+            Access_Account.WriteAll(_accounts);
+            return true;
+        }
+
+
+    public Model_Account GetById(int id)
     {
         return _accounts.Find(i => i.Id == id);
     }
 
-    public AccountModel CheckLogin(string email, string password)
+    public Model_Account CheckLogin(string email, string password)
     {
-        AccountsAccess.LoadAll();
+        Access_Account.LoadAll();
         if (email == null || password == null)
         {
             return null;
         }
         CurrentAccount = _accounts.Find(i => i.EmailAddress == email && i.Password == password);
         return CurrentAccount;
+    }
+
+    public void SetCurrentAccount(Model_Account account)
+    {
+        CurrentAccount = account;
     }
 }
 
