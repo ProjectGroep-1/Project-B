@@ -116,6 +116,7 @@ static class Menu
                         Functions_Contact.EditContactInformation();
                         break;
                     case 7:
+                        Console.Clear();
                         Functions_Capacity.DisplayReservations();
                         Console.ReadKey(true);
                         break; 
