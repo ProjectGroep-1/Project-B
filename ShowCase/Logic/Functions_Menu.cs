@@ -121,19 +121,25 @@ public static class Functions_Menu{
             case "3":
                 Console.WriteLine($"Enter the number of the dish you want.[1-{foodCounter-1}]");
                 bool foundItem = false;
+                bool loggedIn = true;
                 string dishChoice = Console.ReadLine();
                 int dishCounter = 1;
                 foreach (Model_Menu item in itemsOnPageList)
                 {
                         if (dishChoice == $"{dishCounter}")
                         {
-                            Console.WriteLine($"{item.Name}\nThis is your dish. Press any key to continue.");
-                            Console.ReadKey();
-                            foundItem = true;
+                            if (Functions_Reservation.AddItemToReservation(item))
+                            {
+                                Console.WriteLine($"{item.Name} was added to your reservation. Press any key to continue.");
+                                Console.ReadKey();
+                                foundItem = true;
+                            }
+                            else
+                                loggedIn = false;
                         }
                         dishCounter++;
                 }
-                if (!foundItem)
+                if (!foundItem && loggedIn)
                 {
                     Console.WriteLine($"Please enter a value between [1-{foodCounter-1}]. Press any key to continue.");
                     Console.ReadKey();

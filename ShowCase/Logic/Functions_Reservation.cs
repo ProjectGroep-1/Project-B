@@ -139,8 +139,32 @@ public static class Functions_Reservation
 
         else
         {
-            Console.WriteLine("\n" + $"{reservationLogic.GetById(account.ReservationID)}");
+            Model_Reservation r = reservationLogic.GetById(account.ReservationID);
+            Console.WriteLine("\n" + $"{r}\nThese are the dishes that you added to your reservation: \n");
+
+
+
+            foreach(Model_Menu item in r.ItemList)
+            {
+                Console.WriteLine(item.Name);
+            }
         }
+    }
+
+    public static bool AddItemToReservation(Model_Menu dish)
+    {
+        if (Functions_Account.CurrentAccount == null)
+        {
+            Console.WriteLine("You need to be logged in to add an item to a reservation. Press any key to continue.");
+            Console.ReadKey();
+            return false;
+        }
+        Access_Reservation.LoadAll();
+        Model_Reservation r = reservationLogic.GetById(Functions_Account.CurrentAccount.ReservationID);
+        r.ItemList.Add(dish);
+        reservationLogic.UpdateList(r);
+        Access_Reservation.WriteAll(reservationLogic._reservations);
+        return true;
     }
 
     public static int RandomId()
