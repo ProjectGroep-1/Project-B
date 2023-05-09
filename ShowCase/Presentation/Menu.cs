@@ -113,7 +113,6 @@ static class Menu
                         FoodMenuFunctions.GetSearchOptions();
                         break;
                     case 6:
-                    Console.WriteLine("Under Maintenance");
                     TextFile ContactFile = new TextFile("DataSources\\ContactFile.txt");
                     Console.WriteLine("1: View contact information"+ "\n" + "2: Edit contact information");
                     string ContactInput = Console.ReadLine();
