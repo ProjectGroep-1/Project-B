@@ -9,7 +9,29 @@ static class UserLogin
         Console.WriteLine("Please enter your email address");
         string email = Console.ReadLine();
         Console.WriteLine("Please enter your password");
-        string password = Console.ReadLine();
+        string password = "";
+        while (true)
+        {
+        ConsoleKeyInfo key = Console.ReadKey(true);
+    
+        if (key.Key == ConsoleKey.Enter)
+        {
+        break;
+        }
+        else if (key.Key == ConsoleKey.Backspace)
+        {
+        if (password.Length > 0)
+        {
+            password = password.Substring(0, password.Length - 1);
+            Console.Write("\b \b");
+        }
+        }
+        else
+        {
+        password += key.KeyChar;
+        Console.Write("*");
+        }
+    }   
         Model_Account acc = accountsLogic.CheckLogin(email, password);
         Console.Clear();
         if (acc != null && acc.UserType != "admin")
@@ -32,14 +54,37 @@ static class UserLogin
         Console.WriteLine("This is the account page");
         Console.WriteLine("Enter an emailadress:");
         string mail_1 = Console.ReadLine();
-        Console.WriteLine("Enter a Password:");
-        string password_1 = Console.ReadLine();
+        string password = "";
+        Console.WriteLine("please enter your password: ");
+        while (true)
+        {
+        ConsoleKeyInfo key = Console.ReadKey(true);
+    
+        if (key.Key == ConsoleKey.Enter)
+        {
+        break;
+        }
+        else if (key.Key == ConsoleKey.Backspace)
+        {
+        if (password.Length > 0)
+        {
+            password = password.Substring(0, password.Length - 1);
+            Console.Write("\b \b");
+        }
+        }
+        else
+        {
+        password += key.KeyChar;
+        Console.Write("*");
+        }
+    }   
+        Console.WriteLine();
         Console.WriteLine("Enter your name:");
         string name_1 = Console.ReadLine();
 
         Random r = new Random();
         int n = r.Next(1,999999);
-        Model_Account Acc = new Model_Account(n, mail_1, password_1, name_1, "user");
+        Model_Account Acc = new Model_Account(n, mail_1, password, name_1, "user");
         List<Model_Account> accountlist = new List<Model_Account>();
         if (!accountsLogic.UpdateList(Acc))
             return null;
