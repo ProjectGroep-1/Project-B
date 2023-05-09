@@ -159,11 +159,9 @@ public static class Functions_Reservation
             Console.ReadKey();
             return false;
         }
-        Access_Reservation.LoadAll();
         Model_Reservation r = reservationLogic.GetById(Functions_Account.CurrentAccount.ReservationID);
         r.ItemList.Add(dish);
         reservationLogic.UpdateList(r);
-        Access_Reservation.WriteAll(reservationLogic._reservations);
         return true;
     }
 
