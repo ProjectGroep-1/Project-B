@@ -45,8 +45,6 @@ public class Logic_Menu
                 if (searchTermDouble == 0)
                 {
                     Console.WriteLine($"You've entered the wrong type of value. Press any key to continue.");
-                    Console.ReadKey();
-                    Console.Clear(); 
                     return null; 
                 }
                 if (item.Price < Convert.ToDouble(searchTermDouble))
@@ -69,8 +67,6 @@ public class Logic_Menu
                 }
             }
         }
-            
-        
         return SearchItems;
     }
         
