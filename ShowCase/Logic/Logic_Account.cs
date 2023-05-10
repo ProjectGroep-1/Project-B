@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
@@ -8,10 +8,6 @@ using System.Text.Json;
 public class Logic_Account
 {
     public List<Model_Account> _accounts;
-
-    //Static properties are shared across all instances of the class
-    //This can be used to get the current logged in account from anywhere in the program
-    //private set, so this can only be set by the class itself
 
     public Logic_Account()
     {
@@ -27,7 +23,6 @@ public class Logic_Account
         
         if (index2 != -1)
             {
-                acc.Id = Functions_Reservation.RandomId();
                 _accounts[index2] = acc;
             }
             else
@@ -46,9 +41,9 @@ public class Logic_Account
         return _accounts.Find(i => i.Id == id);
     }
 
-
+    public int GetNewID()
+    {
+        if (_accounts.Count == 0) { return 1; }
+        return _accounts[_accounts.Count -1].Id +1;
+    }
 }
-
-
-
-

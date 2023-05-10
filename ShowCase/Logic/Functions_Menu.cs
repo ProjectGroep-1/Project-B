@@ -125,7 +125,7 @@ public static class Functions_Menu{
                 {
                         if (dishChoice == $"{dishCounter}")
                         {
-                            if (Functions_Reservation.AddItemToReservation(item))
+                            if (Functions_Reservation.AddItemToReservation(item))   
                             {
                                 Console.WriteLine($"{item.Name} was added to your reservation. Press any key to continue.");
                                 Console.ReadKey();
