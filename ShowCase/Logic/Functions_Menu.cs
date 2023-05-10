@@ -209,4 +209,28 @@ public static class Functions_Menu{
     public static void RemoveItem(Model_Menu item){
         menuLogic.RemoveItem(item);
     }
+      public static void Replacekey(string key_1){
+             while (true)
+        {
+        ConsoleKeyInfo key = Console.ReadKey(true);
+    
+        if (key.Key == ConsoleKey.Enter)
+        {
+        break;
+        }
+        else if (key.Key == ConsoleKey.Backspace)
+        {
+        if (key_1.Length > 0)
+        {
+            key_1 = key_1.Substring(0, key_1.Length - 1);
+            Console.Write("\b \b");
+        }
+        }
+        else
+        {
+        key_1 += key.KeyChar;
+        Console.Write("*");
+        }
+    }   
+    }
 }
