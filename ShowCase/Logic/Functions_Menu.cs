@@ -44,9 +44,11 @@ public static class Functions_Menu{
         List<Model_Menu> SearchedItems = menuLogic.Search(searchType, searchTerm);
         if (SearchedItems == null)
             return;
+
         int pageTotal = Convert.ToInt32(Math.Ceiling(SearchedItems.Count / 10.0));
         var itemsOnPage = (dynamic)null;
         itemsOnPageList.Clear();
+
         if (SearchedItems.Count > 10){
             itemsOnPage = SearchedItems.Skip((pageNumber - 1) * 10).Take(10);
         }
@@ -65,8 +67,7 @@ public static class Functions_Menu{
             Console.Clear();
             GetSearchOptions();
         }
-        if (pageTotal == 0)
-            return;
+
         
         Console.WriteLine("Menu");
         foreach (Model_Menu CurrentItem in itemsOnPageList)
@@ -89,7 +90,7 @@ public static class Functions_Menu{
             SearchSummary(searchType, searchTerm, pageNumber);
         }
     }
-    
+
     public static int FlipPage(int pageNumber, int pageTotal, int foodCounter)
     {
         (string FlipOptions, bool PrevAvailable, bool NextAvailable) = CheckPrevNextPage(pageNumber, pageTotal);

@@ -46,4 +46,4 @@ public class Logic_Account
         if (_accounts.Count == 0) { return 1; }
         return _accounts[_accounts.Count -1].Id +1;
     }
-}
+
