@@ -34,7 +34,7 @@ public class Logic_Menu
 
     }
 
-    public List<Model_Menu> Search(string searchType, string searchTerm)
+  public List<Model_Menu> Search(string searchType, string searchTerm)
     {
         List<Model_Menu> SearchItems = new List<Model_Menu>();
         foreach (var item in _menuitems)
@@ -45,8 +45,6 @@ public class Logic_Menu
                 if (searchTermDouble == 0)
                 {
                     Console.WriteLine($"You've entered the wrong type of value. Press any key to continue.");
-                    Console.ReadKey();
-                    Console.Clear(); 
                     return null; 
                 }
                 if (item.Price < Convert.ToDouble(searchTermDouble))
@@ -69,8 +67,6 @@ public class Logic_Menu
                 }
             }
         }
-            
-        
         return SearchItems;
     }
         
