@@ -17,7 +17,7 @@ public static class Functions_Contact
                 break;
             case 2: 
                 Console.Clear();
-                Console.WriteLine("1: Edit Phone number"+ "\n" + "2: Edit Adress" + "\n" + "3: Edit E-mail");
+                Console.WriteLine("1: Edit Phone number"+ "\n" + "2: Edit Address" + "\n" + "3: Edit E-mail");
                 string contactinput_2 = Console.ReadLine();
                 if(contactinput_2 == "1"){
                     try{
@@ -30,16 +30,16 @@ public static class Functions_Contact
 
                 else if(contactinput_2 == "2"){
                     try{
-                    Console.WriteLine("What is your new Adress?");
-                    string new_adress = $"Adress: {Console.ReadLine()}";
-                    contactlogic.ChangeValueById(1, new_adress);}
+                    Console.WriteLine("What is your new address?");
+                    string new_address = $"Address: {Console.ReadLine()}";
+                    contactlogic.ChangeValueById(1, new_address);}
                     catch (IOException e) {
                     Console.WriteLine("Error occurred while editing file: " + e.Message);
                     }}
 
                 else if(contactinput_2 == "3"){
                     try{
-                    Console.WriteLine("What is your new Email adress?");
+                    Console.WriteLine("What is your new email address?");
                     string new_email = $"Email : {Console.ReadLine()}";
                     contactlogic.ChangeValueById(2, new_email);}
                     catch (IOException e) {
