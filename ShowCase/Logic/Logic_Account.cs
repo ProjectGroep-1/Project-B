@@ -47,3 +47,4 @@ public class Logic_Account
         return _accounts[_accounts.Count -1].Id +1;
     }
 
+}
