@@ -159,6 +159,12 @@ public static class Functions_Reservation
             Console.ReadKey();
             return false;
         }
+        if(reservationLogic.GetById(Functions_Account.CurrentAccount.ReservationID)== null)
+        {
+            Console.WriteLine("You do not have a reservation to add items to. Press any key to continue.");
+            Console.ReadKey();
+            return false;
+        }
         Model_Reservation r = reservationLogic.GetById(Functions_Account.CurrentAccount.ReservationID);
         r.ItemList.Add(dish);
         reservationLogic.UpdateList(r);
