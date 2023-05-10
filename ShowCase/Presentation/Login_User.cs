@@ -82,8 +82,7 @@ static class UserLogin
         Console.WriteLine("Enter your name:");
         string name_1 = Console.ReadLine();
 
-        Random r = new Random();
-        int n = r.Next(1,999999);
+        int n = accountsLogic.GetNewID();
         Model_Account Acc = new Model_Account(n, mail_1, password, name_1, "user");
         List<Model_Account> accountlist = new List<Model_Account>();
         if (!accountsLogic.UpdateList(Acc))

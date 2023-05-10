@@ -28,7 +28,6 @@ class Logic_Account
         
         if (index2 != -1)
             {
-                acc.Id = Functions_Reservation.RandomId();
                 _accounts[index2] = acc;
             }
             else
@@ -61,6 +60,12 @@ class Logic_Account
     public void SetCurrentAccount(Model_Account account)
     {
         CurrentAccount = account;
+    }
+
+    public int GetNewID()
+    {
+        if (_accounts.Count == 0) { return 1; }
+        return _accounts[_accounts.Count -1].Id +1;
     }
 }
 
