@@ -30,16 +30,16 @@ public static class Functions_Contact
 
                 else if(contactinput_2 == "2"){
                     try{
-                    Console.WriteLine("What is your new address?");
-                    string new_address = $"Address: {Console.ReadLine()}";
-                    contactlogic.ChangeValueById(1, new_address);}
+                    Console.WriteLine("What is your new Adress?");
+                    string new_adress = $"Adress: {Console.ReadLine()}";
+                    contactlogic.ChangeValueById(1, new_adress);}
                     catch (IOException e) {
                     Console.WriteLine("Error occurred while editing file: " + e.Message);
                     }}
 
                 else if(contactinput_2 == "3"){
                     try{
-                    Console.WriteLine("What is your new email address?");
+                    Console.WriteLine("What is your new Email adress?");
                     string new_email = $"Email : {Console.ReadLine()}";
                     contactlogic.ChangeValueById(2, new_email);}
                     catch (IOException e) {
