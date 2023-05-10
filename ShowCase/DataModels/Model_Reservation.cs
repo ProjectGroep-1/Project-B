@@ -13,7 +13,7 @@ public class Model_Reservation
     public int CustomersAmount { get; set; }
     
     [JsonPropertyName("ItemList")]
-    public List<Model_Menu> ItemList {get; private set;}
+    public List<Model_Menu> ItemList {get; set;}
 
     [JsonPropertyName("Arrival")]
     public string Arrival { get; set; }

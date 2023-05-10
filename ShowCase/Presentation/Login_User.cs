@@ -32,13 +32,13 @@ static class UserLogin
         Console.Write("*");
         }
     }   
-        Model_Account acc = accountsLogic.CheckLogin(email, password);
+        Model_Account acc = Functions_Account.CheckLogin(email, password);
         Console.Clear();
         if (acc != null && acc.UserType != "admin")
         {
             Console.WriteLine("Welcome back " + acc.FullName);
             Console.WriteLine("Your e-mail is " + acc.EmailAddress);
-            accountsLogic.SetCurrentAccount(acc);
+            Functions_Account.SetCurrentAccount(acc);
             return acc;
         }
         else
@@ -82,6 +82,7 @@ static class UserLogin
         Console.WriteLine("Enter your name:");
         string name_1 = Console.ReadLine();
 
+
         int n = accountsLogic.GetNewID();
         Model_Account Acc = new Model_Account(n, mail_1, password, name_1, "user");
         List<Model_Account> accountlist = new List<Model_Account>();
@@ -89,7 +90,7 @@ static class UserLogin
             return null;
 
         accountlist = Access_Account.LoadAll();
-        accountsLogic.SetCurrentAccount(Acc);
+        Functions_Account.SetCurrentAccount(Acc);
         Access_Account.WriteAll(accountlist);
         Console.Clear();
 
