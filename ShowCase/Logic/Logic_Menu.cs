@@ -34,7 +34,7 @@ public class Logic_Menu
 
     }
 
-    public List<Model_Menu> Search(string searchType, string searchTerm)
+  public List<Model_Menu> Search(string searchType, string searchTerm)
     {
         List<Model_Menu> SearchItems = new List<Model_Menu>();
         foreach (var item in _menuitems)
