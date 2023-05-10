@@ -9,11 +9,19 @@ public static class Functions_Reservation
 
         if (user == "1")
         {
-            Model_Account acc = UserLogin.Start();
-            if (acc != null)
+            if (Functions_Account.CurrentAccount != null)
             {
-                Functions_Reservation.CheckOrder(acc);
+                Functions_Reservation.CheckOrder(Functions_Account.CurrentAccount);
             }
+            else
+            {
+                Model_Account acc = UserLogin.Start();
+                if (acc != null)
+                {
+                    Functions_Reservation.CheckOrder(acc);
+                }
+            }
+
         }
 
         else if (user == "2")
