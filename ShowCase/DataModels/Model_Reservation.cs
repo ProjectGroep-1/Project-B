@@ -6,6 +6,9 @@ public class Model_Reservation
     [JsonPropertyName("Id")]
     public int Id { get; set; }
 
+    [JsonPropertyName("Date")]
+    public DateTime Date { get; set; }
+
     [JsonPropertyName("Fullname")]
     public string FullName { get; set; }
 
@@ -21,9 +24,10 @@ public class Model_Reservation
     [JsonPropertyName("CategoryPreference")]
     public string CategoryPreference { get; set; }
 
-    public Model_Reservation(int id, string fullName, int customersAmount, string arrival, string categoryPreference)
+    public Model_Reservation(int id, DateTime date, string fullName, int customersAmount, string arrival, string categoryPreference)
     {
         Id = id;
+        Date = date;
         FullName = fullName;
         CustomersAmount = customersAmount;
         ItemList = new List<Model_Menu>();

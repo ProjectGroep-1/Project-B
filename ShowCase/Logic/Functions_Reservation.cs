@@ -114,7 +114,7 @@ public static class Functions_Reservation
             Console.WriteLine("Please enter a CategoryPreference.");
             string CategoryPreference = Console.ReadLine();
 
-            Model_Reservation new_reservation_model = new Model_Reservation(new_res.ID, new_customer.FullName, CustomersAmount, new_res.Time, CategoryPreference);
+            Model_Reservation new_reservation_model = new Model_Reservation(new_res.ID, new_res.Date, new_customer.FullName, CustomersAmount, new_res.Time, CategoryPreference);
             reservationLogic.UpdateList(new_reservation_model);
             
             Access_Reservation.WriteAll(reservationLogic._reservations);

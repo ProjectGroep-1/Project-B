@@ -80,6 +80,7 @@ public static class Functions_Capacity
     {
         List<string> return_list = new List<string>();
 
+        capacitylogic._capacity = Access_Capacity.LoadAll();
         for (int i = 0; i < capacitylogic._capacity.Count; i ++)
         {
             if (return_list.Contains(capacitylogic._capacity[i].Time)) {}

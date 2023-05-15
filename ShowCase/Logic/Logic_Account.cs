@@ -39,11 +39,14 @@ class Logic_Account
             Access_Account.WriteAll(_accounts);
             return true;
         }
-
-
     public Model_Account GetById(int id)
     {
         return _accounts.Find(i => i.Id == id);
+    }
+
+    public Model_Account GetByReservationId(int ResID)
+    {
+        return _accounts.Find(i => i.ReservationID == ResID);
     }
 
     public Model_Account CheckLogin(string email, string password)
