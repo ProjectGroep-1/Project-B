@@ -8,8 +8,7 @@ static class UserLogin
         Console.WriteLine("Please enter your email address");
         string email = Console.ReadLine();
         Console.WriteLine("Please enter your password");
-
-        string password = accountsLogic.EnteringPassword();
+      
         Model_Account acc = Functions_Account.CheckLogin(email, password);
         Console.Clear();
         if (acc != null && acc.UserType != "admin")
@@ -32,17 +31,6 @@ static class UserLogin
 
         Console.WriteLine("\nEnter an emailadress:");
         string mail_1 = Console.ReadLine();
-        if (accountsLogic.checkDuplicateEmail(mail_1))
-        {
-            Console.WriteLine("This email address is already used for another account");
-            Console.ReadKey();
-            return;
-        }
-
-        Console.WriteLine("Enter your password");
-        string password = accountsLogic.EnteringPassword();
-
-        Console.WriteLine("\nEnter your name:");
         string name_1 = Console.ReadLine();
 
 
