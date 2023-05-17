@@ -33,6 +33,8 @@ static class UserLogin
 
         Console.WriteLine("\nEnter an emailadress:");
         string mail_1 = Console.ReadLine();
+
+        Console.WriteLine("Enter your name");
         string name_1 = Console.ReadLine();
 
         Console.WriteLine("Enter your password");
@@ -44,6 +46,5 @@ static class UserLogin
         accountsLogic.UpdateList(Acc);
         Functions_Account.SetCurrentAccount(Acc);
         Console.Clear();
-
     }
 }
