@@ -38,6 +38,13 @@ public class Logic_Reservation
 
     }
 
+    public bool CheckReservationList(Model_Account account)
+    {
+        if (account.ReservationIDs == null && !account.ReservationIDs.Any())
+            return false;
+        return true;
+    }
+
     public Model_Reservation GetById(int id)
     {
         return _reservations.Find(i => i.Id == id);

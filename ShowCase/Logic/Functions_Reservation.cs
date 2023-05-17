@@ -107,7 +107,7 @@ public static class Functions_Reservation
             {
                 if (q != "y")
                 {
-                    Console.WriteLine("Reservation canceled.");
+                    Console.WriteLine("Reservation cancelled.");
                     return;
                 }
             }
@@ -125,8 +125,9 @@ public static class Functions_Reservation
             Model_Reservation new_reservation_model = new Model_Reservation(new_res.ID, new_customer.FullName, CustomersAmount, new_res.Time, CategoryPreference);
             reservationLogic.UpdateList(new_reservation_model);
             
-            Access_Reservation.WriteAll(reservationLogic._reservations);
-            new_customer.ReservationID = new_res.ID;
+            List<int> old = new_customer.ReservationIDs;
+            old.Add(new_res.ID);
+            new_customer.ReservationIDs = old;
             UserLogin.accountsLogic.UpdateList(new_customer);
             
 
@@ -138,7 +139,7 @@ public static class Functions_Reservation
 
     public static void CheckOrder(Model_Account account)
     {
-        if (reservationLogic.GetById(account.ReservationID) == null) 
+        if (!reservationLogic.CheckReservationList(account)) 
         { 
             Console.WriteLine("\n" + "You currently have 0 reservations");
             return;
@@ -146,10 +147,10 @@ public static class Functions_Reservation
 
         else
         {
-            Model_Reservation r = reservationLogic.GetById(account.ReservationID);
+            PrintReservations(account.ReservationIDs);
+            Model_Reservation r = FindReservation(Functions_Account.CurrentAccount);
+
             Console.WriteLine("\n" + $"{r}\nThese are the dishes that you added to your reservation: \n");
-
-
 
             foreach(Model_Menu item in r.ItemList)
             {
@@ -166,17 +167,65 @@ public static class Functions_Reservation
             Console.ReadKey();
             return false;
         }
-        if(reservationLogic.GetById(Functions_Account.CurrentAccount.ReservationID)== null)
+        if(!reservationLogic.CheckReservationList(Functions_Account.CurrentAccount))
         {
             Console.WriteLine("You do not have a reservation to add items to. Press any key to continue.");
             Console.ReadKey();
             return false;
         }
-        Model_Reservation r = reservationLogic.GetById(Functions_Account.CurrentAccount.ReservationID);
+        PrintReservations(Functions_Account.CurrentAccount.ReservationIDs);
+        Model_Reservation r = FindReservation(Functions_Account.CurrentAccount);
         r.ItemList.Add(dish);
         reservationLogic.UpdateList(r);
         return true;
     }
+
+    private static void PrintReservations(List<int> ids)
+    {
+        int counter = 1;
+        foreach(int id in ids)
+        {
+            Model_Reservation r = reservationLogic.GetById(id);
+            Console.WriteLine($"{counter}. {r.Id}");
+        }
+    }
+
+    public static Model_Reservation ChooseReservation(Model_Account account, int id)
+    {
+        if (id <= account.ReservationIDs.Count)
+        {
+            id -= 1;
+            return reservationLogic.GetById(account.ReservationIDs[id]);
+        }
+        return null;
+    }
+
+    public static Model_Reservation FindReservation(Model_Account account)
+    {
+        Console.WriteLine($"Choose a reservation [1-{Functions_Account.CurrentAccount.ReservationIDs.Count}]");
+
+        int resID;
+        string input = Console.ReadLine();
+        bool convertInput = int.TryParse(input, out resID);
+        if (!convertInput)
+        {
+            Console.WriteLine("Please enter a number");
+            Console.ReadKey();
+            return null;
+        }
+        Model_Reservation r = ChooseReservation(Functions_Account.CurrentAccount, resID);
+        if (r == null)
+        {
+            Console.WriteLine($"Please enter a number between [1-{Functions_Account.CurrentAccount.ReservationIDs.Count}");
+            Console.ReadKey();
+            return null;
+        }
+        return r;
+    }
+
+
+
+
 
     public static int RandomId()
     {

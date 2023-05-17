@@ -21,7 +21,7 @@ public class Model_Account
 
     [JsonPropertyName("ReservationID")]
 
-    public int ReservationID { get; set; }
+    public List<int> ReservationIDs { get; set; }
 
     public Model_Account(int id, string emailAddress, string password, string fullName, string userType)
     {
@@ -30,7 +30,7 @@ public class Model_Account
         Password = password;
         FullName = fullName;
         UserType = userType;
-        ReservationID = 0;
+        ReservationIDs = new List<int>();
     }
 
 }
