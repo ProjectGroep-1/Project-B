@@ -10,7 +10,7 @@ static class Menu
         {   
             Console.Clear();
             Console.WriteLine("Main menu" + "\n");
-            Console.WriteLine("1: Information about our restaurant" + "\n" + "2: View menu" + "\n" + "3: Search for specific dish" + "\n" + "4: Your reservation" + "\n" + "5: Contact" + "\n" + "6: Close application" + "\n");
+            Console.WriteLine("1: Information about our restaurant" + "\n" + "2: View menu" + "\n" + "3: Search for dishes in menu" + "\n" + "4: Reservations" + "\n" + "5: Contact information" + "\n" + "6: Close application" + "\n");
 
             string message = "Under maintenance";
             string input = Console.ReadLine();
