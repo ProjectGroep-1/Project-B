@@ -182,11 +182,13 @@ public static class Functions_Reservation
 
     private static void PrintReservations(List<int> ids)
     {
+        Console.Clear();
         int counter = 1;
         foreach(int id in ids)
         {
             Model_Reservation r = reservationLogic.GetById(id);
             Console.WriteLine($"{counter}. {r.Id}");
+            counter++;
         }
     }
 
@@ -202,6 +204,7 @@ public static class Functions_Reservation
 
     public static Model_Reservation FindReservation(Model_Account account)
     {
+        
         Console.WriteLine($"Choose a reservation [1-{Functions_Account.CurrentAccount.ReservationIDs.Count}]");
 
         int resID;
