@@ -8,7 +8,9 @@ static class UserLogin
         Console.WriteLine("Please enter your email address");
         string email = Console.ReadLine();
         Console.WriteLine("Please enter your password");
-      
+
+        string password = accountsLogic.EnteringPassword();
+
         Model_Account acc = Functions_Account.CheckLogin(email, password);
         Console.Clear();
         if (acc != null && acc.UserType != "admin")
@@ -33,7 +35,9 @@ static class UserLogin
         string mail_1 = Console.ReadLine();
         string name_1 = Console.ReadLine();
 
-
+        Console.WriteLine("Enter your password");
+        string password = accountsLogic.EnteringPassword();
+        
         int n = accountsLogic.GetNewID();
         Model_Account Acc = new Model_Account(n, mail_1, password, name_1, "user");
 
