@@ -11,7 +11,7 @@ static class UserLogin
         Console.WriteLine("Please enter your password");
         string password = "";
         Functions_Menu.Replacekey(password);
-        Model_Account acc = accountsLogic.CheckLogin(email, password);
+        Model_Account acc = Functions_Account.CheckLogin(email, password);
         Console.Clear();
         if (acc != null && acc.UserType != "admin")
         {
