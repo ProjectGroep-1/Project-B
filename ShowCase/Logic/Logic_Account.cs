@@ -15,26 +15,62 @@ public class Logic_Account
     }
 
 
-    public bool UpdateList(Model_Account acc)
+    public void UpdateList(Model_Account acc)
     {   
-        int index = _accounts.FindIndex(s => s.EmailAddress == acc.EmailAddress);
         //Find if there is already an model with the same id
-        int index2 = _accounts.FindIndex(s => s.Id == acc.Id);
+        int index = _accounts.FindIndex(s => s.Id == acc.Id);
         
-        if (index2 != -1)
+        if (index != -1)
+        {
+            _accounts[index] = acc;
+        }
+        else
+        {
+            //add new model
+            _accounts.Add(acc);
+        }
+
+        Access_Account.WriteAll(_accounts);
+    }
+
+    public bool checkDuplicateEmail(string mail)
+    {
+        int index = _accounts.FindIndex(s => s.EmailAddress == mail);
+
+        if (index == 0)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public string EnteringPassword()
+    {
+        string password = "";
+        while (true)
+        {
+            ConsoleKeyInfo key = Console.ReadKey(true);
+        
+            if (key.Key == ConsoleKey.Enter)
             {
-                _accounts[index2] = acc;
+                break;
+            }
+            else if (key.Key == ConsoleKey.Backspace)
+            {
+                if (password.Length > 0)
+                {
+                    password = password.Substring(0, password.Length - 1);
+                    Console.Write("\b \b");
+                }
             }
             else
             {
-                //add new model
-                _accounts.Add(acc);
+                password += key.KeyChar;
+                Console.Write("*");
             }
-
-            Access_Account.WriteAll(_accounts);
-            return true;
-        }
-
+        } 
+        return password;
+    }
 
     public Model_Account GetById(int id)
     {

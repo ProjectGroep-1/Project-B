@@ -15,10 +15,10 @@ public static class Functions_Reservation
             }
             else
             {
-                Model_Account acc = UserLogin.Start();
-                if (acc != null)
+                UserLogin.Start();
+                if (Functions_Account.CurrentAccount != null)
                 {
-                    Functions_Reservation.CheckOrder(acc);
+                    Functions_Reservation.CheckOrder(Functions_Account.CurrentAccount);
                 }
             }
 
@@ -33,11 +33,13 @@ public static class Functions_Reservation
                 if (Functions_Account.CurrentAccount == null)
                     UserLogin.Start();
             }
-            if (Functions_Account.CurrentAccount == null || question == "no" || question == "n")
-            {
-                Console.WriteLine("Sending you to the create account page..");
-                Console.ReadKey();
+            if (question == "no" || question == "n")
                 UserLogin.CreateAccount();
+
+            if (Functions_Account.CurrentAccount == null)
+            {
+                Console.WriteLine("You didn't manage to login. Going back to the main menu");
+                return;
             }
 
             ReservationOptions(Functions_Account.CurrentAccount);
@@ -46,7 +48,7 @@ public static class Functions_Reservation
         else { Console.WriteLine("Wrong input"); }
     }
 
-    public static void ReservationOptions(Model_Account new_customer)
+    private static void ReservationOptions(Model_Account new_customer)
     {
         Console.WriteLine("For how many people is this reservation?");
         string groupSize = Console.ReadLine();
@@ -132,17 +134,18 @@ public static class Functions_Reservation
         ConfirmReservation(capacity, new_customer, CustomersAmount, CategoryPreference);
     }
 
-    public static void ConfirmReservation(Model_Capacity capacity, Model_Account new_customer, int CustomersAmount, string CategoryPreference)
+    private static void ConfirmReservation(Model_Capacity capacity, Model_Account new_customer, int CustomersAmount, string CategoryPreference)
     {
-            Model_Reservation new_reservation_model = new Model_Reservation(capacity.ID, new_customer.FullName, CustomersAmount, capacity.Time, CategoryPreference);
-            reservationLogic.UpdateList(new_reservation_model);
-            
-            List<int> old = new_customer.ReservationIDs;
-            old.Add(capacity.ID);
-            new_customer.ReservationIDs = old;
-            UserLogin.accountsLogic.UpdateList(new_customer);
-            
-            Console.WriteLine("Your reservation has been made. You can check your reservation in the 'Your reservations' tab. Press any key to continue.");
+        Model_Reservation new_reservation_model = new Model_Reservation(capacity.ID, new_customer.FullName, CustomersAmount, capacity.Time, CategoryPreference);
+        reservationLogic.UpdateList(new_reservation_model);
+        
+        // List<int> old = new_customer.ReservationIDs;
+        // old.Add(capacity.ID);
+        // new_customer.ReservationIDs = old;
+        // UserLogin.accountsLogic.UpdateList(new_customer);
+        Functions_Account.AddReservationToAccount(capacity.ID);
+        
+        Console.WriteLine("Your reservation has been made. You can check your reservation in the 'Your reservations' tab. Press any key to continue.");
     }
 
     public static void CheckOrder(Model_Account account)
@@ -175,7 +178,7 @@ public static class Functions_Reservation
             Console.ReadKey();
             return false;
         }
-        if(!reservationLogic.CheckReservationList(Functions_Account.CurrentAccount))
+        if (!reservationLogic.CheckReservationList(Functions_Account.CurrentAccount))
         {
             Console.WriteLine("You do not have a reservation to add items to. Press any key to continue.");
             Console.ReadKey();
