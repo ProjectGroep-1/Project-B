@@ -89,4 +89,14 @@ public static class Functions_Capacity
         return return_list;
     }
 
+    public static string DisplayDate(Model_Reservation reservation)
+    {
+        foreach (var cap in capacitylogic._capacity)
+        {
+            if (cap.ID == reservation.Id)
+                return ($"On {cap.Date.Day}" + $"-{cap.Date.Month}" + $"-{cap.Date.Year}, Time: {cap.Time}");
+        }
+        return "";
+    }
+
 }

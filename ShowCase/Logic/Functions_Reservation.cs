@@ -158,10 +158,11 @@ public static class Functions_Reservation
 
         else
         {
+
             PrintReservations(account.ReservationIDs);
             Model_Reservation r = FindReservation(Functions_Account.CurrentAccount);
-
-            Console.WriteLine("\n" + $"{r}\nThese are the dishes that you added to your reservation: \n");
+            Console.Clear();
+            Console.WriteLine($"{r}\nThese are the dishes that you added to your reservation: \n");
 
             foreach(Model_Menu item in r.ItemList)
             {
@@ -198,7 +199,7 @@ public static class Functions_Reservation
         foreach(int id in ids)
         {
             Model_Reservation r = reservationLogic.GetById(id);
-            Console.WriteLine($"{counter}. {r.Id}");
+            Console.WriteLine($"{counter}. {r}, {Functions_Capacity.DisplayDate(r)}");
             counter++;
         }
     }
@@ -215,14 +216,18 @@ public static class Functions_Reservation
         {
             Console.WriteLine("Please enter a number");
             Console.ReadKey();
-            return null;
+            Console.Clear();
+            PrintReservations(Functions_Account.CurrentAccount.ReservationIDs);
+            FindReservation(account);
         }
         Model_Reservation r = reservationLogic.ChooseReservation(Functions_Account.CurrentAccount, resID);
         if (r == null)
         {
             Console.WriteLine($"Please enter a number between [1-{Functions_Account.CurrentAccount.ReservationIDs.Count}");
             Console.ReadKey();
-            return null;
+            Console.Clear();
+            PrintReservations(Functions_Account.CurrentAccount.ReservationIDs);
+            FindReservation(account);
         }
         return r;
     }
