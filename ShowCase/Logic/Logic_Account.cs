@@ -77,6 +77,24 @@ public class Logic_Account
         return _accounts.Find(i => i.Id == id);
     }
 
+    public Model_Account GetByReservationId(int ResID)
+    {
+        for (int i = 0; i < Functions_Account.accountLogic._accounts.Count; i++)
+        {
+            if (Functions_Account.accountLogic._accounts[i].ReservationIDs.Count > 0)
+            {
+
+                if (Functions_Account.accountLogic._accounts[i].ReservationIDs.Contains(ResID))
+                {
+                    return Functions_Account.accountLogic._accounts[i];
+                }
+            }
+        }
+
+        return null;
+    }
+
+
     public int GetNewID()
     {
         if (_accounts.Count == 0) { return 1; }

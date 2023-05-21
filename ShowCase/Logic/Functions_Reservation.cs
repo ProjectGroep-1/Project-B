@@ -136,7 +136,7 @@ public static class Functions_Reservation
 
     private static void ConfirmReservation(Model_Capacity capacity, Model_Account new_customer, int CustomersAmount, string CategoryPreference)
     {
-        Model_Reservation new_reservation_model = new Model_Reservation(capacity.ID, new_customer.FullName, CustomersAmount, capacity.Time, CategoryPreference);
+        Model_Reservation new_reservation_model = new Model_Reservation(capacity.ID, capacity.Date, new_customer.FullName, CustomersAmount, capacity.Time, CategoryPreference);
         reservationLogic.UpdateList(new_reservation_model);
         
         // List<int> old = new_customer.ReservationIDs;
