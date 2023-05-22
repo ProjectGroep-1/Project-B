@@ -93,7 +93,7 @@ public class Logic_Capacity : Logic_TimeSlots
         List<Model_Capacity> CapList = new();
 
         this.CreateTimeSlots();
-        DateTime CurrentDate = DateTime.Now.Date.AddDays(3);
+        DateTime CurrentDate = DateTime.Now.Date;
 
         int IDs = 1; 
         for (int i = 0; i < days; i++)
