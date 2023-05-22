@@ -74,9 +74,10 @@ public class Logic_Capacity : Logic_TimeSlots
                     {
                         if (acc.ReservationIDs[j] == Functions_Reservation.reservationLogic._reservations[i].Id)
                         {
-                            acc.ReservationIDs[j] = -1;
+                           acc.ReservationIDs[j] = -1;
                         }
                     }
+                    acc.ReservationIDs.RemoveAll(x => x == -1);
 
                     Model_Reservation bad_res = Functions_Reservation.reservationLogic._reservations[i];
                     bad_res.Id = -1;
