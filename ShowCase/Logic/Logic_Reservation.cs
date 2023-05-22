@@ -38,10 +38,10 @@ public class Logic_Reservation
 
     }
 
-     public void UpdateListbyFullName(Model_Reservation reservation)
+     public void UpdateListbyDate(Model_Reservation reservation)
     {
         //Find if there is already an model with the same id
-        int index = _reservations.FindIndex(s => s.FullName == reservation.FullName);
+        int index = _reservations.FindIndex(s => s.Date == reservation.Date);
 
         if (index != -1)
         {

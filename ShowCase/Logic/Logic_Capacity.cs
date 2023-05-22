@@ -37,9 +37,11 @@ public class Logic_Capacity : Logic_TimeSlots
                                 if (new_res_id_account.ReservationIDs[r] == old_capacity[j].ID)
                                 {
                                     new_res_id_account.ReservationIDs[r] = l[i].ID;
+                                    
+                                    Functions_Reservation.reservationLogic.UpdateListbyDate(new_id_reservation); /* Should be by email */
                                 }
                             }
-                            Functions_Reservation.reservationLogic.UpdateListbyFullName(new_id_reservation); /* Should be by email */
+                            
                             UserLogin.accountsLogic.UpdateList(new_res_id_account); /* Updating account and reservation IDS */
                             old_capacity[j].ID = l[i].ID;
                             l[i] = old_capacity[j];
@@ -78,7 +80,7 @@ public class Logic_Capacity : Logic_TimeSlots
 
                     Model_Reservation bad_res = Functions_Reservation.reservationLogic._reservations[i];
                     bad_res.Id = -1;
-                    Functions_Reservation.reservationLogic.UpdateListbyFullName(bad_res);
+                    Functions_Reservation.reservationLogic.UpdateListbyDate(bad_res);
                     // Functions_Reservation.reservationLogic.DeleteReservation(Functions_Reservation.reservationLogic._reservations[i]);
                     UserLogin.accountsLogic.UpdateList(acc);
                 }
@@ -91,7 +93,7 @@ public class Logic_Capacity : Logic_TimeSlots
         List<Model_Capacity> CapList = new();
 
         this.CreateTimeSlots();
-        DateTime CurrentDate = DateTime.Now.Date;
+        DateTime CurrentDate = DateTime.Now.Date.AddDays(3);
 
         int IDs = 1; 
         for (int i = 0; i < days; i++)
