@@ -14,6 +14,11 @@ public static class Functions_Account
         return CurrentAccount;
     }
 
+    public static void AddReservationToAccount(int resID)
+    {
+        CurrentAccount.ReservationIDs.Add(resID);
+        accountLogic.UpdateList(CurrentAccount);
+    }
     public static void SetCurrentAccount(Model_Account account)
     {
         CurrentAccount = account;

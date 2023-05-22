@@ -14,7 +14,7 @@ public static class Functions_Capacity
         {
             Model_Capacity cap = capacitylogic._capacity[i];
 
-           if (cap.RemainingSeats < cap.TotalSeats)
+           if (cap.RemainingSeats < cap.TotalSeats && cap.Date > DateTime.Now)
            {
                 Console.WriteLine($"Reservation on: {cap.Date.Day}" + $"-{cap.Date.Month}" + $"-{cap.Date.Year}" + "\n" + $"Time: {cap.Time}" + "\n" + $"Table #{cap.TableID}" + "\n" + $"People: {cap.TotalSeats - cap.RemainingSeats}" + "\n" + $"Reservation ID: {cap.ID}" + "\n");
                 total_reservation += 1;
@@ -80,6 +80,7 @@ public static class Functions_Capacity
     {
         List<string> return_list = new List<string>();
 
+        capacitylogic._capacity = Access_Capacity.LoadAll();
         for (int i = 0; i < capacitylogic._capacity.Count; i ++)
         {
             if (return_list.Contains(capacitylogic._capacity[i].Time)) {}
@@ -87,6 +88,16 @@ public static class Functions_Capacity
         }
 
         return return_list;
+    }
+
+    public static string DisplayDate(int resID)
+    {
+        foreach (var cap in capacitylogic._capacity)
+        {
+            if (cap.ID == resID)
+                return ($"On {cap.Date.Day}" + $"-{cap.Date.Month}" + $"-{cap.Date.Year}, Time: {cap.Time}");
+        }
+        return "";
     }
 
 }
