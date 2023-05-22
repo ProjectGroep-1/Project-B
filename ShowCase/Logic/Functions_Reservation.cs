@@ -139,10 +139,6 @@ public static class Functions_Reservation
         Model_Reservation new_reservation_model = new Model_Reservation(capacity.ID, capacity.Date, new_customer.FullName, CustomersAmount, capacity.Time, CategoryPreference);
         reservationLogic.UpdateList(new_reservation_model);
         
-        // List<int> old = new_customer.ReservationIDs;
-        // old.Add(capacity.ID);
-        // new_customer.ReservationIDs = old;
-        // UserLogin.accountsLogic.UpdateList(new_customer);
         Functions_Account.AddReservationToAccount(capacity.ID);
         
         Console.WriteLine("Your reservation has been made. You can check your reservation in the 'Your reservations' tab. Press any key to continue.");
@@ -187,6 +183,8 @@ public static class Functions_Reservation
         }
         PrintReservations(Functions_Account.CurrentAccount.ReservationIDs);
         Model_Reservation r = FindReservation(Functions_Account.CurrentAccount);
+        if (r == null)
+            return false;
         r.ItemList.Add(dish);
         reservationLogic.UpdateList(r);
         return true;
@@ -196,18 +194,23 @@ public static class Functions_Reservation
     {
         Console.Clear();
         int counter = 1;
-        foreach(int id in ids)
+        if (ids.Count > 0)
         {
-            Model_Reservation r = reservationLogic.GetById(id);
-            Console.WriteLine($"{counter}. {r}, {Functions_Capacity.DisplayDate(r)}");
-            counter++;
+            foreach(int id in ids)
+            {
+                Model_Reservation r = reservationLogic.GetById(id);
+                Console.WriteLine($"{counter}. {r} {Functions_Capacity.DisplayDate(id)}");
+                counter++;
+
+            }
         }
+
     }
 
     public static Model_Reservation FindReservation(Model_Account account)
     {
 
-        Console.WriteLine($"Choose a reservation [1-{Functions_Account.CurrentAccount.ReservationIDs.Count}]");
+        Console.WriteLine($"Choose a reservation [1-{account.ReservationIDs.Count}]");
 
         int resID;
         string input = Console.ReadLine();
@@ -217,17 +220,15 @@ public static class Functions_Reservation
             Console.WriteLine("Please enter a number");
             Console.ReadKey();
             Console.Clear();
-            PrintReservations(Functions_Account.CurrentAccount.ReservationIDs);
-            FindReservation(account);
+            return null;
         }
-        Model_Reservation r = reservationLogic.ChooseReservation(Functions_Account.CurrentAccount, resID);
+        Model_Reservation r = reservationLogic.ChooseReservation(account, resID);
         if (r == null)
         {
-            Console.WriteLine($"Please enter a number between [1-{Functions_Account.CurrentAccount.ReservationIDs.Count}");
+            Console.WriteLine($"Please enter a number between [1-{account.ReservationIDs.Count}");
             Console.ReadKey();
             Console.Clear();
-            PrintReservations(Functions_Account.CurrentAccount.ReservationIDs);
-            FindReservation(account);
+            return null;
         }
         return r;
     }
