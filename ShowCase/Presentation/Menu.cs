@@ -117,7 +117,8 @@ static class Menu
                         break;
                     case 7:
                         Console.Clear();
-                        Functions_Capacity.DisplayReservations();
+                        // Functions_Capacity.DisplayReservations();
+                        Functions_Capacity.GetSearchOptions();
                         Console.ReadKey(true);
                         break; 
                     default:
