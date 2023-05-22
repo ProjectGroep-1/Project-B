@@ -37,7 +37,7 @@ public class Logic_Account
     {
         int index = _accounts.FindIndex(s => s.EmailAddress == mail);
 
-        if (index == 0)
+        if (index != -1)
         {
             return true;
         }

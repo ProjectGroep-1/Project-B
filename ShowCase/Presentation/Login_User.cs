@@ -33,6 +33,10 @@ static class UserLogin
 
         Console.WriteLine("\nEnter an emailadress:");
         string mail_1 = Console.ReadLine();
+        if (accountsLogic.checkDuplicateEmail(mail_1) == true){
+            Console.WriteLine("There is already an account registered with that email!");
+            return;
+        }
 
         Console.WriteLine("Enter your name");
         string name_1 = Console.ReadLine();
