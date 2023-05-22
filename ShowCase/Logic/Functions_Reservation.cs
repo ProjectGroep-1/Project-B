@@ -157,6 +157,8 @@ public static class Functions_Reservation
 
             PrintReservations(account.ReservationIDs);
             Model_Reservation r = FindReservation(Functions_Account.CurrentAccount);
+            if (r == null)
+                return;
             Console.Clear();
             Console.WriteLine($"{r}\nThese are the dishes that you added to your reservation: \n");
 
@@ -201,7 +203,6 @@ public static class Functions_Reservation
                 Model_Reservation r = reservationLogic.GetById(id);
                 Console.WriteLine($"{counter}. {r} {Functions_Capacity.DisplayDate(id)}");
                 counter++;
-
             }
         }
 
@@ -231,6 +232,20 @@ public static class Functions_Reservation
             return null;
         }
         return r;
+    }
+
+    public static void PrintReservationDishes(int resID)
+    {
+        Console.Clear();
+        Model_Reservation r = Functions_Reservation.reservationLogic.GetById(resID);
+        Console.WriteLine($"{r} {Functions_Capacity.DisplayDate(resID)}");
+        if (r.ItemList.Count == 0)
+            Console.WriteLine("This reservation doesn't have any dishes yet.");
+        foreach (Model_Menu item in r.ItemList)
+        {
+            Console.WriteLine(item.Name);
+        } 
+        Console.ReadKey();
     }
 
     public static int RandomId()

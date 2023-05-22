@@ -164,8 +164,13 @@ public class Logic_Capacity : Logic_TimeSlots
             {
                 DateTime date;
                 if (DateTime.TryParseExact(searchTerm, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out date))
+                {
                     if (cap.Date == date)
+                    {
                         SearchItems.Add(cap);
+                    }
+
+                }
                 else
                     Console.WriteLine("Invalid date format");
             }
