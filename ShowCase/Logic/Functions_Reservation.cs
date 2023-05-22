@@ -157,9 +157,21 @@ public static class Functions_Reservation
 
             PrintReservations(account.ReservationIDs);
             Model_Reservation r = FindReservation(Functions_Account.CurrentAccount);
-            if (r == null)
-                return;
+            if (r == null) { return; }
             Console.Clear();
+            int option = CancelMenu();
+            Console.Clear();
+            if (option == 1)
+            {
+                Console.WriteLine("Confirm cancellation? y/n");
+                string confirm_cancel = Console.ReadLine().ToLower();
+                if (confirm_cancel == "y" || confirm_cancel == "yes") 
+                { 
+                    Model_Account new_current_user = RemoveReservation(Functions_Account.CurrentAccount, r); 
+                    Functions_Account.SetCurrentAccount(new_current_user);
+                }
+                return;
+            }
             Console.WriteLine($"{r}\nThese are the dishes that you added to your reservation: \n");
 
             foreach(Model_Menu item in r.ItemList)
@@ -226,7 +238,7 @@ public static class Functions_Reservation
         Model_Reservation r = reservationLogic.ChooseReservation(account, resID);
         if (r == null)
         {
-            Console.WriteLine($"Please enter a number between [1-{account.ReservationIDs.Count}");
+            Console.WriteLine($"Please enter a number between [1-{account.ReservationIDs.Count}]");
             Console.ReadKey();
             Console.Clear();
             return null;
@@ -253,6 +265,40 @@ public static class Functions_Reservation
         Random r = new Random();
         int n = r.Next(1,999999);
         return n;
+    }
+
+    public static int CancelMenu()
+    {
+        int option;
+        while (1 < 2)
+            {
+                Console.Clear();
+                Console.WriteLine("1: Cancel reservation" + "\n" + "2: Show dishes you added to your reservation");
+                string input = Console.ReadLine();
+                bool convertInput = int.TryParse(input, out option);
+                if (convertInput)
+                {
+                    if (option == 1 || option == 2)
+                    {
+                        return option;
+                    }
+                }
+                
+
+            }
+    }
+
+    public static Model_Account RemoveReservation(Model_Account account, Model_Reservation removal)
+    {
+        if (account.ReservationIDs.Contains(removal.Id))
+        {
+            account.ReservationIDs.Remove(removal.Id);
+            removal.Id = -1;
+            Functions_Account.accountLogic.UpdateList(account);
+            Functions_Reservation.reservationLogic.UpdateList(removal);
+        }
+
+        return account;
     }
 
 }

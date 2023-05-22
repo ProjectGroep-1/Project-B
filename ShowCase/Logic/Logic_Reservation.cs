@@ -72,7 +72,7 @@ public class Logic_Reservation
     
     public bool CheckReservationList(Model_Account account)
     {
-        if (account.ReservationIDs == null && !account.ReservationIDs.Any())
+        if (account.ReservationIDs == null || !account.ReservationIDs.Any())
             return false;
         return true;
     }
