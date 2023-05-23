@@ -59,6 +59,7 @@ public class Logic_Capacity : Logic_TimeSlots
             Access_Capacity.WriteAll(n);
         }
 
+        DeleteDeadReservationsFromAccounts();
     }
 
     private void ClearOldReservations(List<Model_Capacity> updated_list)
@@ -81,7 +82,6 @@ public class Logic_Capacity : Logic_TimeSlots
                     Model_Reservation bad_res = Functions_Reservation.reservationLogic._reservations[i];
                     bad_res.Id = -1;
                     Functions_Reservation.reservationLogic.UpdateListbyDate(bad_res);
-                    // Functions_Reservation.reservationLogic.DeleteReservation(Functions_Reservation.reservationLogic._reservations[i]);
                     UserLogin.accountsLogic.UpdateList(acc);
                 }
             }
@@ -93,7 +93,7 @@ public class Logic_Capacity : Logic_TimeSlots
         List<Model_Capacity> CapList = new();
 
         this.CreateTimeSlots();
-        DateTime CurrentDate = DateTime.Now.Date;
+        DateTime CurrentDate = DateTime.Now.Date.AddDays(5);
 
         int IDs = 1; 
         for (int i = 0; i < days; i++)
@@ -197,5 +197,24 @@ public class Logic_Capacity : Logic_TimeSlots
                 usedCapacity.Add(cap);
         }
         return usedCapacity;
+    }
+
+    private void DeleteDeadReservationsFromAccounts()
+    {
+        Functions_Account.accountLogic._accounts = Access_Account.LoadAll();
+        if (Functions_Account.accountLogic._accounts != null)
+        {
+            for (int a = 0; a < Functions_Account.accountLogic._accounts.Count; a++)
+            {
+                if (Functions_Account.accountLogic._accounts[a].ReservationIDs != null)
+                {
+                    if (Functions_Account.accountLogic._accounts[a].ReservationIDs.Contains(-1))
+                    {
+                        Functions_Account.accountLogic._accounts[a].ReservationIDs.RemoveAll( x=> x == -1);
+                        Functions_Account.accountLogic.UpdateList(Functions_Account.accountLogic._accounts[a]);
+                    }
+                }
+            }
+        }
     }
 }
