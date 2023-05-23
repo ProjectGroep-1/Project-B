@@ -56,23 +56,10 @@ public class Logic_Reservation
         Access_Reservation.WriteAll(_reservations);
 
     }
-
-    public void DeleteReservation(Model_Reservation reservation)
-    {
-        //Find if there is already an model with the same id
-        int index = _reservations.FindIndex(s => s.Id == reservation.Id);
-
-        if (index != -1)
-        {
-            //update existing model
-            _reservations.RemoveAt(index);
-        }
-        Access_Reservation.WriteAll(_reservations);
-    }
     
     public bool CheckReservationList(Model_Account account)
     {
-        if (account.ReservationIDs == null && !account.ReservationIDs.Any())
+        if (account.ReservationIDs == null || !account.ReservationIDs.Any())
             return false;
         return true;
     }

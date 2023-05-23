@@ -59,6 +59,7 @@ public class Logic_Capacity : Logic_TimeSlots
             Access_Capacity.WriteAll(n);
         }
 
+        DeleteDeadReservationsFromAccounts();
     }
 
     private void ClearOldReservations(List<Model_Capacity> updated_list)
@@ -82,7 +83,6 @@ public class Logic_Capacity : Logic_TimeSlots
                     Model_Reservation bad_res = Functions_Reservation.reservationLogic._reservations[i];
                     bad_res.Id = -1;
                     Functions_Reservation.reservationLogic.UpdateListbyDate(bad_res);
-                    // Functions_Reservation.reservationLogic.DeleteReservation(Functions_Reservation.reservationLogic._reservations[i]);
                     UserLogin.accountsLogic.UpdateList(acc);
                 }
             }
@@ -144,4 +144,78 @@ public class Logic_Capacity : Logic_TimeSlots
         }
     }
 
+    public List<Model_Capacity> Search(string searchType, string searchTerm)
+    {
+        List<Model_Capacity> usedCapacity = GetUsedCapacity();
+        List<Model_Capacity> SearchItems = new List<Model_Capacity>();
+        
+        foreach(var cap in usedCapacity)
+        {
+            if (searchType == "1")
+            {
+                if (!int.TryParse(searchTerm, out int searchTermInt))
+                {
+                    Console.WriteLine($"You've entered the wrong type of value. Press any key to continue.");
+                    return null; 
+                }
+                if (searchTermInt == cap.ID)
+                    SearchItems.Add(cap);
+            }
+            if (searchType == "2")
+            {
+                DateTime date;
+                if (DateTime.TryParseExact(searchTerm, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out date))
+                {
+                    if (cap.Date == date)
+                    {
+                        SearchItems.Add(cap);
+                    }
+
+                }
+                else
+                    Console.WriteLine("Invalid date format");
+            }
+            if (searchType == "3")
+            {
+                if (!int.TryParse(searchTerm, out int searchTermInt))
+                {
+                    Console.WriteLine($"You've entered the wrong type of value. Press any key to continue.");
+                    return null;                  
+                }
+                if (searchTermInt == cap.TotalSeats)
+                    SearchItems.Add(cap);
+            }
+        }
+        return SearchItems;
+    }
+
+    public List<Model_Capacity> GetUsedCapacity()
+    {
+        List<Model_Capacity> usedCapacity = new List<Model_Capacity>();
+        foreach (Model_Capacity cap in _capacity)
+        {
+            if (cap.RemainingSeats < cap.TotalSeats)
+                usedCapacity.Add(cap);
+        }
+        return usedCapacity;
+    }
+
+    private void DeleteDeadReservationsFromAccounts()
+    {
+        Functions_Account.accountLogic._accounts = Access_Account.LoadAll();
+        if (Functions_Account.accountLogic._accounts != null)
+        {
+            for (int a = 0; a < Functions_Account.accountLogic._accounts.Count; a++)
+            {
+                if (Functions_Account.accountLogic._accounts[a].ReservationIDs != null)
+                {
+                    if (Functions_Account.accountLogic._accounts[a].ReservationIDs.Contains(-1))
+                    {
+                        Functions_Account.accountLogic._accounts[a].ReservationIDs.RemoveAll( x=> x == -1);
+                        Functions_Account.accountLogic.UpdateList(Functions_Account.accountLogic._accounts[a]);
+                    }
+                }
+            }
+        }
+    }
 }
