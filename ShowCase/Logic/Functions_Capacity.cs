@@ -178,13 +178,18 @@ public static class Functions_Capacity
         // Checking for free capacity
         DateTime customer_date = date.Date;
         Model_Capacity free_cap = null;
-
+        Console.WriteLine("Trying to find a table for you...");
         for (int i = 0; i < capacitylogic._capacity.Count; i ++)
         {
             if (capacitylogic._capacity[i].Date == customer_date && capacitylogic._capacity[i].Time == hour && capacitylogic._capacity[i].RemainingSeats >= customers)
             {
                 free_cap = capacitylogic._capacity[i];
                 break;
+            }
+            else if (capacitylogic._capacity[i].Date == customer_date && capacitylogic._capacity[i].Time == hour && capacitylogic._capacity[i].RemainingSeats < customers) {
+                if ((customers % capacitylogic._capacity[i].RemainingSeats) == 0){
+                    Console.WriteLine($"{capacitylogic._capacity[i].TableID}, {capacitylogic._capacity[i].RemainingSeats}");
+                }
             }
         }
 
