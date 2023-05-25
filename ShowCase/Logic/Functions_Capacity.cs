@@ -179,23 +179,59 @@ public static class Functions_Capacity
         DateTime customer_date = date.Date;
         Model_Capacity free_cap = null;
         Console.WriteLine("Trying to find a table for you...");
-        for (int i = 0; i < capacitylogic._capacity.Count; i ++)
+        for (int i = 0; i < capacitylogic._capacity.Count; i++)
         {
-            if (capacitylogic._capacity[i].Date == customer_date && capacitylogic._capacity[i].Time == hour && capacitylogic._capacity[i].RemainingSeats >= customers)
+            Console.WriteLine($"Try {i}");
+            if (capacitylogic._capacity[i].Date == customer_date && capacitylogic._capacity[i].Time == hour && ((capacitylogic._capacity[i].RemainingSeats > customers) || (capacitylogic._capacity[i].RemainingSeats == customers)))
             {
                 free_cap = capacitylogic._capacity[i];
                 break;
             }
-            else if (capacitylogic._capacity[i].Date == customer_date && capacitylogic._capacity[i].Time == hour && capacitylogic._capacity[i].RemainingSeats < customers) {
-                if ((customers % capacitylogic._capacity[i].RemainingSeats) == 0){
-                    Console.WriteLine($"{capacitylogic._capacity[i].TableID}, {capacitylogic._capacity[i].RemainingSeats}");
-                }
+            else if (capacitylogic._capacity[i].Date == customer_date && capacitylogic._capacity[i].Time == hour && capacitylogic._capacity[i].RemainingSeats <= customers) {
+               free_cap = Multiple_Customer_Tables(customers, hour, customer_date);
+               break;
             }
+          
         }
 
         return free_cap;
     }
 
+
+    public static Model_Capacity Multiple_Customer_Tables(int customers, string hour, DateTime date){
+        Dictionary<int, int> options = new Dictionary<int, int> {};
+
+        for (int i = 0; i < capacitylogic._capacity.Count; i ++)
+        {
+            if (capacitylogic._capacity[i].Date == date && capacitylogic._capacity[i].Time == hour && (capacitylogic._capacity[i].RemainingSeats <= customers / 2)){
+                int AmountSplits = 4;
+                int SplitTable = 4;
+                if (capacitylogic._capacity[i].RemainingSeats > 0)
+                {
+                    
+                    AmountSplits = customers / capacitylogic._capacity[i].RemainingSeats;
+                    SplitTable =  customers % capacitylogic._capacity[i].RemainingSeats;
+                    
+                    Console.WriteLine($"{capacitylogic._capacity[i].ID}, {AmountSplits}");
+                    if (SplitTable == 0){
+                        options.Add(capacitylogic._capacity[i].ID, AmountSplits);
+                
+                    }
+                }
+                
+            }
+        }
+        // trying to split by the least amount of tables
+        int LeastSplits = options.Values.Min();
+        var selection = options.Where(x => x.Value == LeastSplits).Take(LeastSplits);
+        Dictionary<int, int> AvaiableTables = new Dictionary<int, int>{};
+        // You can't add a K-V pair directly to a Dictionary, which is why we do this loop
+        foreach (KeyValuePair<int,int> table in selection){
+            AvaiableTables.Add(table.Key, table.Value);
+        }
+        Model_Capacity ConfirmedTables = Confirm_New_Customer_MultTables(AvaiableTables, customers);
+        return ConfirmedTables;
+    }
     public static void Confirm_New_Customer(Model_Capacity model_capacity, int costumers)
     {
         // model capacity alread checked
@@ -203,6 +239,29 @@ public static class Functions_Capacity
         capacitylogic._capacity[index].RemainingSeats -= costumers;
         Access_Capacity.WriteAll(capacitylogic._capacity);
     }
+
+    public static Model_Capacity Confirm_New_Customer_MultTables(Dictionary<int, int> model_capacity, int costumers)
+    {
+        Model_Capacity cap = null;
+        //only thing to do there is divide the customers by the amount of splits and write the taken tablesfile
+        foreach (KeyValuePair<int, int> capacity in model_capacity){
+            int index = capacitylogic._capacity.FindIndex(s => s.ID == capacity.Key);
+            Console.WriteLine("bonk");
+            int splits = costumers / capacity.Value;
+            if (capacitylogic._capacity[index].RemainingSeats <= 0){
+                
+            }
+            else if (capacitylogic._capacity[index].RemainingSeats >= splits){
+                capacitylogic._capacity[index].RemainingSeats -= splits;
+                cap = capacitylogic._capacity[index];
+            }
+            
+            Access_Capacity.WriteAll(capacitylogic._capacity);
+        }
+        return cap;
+    }
+
+
 
     public static DateTime? CheckCostumerDate(string date)
     {
