@@ -312,7 +312,7 @@ public static class Functions_Reservation
             account.ReservationIDs.Remove(removal.Id);
             Functions_Account.accountLogic.UpdateList(account);
             int index_reservation_id = Current_Reservations.FindIndex(x=> x.Id == removal.Id);
-            if (index_reservation_id != -1) { Current_Reservations[index_reservation_id].Id = -1; Access_Reservation.WriteAll(Current_Reservations); }
+            if (index_reservation_id != -1) { removal.Id = -1; Functions_Reservation.reservationLogic.UpdateListbyDate(removal); }
         }
 
         return account;
