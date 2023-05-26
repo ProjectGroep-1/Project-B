@@ -23,4 +23,10 @@ public static class Functions_Account
     {
         CurrentAccount = account;
     }
+
+    public static Model_Account MethodToTestAccount(int id, string emailAddress, string password, string fullName, string userType)
+    {
+        Model_Account testacc = new(id, emailAddress, password, fullName, userType);
+        return testacc;
+    }
 }

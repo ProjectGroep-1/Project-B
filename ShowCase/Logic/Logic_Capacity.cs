@@ -34,7 +34,6 @@ public class Logic_Capacity : Logic_TimeSlots
                                 int index_cap_id = Current_Reservations[r].CapacityIDS.FindIndex(x=> x == old_capacity[j].ID);
                                 Current_Reservations[r].CapacityIDS[index_cap_id] = l[i].ID;
                                 Functions_Reservation.reservationLogic.UpdateList(Current_Reservations[r]);
-                                Console.WriteLine($"Current Reservation Id:{Current_Reservations[r].Id} Contains old cap id at index:{index_cap_id}. New id:{l[i].ID}");
                             }
                         }
                         
@@ -76,7 +75,7 @@ public class Logic_Capacity : Logic_TimeSlots
         List<Model_Capacity> CapList = new();
 
         this.CreateTimeSlots();
-        DateTime CurrentDate = DateTime.Now.Date.AddDays(1);
+        DateTime CurrentDate = DateTime.Now.Date;
 
         int IDs = 1; 
         for (int i = 0; i < days; i++)
