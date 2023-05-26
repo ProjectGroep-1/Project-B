@@ -173,37 +173,33 @@ public static class Functions_Capacity
 
     }
 
-    public static Model_Capacity? New_Customer_Table(int customers, string hour, DateTime date)
+    public static List<Model_Capacity> New_Customer_Table(int customers, string hour, DateTime date)
     {
         // Checking for free capacity
-        DateTime customer_date = date.Date;
+        List<Model_Capacity> free_cap_list = new();
         Model_Capacity free_cap = null;
-        Console.WriteLine("Trying to find a table for you...");
         for (int i = 0; i < capacitylogic._capacity.Count; i++)
         {
-            Console.WriteLine($"Try {i}");
-            if (capacitylogic._capacity[i].Date == customer_date && capacitylogic._capacity[i].Time == hour && ((capacitylogic._capacity[i].RemainingSeats > customers) || (capacitylogic._capacity[i].RemainingSeats == customers)))
+            if (capacitylogic._capacity[i].Date == date && capacitylogic._capacity[i].Time == hour && capacitylogic._capacity[i].RemainingSeats >= customers)
             {
                 free_cap = capacitylogic._capacity[i];
-                break;
+                free_cap_list.Add(free_cap);
+                return free_cap_list;
             }
-            else if (capacitylogic._capacity[i].Date == customer_date && capacitylogic._capacity[i].Time == hour && capacitylogic._capacity[i].RemainingSeats <= customers) {
-               free_cap = Multiple_Customer_Tables(customers, hour, customer_date);
-               break;
-            }
-          
         }
 
-        return free_cap;
+        if (free_cap_list == null) { free_cap_list = Multiple_Customer_Tables(customers, hour, date); }
+
+        return free_cap_list;
     }
 
-
-    public static Model_Capacity Multiple_Customer_Tables(int customers, string hour, DateTime date){
+    public static List<Model_Capacity> Multiple_Customer_Tables(int customers, string hour, DateTime date){
         Dictionary<int, int> options = new Dictionary<int, int> {};
+        Console.WriteLine("Looking to split");
 
         for (int i = 0; i < capacitylogic._capacity.Count; i ++)
         {
-            if (capacitylogic._capacity[i].Date == date && capacitylogic._capacity[i].Time == hour && (capacitylogic._capacity[i].RemainingSeats <= customers / 2)){
+            if (capacitylogic._capacity[i].Date == date && capacitylogic._capacity[i].Time == hour && capacitylogic._capacity[i].RemainingSeats <= customers / 2){
                 int AmountSplits = 4;
                 int SplitTable = 4;
                 if (capacitylogic._capacity[i].RemainingSeats > 0)
@@ -229,7 +225,7 @@ public static class Functions_Capacity
         foreach (KeyValuePair<int,int> table in selection){
             AvaiableTables.Add(table.Key, table.Value);
         }
-        Model_Capacity ConfirmedTables = Confirm_New_Customer_MultTables(AvaiableTables, customers);
+        List<Model_Capacity> ConfirmedTables = Confirm_New_Customer_MultTables(AvaiableTables, customers);
         return ConfirmedTables;
     }
     public static void Confirm_New_Customer(Model_Capacity model_capacity, int costumers)
@@ -240,8 +236,9 @@ public static class Functions_Capacity
         Access_Capacity.WriteAll(capacitylogic._capacity);
     }
 
-    public static Model_Capacity Confirm_New_Customer_MultTables(Dictionary<int, int> model_capacity, int costumers)
+    public static List<Model_Capacity> Confirm_New_Customer_MultTables(Dictionary<int, int> model_capacity, int costumers)
     {
+        List<Model_Capacity> picked_caps_list = new();
         Model_Capacity cap = null;
         //only thing to do there is divide the customers by the amount of splits and write the taken tablesfile
         foreach (KeyValuePair<int, int> capacity in model_capacity){
@@ -254,11 +251,23 @@ public static class Functions_Capacity
             else if (capacitylogic._capacity[index].RemainingSeats >= splits){
                 capacitylogic._capacity[index].RemainingSeats -= splits;
                 cap = capacitylogic._capacity[index];
+                picked_caps_list.Add(cap);
             }
-            
-            Access_Capacity.WriteAll(capacitylogic._capacity);
         }
-        return cap;
+        Console.WriteLine("Free Tables found. Confirm reservation? y/n");
+        string q = Console.ReadLine().ToLower();
+        if (q != "yes")
+        {
+            if (q != "y")
+            {
+                Console.WriteLine("Reservation cancelled.");
+                List<Model_Capacity> empty = new();
+                return empty;
+            }
+        }
+        Access_Capacity.WriteAll(capacitylogic._capacity);
+
+        return picked_caps_list;
     }
 
 
@@ -283,14 +292,18 @@ public static class Functions_Capacity
         return return_list;
     }
 
-    public static string DisplayDate(int resID)
+    public static string DisplayDate(int ResID)
     {
-        foreach (var cap in capacitylogic._capacity)
+        string return_string = "";
+        Model_Reservation reservation = Functions_Reservation.reservationLogic.GetById(ResID);
+        if (reservation != null)
+        foreach(int taken_cap_id in reservation.CapacityIDS)
         {
-            if (cap.ID == resID)
-                return ($"On {cap.Date.Day}" + $"-{cap.Date.Month}" + $"-{cap.Date.Year}, Time: {cap.Time}");
+            Model_Capacity cap = Functions_Capacity.capacitylogic.GetById(taken_cap_id);
+            if (cap != null) { return_string += $"On {cap.Date.Day}" + $"-{cap.Date.Month}" + $"-{cap.Date.Year}, Time: {cap.Time}"; }
+
         }
-        return "";
+        return return_string;
     }
 
 }

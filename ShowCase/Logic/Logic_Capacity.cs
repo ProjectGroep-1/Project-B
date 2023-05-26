@@ -20,37 +20,28 @@ public class Logic_Capacity : Logic_TimeSlots
             List<Model_Capacity> l = CreateCapacity(days);
             ClearOldReservations(l);
 
+            List<Model_Reservation> Current_Reservations = Functions_Reservation.reservationLogic._reservations;
             for (int i = 0; i < l.Count; i++)
             {
                 for (int j = 0; j < old_capacity.Count; j++)
                 {
                     if (l[i].Date == old_capacity[j].Date && l[i].Time == old_capacity[j].Time && l[i].TableID == old_capacity[j].TableID)
                     {
-                        Model_Reservation new_id_reservation = Functions_Reservation.reservationLogic.GetById(old_capacity[j].ID);
-                        Model_Account new_res_id_account = UserLogin.accountsLogic.GetByReservationId(old_capacity[j].ID);
-                        if (new_id_reservation != null && new_res_id_account != null)
+                        for (int r = 0; r < Current_Reservations.Count; r++)
                         {
-                            new_id_reservation.Id = l[i].ID;
-
-                            for (int r = 0; r < new_res_id_account.ReservationIDs.Count; r++)
+                            if (Current_Reservations[r].CapacityIDS.Contains(old_capacity[j].ID))
                             {
-                                if (new_res_id_account.ReservationIDs[r] == old_capacity[j].ID)
-                                {
-                                    new_res_id_account.ReservationIDs[r] = l[i].ID;
-                                    
-                                    Functions_Reservation.reservationLogic.UpdateListbyDate(new_id_reservation); /* Should be by email */
-                                }
+                                int index_cap_id = Current_Reservations[r].CapacityIDS.FindIndex(x=> x == old_capacity[j].ID);
+                                Current_Reservations[r].CapacityIDS[index_cap_id] = l[i].ID;
+                                Console.WriteLine($"Current Reservation Id:{Current_Reservations[r].Id} Contains old cap id at index:{index_cap_id}. New id:{l[i].ID}");
                             }
-                            
-                            UserLogin.accountsLogic.UpdateList(new_res_id_account); /* Updating account and reservation IDS */
-                            old_capacity[j].ID = l[i].ID;
-                            l[i] = old_capacity[j];
                         }
+                        
                     }
                 }
             }
-
             Access_Capacity.WriteAll(l);
+            Access_Reservation.WriteAll(Current_Reservations);
         }
 
         else
@@ -58,35 +49,33 @@ public class Logic_Capacity : Logic_TimeSlots
             List<Model_Capacity> n = CreateCapacity(days);
             Access_Capacity.WriteAll(n);
         }
-
-        DeleteDeadReservationsFromAccounts();
     }
 
     private void ClearOldReservations(List<Model_Capacity> updated_list)
     {
-        for (int i = 0; i < Functions_Reservation.reservationLogic._reservations.Count; i++)
-        {
-            if (Functions_Reservation.reservationLogic._reservations[i].Date < updated_list[0].Date)
-            {
-                Model_Account acc = UserLogin.accountsLogic.GetByReservationId(Functions_Reservation.reservationLogic._reservations[i].Id);
-                if (acc != null)
-                {
-                    for (int j = 0; j < acc.ReservationIDs.Count; j++)
-                    {
-                        if (acc.ReservationIDs[j] == Functions_Reservation.reservationLogic._reservations[i].Id)
-                        {
-                           acc.ReservationIDs[j] = -1;
-                        }
-                    }
-                    acc.ReservationIDs.RemoveAll(x => x == -1);
+        List<Model_Reservation> Current_Reservations = Functions_Reservation.reservationLogic._reservations;
+        List<Model_Account> Current_Accounts = Access_Account.LoadAll();
 
-                    Model_Reservation bad_res = Functions_Reservation.reservationLogic._reservations[i];
-                    bad_res.Id = -1;
-                    Functions_Reservation.reservationLogic.UpdateListbyDate(bad_res);
-                    UserLogin.accountsLogic.UpdateList(acc);
+        for (int r = 0; r < Current_Reservations.Count; r++)
+        {
+            if (Current_Reservations[r].Date < updated_list[0].Date)
+            {
+                for (int a = 0; a < Current_Accounts.Count; a++)
+                {
+                    if (Current_Accounts[a].ReservationIDs.Contains(Current_Reservations[r].Id))
+                    {
+                        int index_res_id = Current_Accounts[a].ReservationIDs.FindIndex(x=> x == Current_Reservations[r].Id);
+                        Current_Accounts[a].ReservationIDs[index_res_id] = -1;
+                        if (Current_Accounts[a].ReservationIDs.Contains(-1)) { Current_Accounts[a].ReservationIDs.RemoveAll(x=> x == -1); }
+                    }
                 }
+
+                Current_Reservations[r].Id = -1;
             }
         }
+
+        Access_Reservation.WriteAll(Current_Reservations);
+        Access_Account.WriteAll(Current_Accounts);
     }
 
     public List<Model_Capacity> CreateCapacity(int days)
@@ -200,22 +189,8 @@ public class Logic_Capacity : Logic_TimeSlots
         return usedCapacity;
     }
 
-    private void DeleteDeadReservationsFromAccounts()
+    public Model_Capacity GetById(int id)
     {
-        Functions_Account.accountLogic._accounts = Access_Account.LoadAll();
-        if (Functions_Account.accountLogic._accounts != null)
-        {
-            for (int a = 0; a < Functions_Account.accountLogic._accounts.Count; a++)
-            {
-                if (Functions_Account.accountLogic._accounts[a].ReservationIDs != null)
-                {
-                    if (Functions_Account.accountLogic._accounts[a].ReservationIDs.Contains(-1))
-                    {
-                        Functions_Account.accountLogic._accounts[a].ReservationIDs.RemoveAll( x=> x == -1);
-                        Functions_Account.accountLogic.UpdateList(Functions_Account.accountLogic._accounts[a]);
-                    }
-                }
-            }
-        }
+        return _capacity.Find(i => i.ID == id);
     }
 }
