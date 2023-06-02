@@ -4,6 +4,8 @@ public static class Functions_Capacity
 
     private static List<Model_Capacity> itemsOnPageList = new List<Model_Capacity>();
 
+
+
     public static void JsonSize()
     {
         Console.WriteLine("Size json: " + capacitylogic._capacity.Count);
@@ -19,7 +21,7 @@ public static class Functions_Capacity
            if (cap.RemainingSeats < cap.TotalSeats && cap.Date > DateTime.Now)
            {
 
-                Console.WriteLine($"Reservation on: {cap.Date.Day}" + $"-{cap.Date.Month}" + $"-{cap.Date.Year}" + "\n" + $"Time: {cap.Time}" + "\n" + $"Table #{cap.TableID}" + "\n" + $"People: {cap.TotalSeats - cap.RemainingSeats}" + "\n" + $"Reservation ID: {cap.ID}" + "\n");
+                Console.WriteLine($"Reservation on: {cap.Date.Day}" + $"-{cap.Date.Month}" + $"-{cap.Date.Year}" + "\n" + $"Time: {cap.Time}" + "\n" + "\n" + $"People: {cap.TotalSeats - cap.RemainingSeats}" + "\n" + $"Reservation ID: {cap.ID}" + "\n");
                 total_reservation += 1;
            }
         }
@@ -269,8 +271,6 @@ public static class Functions_Capacity
 
         return picked_caps_list;
     }
-
-
 
     public static DateTime? CheckCostumerDate(string date)
     {

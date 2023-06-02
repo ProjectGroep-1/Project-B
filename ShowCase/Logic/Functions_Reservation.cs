@@ -110,6 +110,8 @@ public static class Functions_Reservation
 
         List<Model_Capacity> capacity_list = Functions_Capacity.New_Customer_Table(CustomersAmount, correct_hour, (DateTime) date);
 
+
+
         if (capacity_list.Count < 1)
         {
             Console.WriteLine("No Table found. Please enter other date/time.");
@@ -151,6 +153,8 @@ public static class Functions_Reservation
         reservationLogic.UpdateList(new_reservation_model);
         
         Functions_Account.AddReservationToAccount(new_res_id);
+
+        
         
         Console.WriteLine("Your reservation has been made. You can check your reservation in the 'Your reservations' tab. Press any key to continue.");
     }

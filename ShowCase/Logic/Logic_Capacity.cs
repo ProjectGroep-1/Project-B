@@ -12,10 +12,7 @@ public class Logic_Capacity : Logic_TimeSlots
         if (_capacity.Count > 0)
         {
             List<Model_Capacity> old_capacity = new List<Model_Capacity>();
-            for (int i = 0; i < _capacity.Count; i++)
-            {
-                if (_capacity[i].RemainingSeats < _capacity[i].TotalSeats) { old_capacity.Add(_capacity[i]); }
-            }
+            old_capacity = _capacity.Where(c => c.RemainingSeats < c.TotalSeats).Select(x => x).ToList();
 
             List<Model_Capacity> l = CreateCapacity(days);
             ClearOldReservations(l);
@@ -25,7 +22,7 @@ public class Logic_Capacity : Logic_TimeSlots
             {
                 for (int j = 0; j < old_capacity.Count; j++)
                 {
-                    if (l[i].Date == old_capacity[j].Date && l[i].Time == old_capacity[j].Time && l[i].TableID == old_capacity[j].TableID)
+                    if (l[i].Date == old_capacity[j].Date && l[i].Time == old_capacity[j].Time)
                     {
                         for (int r = 0; r < Current_Reservations.Count; r++)
                         {
@@ -33,6 +30,7 @@ public class Logic_Capacity : Logic_TimeSlots
                             {
                                 int index_cap_id = Current_Reservations[r].CapacityIDS.FindIndex(x=> x == old_capacity[j].ID);
                                 Current_Reservations[r].CapacityIDS[index_cap_id] = l[i].ID;
+                                l[i].RemainingSeats = old_capacity[j].RemainingSeats;
                                 Functions_Reservation.reservationLogic.UpdateList(Current_Reservations[r]);
                             }
                         }
@@ -84,13 +82,10 @@ public class Logic_Capacity : Logic_TimeSlots
             {
                 Model_TimeSlot tslot = TimeSlots[j];
 
-                for (int k = 0; k < tslot.Tables.Count; k++)
-                {
-                    Model_Table tbl = tslot.Tables[k];
-                    Model_Capacity cap = new(IDs, CurrentDate, tslot.Time, tbl.ID, tbl.TotalSeats, tbl.RemainingSeats);
-                    CapList.Add(cap);
-                    IDs += 1;
-                }
+                Model_Capacity cap = new Model_Capacity(IDs, CurrentDate, tslot.Time, 35, 35);
+                CapList.Add(cap);
+                IDs += 1;
+
             }
             
             CurrentDate = CurrentDate.AddDays(1);
@@ -180,6 +175,26 @@ public class Logic_Capacity : Logic_TimeSlots
         }
         return usedCapacity;
     }
+
+    public void UpdateList(Model_Capacity cap)
+    {
+        //Find if there is already an model with the same id
+        int index = _capacity.FindIndex(s => s.ID == cap.ID);
+
+        if (index != -1)
+        {
+            //update existing model
+            _capacity[index] = cap;
+        }
+        else
+        {
+            //add new model
+            _capacity.Add(cap);
+        }
+        Access_Capacity.WriteAll(_capacity);
+
+    }
+
 
     public Model_Capacity GetById(int id)
     {
