@@ -63,7 +63,7 @@ public static class Functions_Capacity
         foreach (Model_Capacity CurrentItem in itemsOnPageList)
         {
             Model_Reservation r = Functions_Reservation.reservationLogic.GetByCapacityId(CurrentItem.ID);
-            Console.WriteLine($"{capCounter}. {r} {Functions_Capacity.DisplayDate(r.Id)}");
+            Console.WriteLine($"{capCounter}. {r} {Functions_Capacity.DisplayDate(r.Id, true)}");
             capCounter++;
         }
         Console.WriteLine($"\x1b[1mPage {pageNumber}/{pageTotal}\x1b[0m");
@@ -300,14 +300,26 @@ public static class Functions_Capacity
         return return_list;
     }
 
-    public static string DisplayDate(int ResID)
+    public static string DisplayDate(int ResID, bool Admin = false)
     {
         string return_string = "";
         Model_Reservation reservation = Functions_Reservation.reservationLogic.GetById(ResID);
         if (reservation != null && reservation.CapacityIDS.Count > 0)
         {
             Model_Capacity cap = Functions_Capacity.capacitylogic.GetById(reservation.CapacityIDS[0]);
-            if (cap != null) { return_string += $"On {cap.Date.Day}" + $"-{cap.Date.Month}" + $"-{cap.Date.Year}, Time: {cap.Time}"; }
+            if (cap != null) { return_string += $"On {cap.Date.Day}" + $"-{cap.Date.Month}" + $"-{cap.Date.Year}, Time: {cap.Time}";
+            if (Admin) { return_string += ", Tables with ID: "; for (int c = 0; c < reservation.CapacityIDS.Count; c++) { Model_Capacity cap_tab = Functions_Capacity.capacitylogic.GetById(reservation.CapacityIDS[c]); 
+            if (cap_tab != null) {
+            if (c == reservation.CapacityIDS.Count -1) 
+            {return_string += cap_tab.TableID + ".";} 
+            else {return_string += cap_tab.TableID + ",";}
+            }} 
+            return_string += " Table Sizes: "; for (int c = 0; c < reservation.CapacityIDS.Count; c++)
+            { Model_Capacity cap_table = Functions_Capacity.capacitylogic.GetById(reservation.CapacityIDS[c]);
+                if (cap_table != null) {
+                    if (c == reservation.CapacityIDS.Count -1)
+                    {return_string += cap_table.TotalSeats + ".";}
+                    else {return_string += cap_table.TotalSeats + ",";} }}}}             
         }
         return return_string;
     }
