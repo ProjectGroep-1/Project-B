@@ -93,8 +93,10 @@ public static class Functions_Menu{
 
     public static int FlipPage(int pageNumber, int pageTotal, int foodCounter)
     {
-        (string FlipOptions, bool PrevAvailable, bool NextAvailable) = CheckPrevNextPage(pageNumber, pageTotal);
-        Console.WriteLine($"{FlipOptions}Add an item to reservation[A], Quit[Q]");
+        (string PrintOptions, bool PrevAvailable, bool NextAvailable) = CheckPrevNextPage(pageNumber, pageTotal);
+        if (!Admin.isAdmin)
+            PrintOptions += "Add an item to reservation[A], ";
+        Console.WriteLine($"{PrintOptions}Quit[Q]");
         string pageFlip = Console.ReadLine();
         switch(pageFlip)
         {
@@ -117,32 +119,41 @@ public static class Functions_Menu{
                     pageNumber++;
                 break;
             case "A": case "a":
-                Console.WriteLine($"Enter the number of the dish you want.[1-{foodCounter-1}]");
-                bool foundItem = false;
-                bool loggedIn = true;
-                string dishChoice = Console.ReadLine();
-                int dishCounter = 1;
-                foreach (Model_Menu item in itemsOnPageList)
+                if (Admin.isAdmin)
                 {
-                        if (dishChoice == $"{dishCounter}")
-                        {
-                            if (Functions_Reservation.AddItemToReservation(item))   
-                            {
-                                Console.WriteLine($"{item.Name} was added to your reservation. Press any key to continue.");
-                                Console.ReadKey();
-                                foundItem = true;
-                            }
-                            else
-                                loggedIn = false;
-                        }
-                        dishCounter++;
-                }
-                if (!foundItem && loggedIn)
-                {
-                    Console.WriteLine($"Please enter a value between [1-{foodCounter-1}]. Press any key to continue.");
+                    Console.WriteLine("Incorrect input. Press any key to continue.");
                     Console.ReadKey();
-                    return pageNumber;
                 }
+                else
+                {
+                    Console.WriteLine($"Enter the number of the dish you want.[1-{foodCounter-1}]");
+                    bool foundItem = false;
+                    bool loggedIn = true;
+                    string dishChoice = Console.ReadLine();
+                    int dishCounter = 1;
+                    foreach (Model_Menu item in itemsOnPageList)
+                    {
+                            if (dishChoice == $"{dishCounter}")
+                            {
+                                if (Functions_Reservation.AddItemToReservation(item))   
+                                {
+                                    Console.WriteLine($"{item.Name} was added to your reservation. Press any key to continue.");
+                                    Console.ReadKey();
+                                    foundItem = true;
+                                }
+                                else
+                                    loggedIn = false;
+                            }
+                            dishCounter++;
+                    }
+                    if (!foundItem && loggedIn)
+                    {
+                        Console.WriteLine($"Please enter a value between [1-{foodCounter-1}]. Press any key to continue.");
+                        Console.ReadKey();
+                        return pageNumber;
+                    }
+                }
+                
                 break;
             case "Q": case "q":
                 return 0;
