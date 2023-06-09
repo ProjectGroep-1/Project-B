@@ -314,14 +314,14 @@ public static class Functions_Capacity
 
     public static string DisplayTableSizes(Model_Reservation reservation)
     {
-        string return_string = "Tables with size: ";
+        string return_string = "Tables: ";
         if (reservation.CapacityIDS.Count < 2)
             return_string = return_string.Replace("Tables", "Table");
 
         foreach (int capID in reservation.CapacityIDS)
         {
             Model_Capacity cap = Functions_Capacity.capacitylogic.GetById(capID);
-            return_string += $"{cap.TotalSeats}, ";
+            return_string += $"{cap.TableID}, ";
         }
         // removing the last comma and space
         return return_string.Substring(0, return_string.Length -2);
