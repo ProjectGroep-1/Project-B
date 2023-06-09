@@ -37,8 +37,8 @@ public static class Functions_Capacity
 
         List<Model_Capacity> usedCapacity = capacitylogic.GetUsedCapacity();
         
-        int pageTotal = Convert.ToInt32(Math.Ceiling(usedCapacity.Count / 10.0));
-        var itemsOnPage= (dynamic)null;
+        int pageTotal = Convert.ToInt32(Math.Ceiling(SearchedItems.Count / 10.0));
+        var itemsOnPage = (dynamic)null;
         itemsOnPageList.Clear();
         if (SearchedItems.Count > 10){
             itemsOnPage = SearchedItems.Skip((pageNumber - 1) * 10).Take(10);
@@ -52,6 +52,13 @@ public static class Functions_Capacity
             itemsOnPageList.Add(cap);
         }
         int capCounter = 1;
+
+        if (itemsOnPage == null || itemsOnPageList.Count == 0)
+        {
+            Console.WriteLine("There aren't any reservations that comply with your search term. Press any key to continue.");
+            return;
+        }
+
         Console.WriteLine("Capacity:");
         foreach (Model_Capacity CurrentItem in itemsOnPageList)
         {
@@ -170,7 +177,6 @@ public static class Functions_Capacity
             capacitylogic._capacity[index].RemainingSeats = capacitylogic._capacity[index].TotalSeats; 
             Access_Capacity.WriteAll(capacitylogic._capacity);
         }
-
     }
 
     public static List<Model_Capacity> New_Customer_Table(int customers, string hour, DateTime date)

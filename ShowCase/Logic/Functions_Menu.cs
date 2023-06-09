@@ -65,9 +65,7 @@ public static class Functions_Menu{
         if (itemsOnPage == null || itemsOnPageList.Count == 0)
         {
             Console.WriteLine("There aren't any dishes that comply with your search term. Press any key to continue.");
-            Console.ReadKey();
-            Console.Clear();
-            GetSearchOptions();
+            return;
         }
 
         
