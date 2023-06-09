@@ -315,6 +315,9 @@ public static class Functions_Capacity
     public static string DisplayTableSizes(Model_Reservation reservation)
     {
         string return_string = "Tables with size: ";
+        if (reservation.CapacityIDS.Count < 2)
+            return_string = return_string.Replace("Tables", "Table");
+
         foreach (int capID in reservation.CapacityIDS)
         {
             Model_Capacity cap = Functions_Capacity.capacitylogic.GetById(capID);
