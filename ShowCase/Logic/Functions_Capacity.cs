@@ -326,5 +326,4 @@ public static class Functions_Capacity
         // removing the last comma and space
         return return_string.Substring(0, return_string.Length -2);
     }
-
 }
