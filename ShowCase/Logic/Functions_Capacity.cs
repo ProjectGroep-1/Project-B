@@ -179,7 +179,7 @@ public static class Functions_Capacity
         }
     }
 
-    public static List<Model_Capacity> New_Customer_Table(int customers, string hour, DateTime date)
+    public static List<Model_Capacity> New_Customer_Table(int customers, string hour, DateTime date, bool Manually = false)
     {
         // Checking for free capacity
         List<Model_Capacity> free_cap_list = new();
@@ -194,9 +194,8 @@ public static class Functions_Capacity
             }
         }
 
-        if (free_cap_list.Count == 0 || free_cap_list == null) { 
-            free_cap_list = Multiple_Customer_Tables(customers, hour, date); 
-            }
+        if (!Manually) { if (free_cap_list.Count == 0 || free_cap_list == null) { 
+            free_cap_list = Multiple_Customer_Tables(customers, hour, date); } }
 
         return free_cap_list;
     }

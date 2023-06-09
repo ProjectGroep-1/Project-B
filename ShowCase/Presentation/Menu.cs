@@ -14,6 +14,13 @@ static class Menu
 
             string message = "Under maintenance";
             string input = Console.ReadLine();
+
+            if (input == "test")
+            {
+                Functions_Capacity.capacitylogic.ReFillTabels(DateTime.Now);
+                Console.WriteLine(Environment.NewLine + "Leaving");
+                Console.ReadKey();
+            }
             
             if (input == Admin.Login())
             {
