@@ -312,6 +312,7 @@ public static class Functions_Capacity
         return return_string;
     }
 
+
     public static string DisplayTableSizes(Model_Reservation reservation)
     {
         string return_string = "Tables: ";
@@ -326,5 +327,4 @@ public static class Functions_Capacity
         // removing the last comma and space
         return return_string.Substring(0, return_string.Length -2);
     }
-
 }
