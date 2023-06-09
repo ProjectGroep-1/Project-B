@@ -198,7 +198,7 @@ public class Logic_Capacity : Logic_TimeSlots
         
         foreach(var cap in usedCapacity)
         {
-            if (searchType == "1")
+            if (searchType == "1") // Cap ID
             {
                 if (!int.TryParse(searchTerm, out int searchTermInt))
                 {
@@ -208,7 +208,7 @@ public class Logic_Capacity : Logic_TimeSlots
                 if (searchTermInt == cap.ID)
                     SearchItems.Add(cap);
             }
-            if (searchType == "2")
+            if (searchType == "2") // Date
             {
                 DateTime date;
                 if (DateTime.TryParseExact(searchTerm, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out date))
@@ -222,7 +222,7 @@ public class Logic_Capacity : Logic_TimeSlots
                 else
                     Console.WriteLine("Invalid date format");
             }
-            if (searchType == "3")
+            if (searchType == "3") // Total Seats
             {
                 if (!int.TryParse(searchTerm, out int searchTermInt))
                 {

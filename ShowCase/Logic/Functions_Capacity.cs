@@ -35,7 +35,7 @@ public static class Functions_Capacity
         if (SearchedItems == null)
             return;
 
-        List<Model_Capacity> usedCapacity = capacitylogic.GetUsedCapacity();
+        // List<Model_Capacity> usedCapacity = capacitylogic.GetUsedCapacity();
         
         int pageTotal = Convert.ToInt32(Math.Ceiling(SearchedItems.Count / 10.0));
         var itemsOnPage = (dynamic)null;
@@ -62,8 +62,8 @@ public static class Functions_Capacity
         Console.WriteLine("Capacity:");
         foreach (Model_Capacity CurrentItem in itemsOnPageList)
         {
-            Model_Reservation r = Functions_Reservation.reservationLogic.GetById(CurrentItem.ID);
-            Console.WriteLine($"{capCounter}. {r} {Functions_Capacity.DisplayDate(CurrentItem.ID)}");
+            Model_Reservation r = Functions_Reservation.reservationLogic.GetByCapacityId(CurrentItem.ID);
+            Console.WriteLine($"{capCounter}. {r} {Functions_Capacity.DisplayDate(r.Id)}");
             capCounter++;
         }
         Console.WriteLine($"\x1b[1mPage {pageNumber}/{pageTotal}\x1b[0m");
@@ -114,7 +114,8 @@ public static class Functions_Capacity
                 {
                     if (reservationChoice == $"{reservationCounter}")
                     {
-                        Functions_Reservation.PrintReservationDishes(cap.ID);
+                        Model_Reservation r = Functions_Reservation.reservationLogic.GetByCapacityId(cap.ID); 
+                        if (r != null) { Functions_Reservation.PrintReservationDishes(r.Id); }
                     }
                     reservationCounter++;
                 }
@@ -303,12 +304,10 @@ public static class Functions_Capacity
     {
         string return_string = "";
         Model_Reservation reservation = Functions_Reservation.reservationLogic.GetById(ResID);
-        if (reservation != null)
-        foreach(int taken_cap_id in reservation.CapacityIDS)
+        if (reservation != null && reservation.CapacityIDS.Count > 0)
         {
-            Model_Capacity cap = Functions_Capacity.capacitylogic.GetById(taken_cap_id);
+            Model_Capacity cap = Functions_Capacity.capacitylogic.GetById(reservation.CapacityIDS[0]);
             if (cap != null) { return_string += $"On {cap.Date.Day}" + $"-{cap.Date.Month}" + $"-{cap.Date.Year}, Time: {cap.Time}"; }
-
         }
         return return_string;
     }
