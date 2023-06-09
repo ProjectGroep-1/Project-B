@@ -108,38 +108,61 @@ public static class Functions_Reservation
 
         string correct_hour = hours[hour - 1];
 
-        if (Functions_Capacity.New_Customer_Table(CustomersAmount, correct_hour, (DateTime) date) == null)
+        List<Model_Capacity> capacity_list = Functions_Capacity.New_Customer_Table(CustomersAmount, correct_hour, (DateTime) date);
+
+        if (capacity_list.Count < 1)
         {
             Console.WriteLine("No Table found. Please enter other date/time.");
             return;
         }
 
-        Model_Capacity capacity = Functions_Capacity.New_Customer_Table(CustomersAmount, correct_hour, (DateTime) date);
-
-        Console.WriteLine("Free Table found. Confirm reservation? y/n");
-        string q = Console.ReadLine().ToLower();
-        if (q != "yes")
-        {
-            if (q != "y")
+        if (capacity_list.Count == 1) 
+        { 
+            Console.WriteLine("Free Table found. Confirm reservation? y/n");
+            string q = Console.ReadLine().ToLower();
+            if (q != "yes")
             {
-                Console.WriteLine("Reservation cancelled.");
-                return;
+                if (q != "y")
+                {
+                    Console.WriteLine("Reservation cancelled.");
+                    return;
+                }
             }
+            Functions_Capacity.Confirm_New_Customer(capacity_list[0], CustomersAmount); 
+            Console.WriteLine("Please enter a CategoryPreference.");
+            string CategoryPreference = Console.ReadLine();
+            ConfirmReservation(capacity_list[0], new_customer, CustomersAmount, CategoryPreference);
+            return;
         }
-
-        Functions_Capacity.Confirm_New_Customer(capacity, CustomersAmount);
+        if (capacity_list.Count > 1) 
+        { 
+            Console.WriteLine("Please enter a CategoryPreference.");
+            string CategoryPreferenceMulticap = Console.ReadLine();
+            ConfirmReservationMulticaps(capacity_list, new_customer, CustomersAmount, CategoryPreferenceMulticap);
+        }
         
-        Console.WriteLine("Please enter a CategoryPreference.");
-        string CategoryPreference = Console.ReadLine();
-        ConfirmReservation(capacity, new_customer, CustomersAmount, CategoryPreference);
     }
 
     private static void ConfirmReservation(Model_Capacity capacity, Model_Account new_customer, int CustomersAmount, string CategoryPreference)
     {
-        Model_Reservation new_reservation_model = new Model_Reservation(capacity.ID, capacity.Date, new_customer.FullName, CustomersAmount, capacity.Time, CategoryPreference);
+        int new_res_id = Functions_Reservation.reservationLogic.GetResNewID();
+        List<int> CapIDs = new(){capacity.ID};
+        Model_Reservation new_reservation_model = new Model_Reservation(new_res_id, capacity.Date, new_customer.FullName, CustomersAmount, capacity.Time, CategoryPreference, CapIDs);
         reservationLogic.UpdateList(new_reservation_model);
         
-        Functions_Account.AddReservationToAccount(capacity.ID);
+        Functions_Account.AddReservationToAccount(new_res_id);
+        
+        Console.WriteLine("Your reservation has been made. You can check your reservation in the 'Your reservations' tab. Press any key to continue.");
+    }
+
+    private static void ConfirmReservationMulticaps(List<Model_Capacity> capacity, Model_Account new_customer, int CustomersAmount, string CategoryPreference)
+    {
+        int new_res_id = Functions_Reservation.reservationLogic.GetResNewID();
+        List<int> CapIDs = new();
+        foreach (Model_Capacity caps in capacity) {CapIDs.Add(caps.ID);}
+        Model_Reservation new_reservation_model = new Model_Reservation(new_res_id, capacity[0].Date, new_customer.FullName, CustomersAmount, capacity[0].Time, CategoryPreference, CapIDs);
+        reservationLogic.UpdateList(new_reservation_model);
+        Functions_Account.AddReservationToAccount(new_res_id);
         
         Console.WriteLine("Your reservation has been made. You can check your reservation in the 'Your reservations' tab. Press any key to continue.");
     }
@@ -260,13 +283,6 @@ public static class Functions_Reservation
         Console.ReadKey();
     }
 
-    public static int RandomId()
-    {
-        Random r = new Random();
-        int n = r.Next(1,999999);
-        return n;
-    }
-
     public static int CancelMenu()
     {
         int option;
@@ -290,12 +306,13 @@ public static class Functions_Reservation
 
     public static Model_Account RemoveReservation(Model_Account account, Model_Reservation removal)
     {
+        List<Model_Reservation> Current_Reservations = Functions_Reservation.reservationLogic._reservations;
         if (account.ReservationIDs.Contains(removal.Id))
         {
             account.ReservationIDs.Remove(removal.Id);
-            removal.Id = -1;
             Functions_Account.accountLogic.UpdateList(account);
-            Functions_Reservation.reservationLogic.UpdateList(removal);
+            int index_reservation_id = Current_Reservations.FindIndex(x=> x.Id == removal.Id);
+            if (index_reservation_id != -1) { removal.Id = -1; Functions_Reservation.reservationLogic.UpdateListbyDate(removal); }
         }
 
         return account;

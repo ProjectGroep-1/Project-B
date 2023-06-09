@@ -11,6 +11,7 @@ public class ContactInformationTest
         Assert.AreEqual(ContactInformation.PhoneNumber, New_PhoneNumber);
     }
 
+    [TestMethod]
     public void TestChangeAdress()
     {
         string New_Adress = "Rotterdam 2177 BN";
@@ -18,24 +19,46 @@ public class ContactInformationTest
         Assert.AreEqual(ContactInformation.Address, New_Adress);
     }
 
+    [TestMethod]
     public void TestChangeEmail()
     {
         string New_Email = "JeffDarcy@example.com";
-        ContactInformation.ChangeAdress(New_Email);
+        ContactInformation.ChangeEmail(New_Email);
         Assert.AreEqual(ContactInformation.Email, New_Email);
     }
 
 }
 
 [TestClass]
-public class JSONTest
+public class AccountTest
 {
     [TestMethod]
-    public void TestJSON()
-    {
-        var expected = "ID: 0 | Name: Carpaccio | Category: Soup | Course: Voor | Price: 2.30 EUR";
-        Assert.AreEqual(Functions_Menu.FindItem(0).ToString(), expected);
+    public void TestAccountCreation()
+    {   
+        int id = 100;
+        string email = "TestEmail@example.nl";
+        string password = "Test127";
+        string name = "John Doe";
+        string usertype = "user";
+        Model_Account mytestaccount = Functions_Account.MethodToTestAccount(id, email, password, name, usertype);
+        Assert.IsNotNull(mytestaccount);
+        Assert.AreEqual(mytestaccount.Id, id);
+        Assert.AreEqual(mytestaccount.EmailAddress, email);
+        Assert.AreEqual(mytestaccount.Password, password);
+        Assert.AreEqual(mytestaccount.FullName, name);
+        Assert.AreEqual(mytestaccount.UserType, usertype);
+        Assert.IsNotNull(mytestaccount.ReservationIDs);
     }
+}
 
-    
+[TestClass]
+public class ReservationTest
+{
+
+}
+
+[TestClass]
+public class CapacityTest
+{  
+
 }

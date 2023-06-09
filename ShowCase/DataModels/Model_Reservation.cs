@@ -24,7 +24,10 @@ public class Model_Reservation
     [JsonPropertyName("CategoryPreference")]
     public string CategoryPreference { get; set; }
 
-    public Model_Reservation(int id, DateTime date, string fullName, int customersAmount, string arrival, string categoryPreference)
+    [JsonPropertyName("CapacityIDS")]
+    public List<int> CapacityIDS { get; set; }
+
+    public Model_Reservation(int id, DateTime date, string fullName, int customersAmount, string arrival, string categoryPreference, List<int> capacityIDS)
     {
         Id = id;
         Date = date;
@@ -33,6 +36,7 @@ public class Model_Reservation
         ItemList = new List<Model_Menu>();
         Arrival = arrival;
         CategoryPreference = categoryPreference;
+        CapacityIDS = capacityIDS;
     }
     public override string ToString()
     {

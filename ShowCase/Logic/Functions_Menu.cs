@@ -23,7 +23,9 @@ public static class Functions_Menu{
             Console.WriteLine($"{foodCounter}. {CurrentItem.Name} | {CurrentItem.Price} EUR");
             foodCounter++;
         }
-        Console.WriteLine($"\x1b[1mPage {pageNumber}/{pageTotal}\x1b[0m");
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine($"Page {pageNumber}/{pageTotal}");
+        Console.ResetColor();
         pageNumber = FlipPage(pageNumber, pageTotal, foodCounter);
         if (pageNumber == 0)
         {
@@ -63,9 +65,7 @@ public static class Functions_Menu{
         if (itemsOnPage == null || itemsOnPageList.Count == 0)
         {
             Console.WriteLine("There aren't any dishes that comply with your search term. Press any key to continue.");
-            Console.ReadKey();
-            Console.Clear();
-            GetSearchOptions();
+            return;
         }
 
         
