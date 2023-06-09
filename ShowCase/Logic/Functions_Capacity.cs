@@ -67,7 +67,7 @@ public static class Functions_Capacity
             capCounter++;
         }
         Console.WriteLine($"\x1b[1mPage {pageNumber}/{pageTotal}\x1b[0m");
-        pageNumber = FlipPage(pageNumber, pageTotal, capCounter);
+        pageNumber = FlipPage(pageNumber, pageTotal, capCounter, itemsOnPageList);
         if (pageNumber == 0)
         {
             Console.WriteLine("Going back to Main menu. Press any key to confirm.");
@@ -81,7 +81,7 @@ public static class Functions_Capacity
         }
     }
 
-    public static int FlipPage(int pageNumber, int pageTotal, int capCounter)
+    public static int FlipPage(int pageNumber, int pageTotal, int capCounter, List<Model_Capacity> itemsOnPageList)
     {
         (string FlipOptions, bool PrevAvailable, bool NextAvailable) = Functions_Menu.CheckPrevNextPage(pageNumber, pageTotal);
         Console.WriteLine($"{FlipOptions}View dishes in reservation[V], Quit[Q]");
@@ -110,7 +110,7 @@ public static class Functions_Capacity
                 Console.WriteLine($"Enter the number of the dish you want.[1-{capCounter-1}]");
                 string reservationChoice = Console.ReadLine();
                 int reservationCounter = 1;
-                foreach (Model_Capacity cap in capacitylogic.GetUsedCapacity())
+                foreach (Model_Capacity cap in itemsOnPageList)
                 {
                     if (reservationChoice == $"{reservationCounter}")
                     {
