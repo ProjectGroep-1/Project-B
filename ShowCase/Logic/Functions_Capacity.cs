@@ -188,7 +188,9 @@ public static class Functions_Capacity
             }
         }
 
-        if (free_cap_list == null) { free_cap_list = Multiple_Customer_Tables(customers, hour, date); }
+        if (free_cap_list.Count == 0 || free_cap_list == null) { 
+            free_cap_list = Multiple_Customer_Tables(customers, hour, date); 
+            }
 
         return free_cap_list;
     }
@@ -246,7 +248,7 @@ public static class Functions_Capacity
             Console.WriteLine("bonk");
             int splits = costumers / capacity.Value;
             if (capacitylogic._capacity[index].RemainingSeats <= 0){
-                
+                Console.WriteLine("plonk");
             }
             else if (capacitylogic._capacity[index].RemainingSeats >= splits){
                 capacitylogic._capacity[index].RemainingSeats -= splits;

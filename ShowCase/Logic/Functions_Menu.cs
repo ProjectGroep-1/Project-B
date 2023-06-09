@@ -23,7 +23,9 @@ public static class Functions_Menu{
             Console.WriteLine($"{foodCounter}. {CurrentItem.Name} | {CurrentItem.Price} EUR");
             foodCounter++;
         }
-        Console.WriteLine($"\x1b[1mPage {pageNumber}/{pageTotal}\x1b[0m");
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine($"Page {pageNumber}/{pageTotal}");
+        Console.ResetColor();
         pageNumber = FlipPage(pageNumber, pageTotal, foodCounter);
         if (pageNumber == 0)
         {
