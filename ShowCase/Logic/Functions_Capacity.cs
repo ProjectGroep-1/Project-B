@@ -63,7 +63,7 @@ public static class Functions_Capacity
         foreach (Model_Capacity CurrentItem in itemsOnPageList)
         {
             Model_Reservation r = Functions_Reservation.reservationLogic.GetByCapacityId(CurrentItem.ID);
-            Console.WriteLine($"{capCounter}. {r} {Functions_Capacity.DisplayDate(r.Id)}, {DisplayTableSizes(r)}");
+            Console.WriteLine($"{capCounter}. {r} {Functions_Capacity.DisplayDate(r.Id)}, {DisplayTableIDS(r)}");
             capCounter++;
         }
         Console.WriteLine($"\x1b[1mPage {pageNumber}/{pageTotal}\x1b[0m");
@@ -312,7 +312,7 @@ public static class Functions_Capacity
         return return_string;
     }
 
-    public static string DisplayTableSizes(Model_Reservation reservation)
+    public static string DisplayTableIDS(Model_Reservation reservation)
     {
         string return_string = "Tables: ";
         if (reservation.CapacityIDS.Count < 2)
