@@ -195,8 +195,8 @@ public static class Functions_Capacity
             }
         }
 
-        // if (!Manually) { if (free_cap_list.Count == 0 || free_cap_list == null) { 
-        //     free_cap_list = Multiple_Customer_Tables(customers, hour, date); } }
+        if (!Manually) { if (free_cap_list.Count == 0 || free_cap_list == null) { 
+            free_cap_list = capacitylogic.SplitReservations(customers, hour, date); } }
 
         return free_cap_list;
     }
