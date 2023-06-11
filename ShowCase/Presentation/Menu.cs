@@ -93,92 +93,15 @@ static class Menu
             }
             else if (variable == 2)
             {
-                try
-                {
-                    Console.Write("Enter the ID for the item (a number): ");
-                    int id = Convert.ToInt32(Console.ReadLine());
-                    if (Functions_Menu.FindItem(id) != null)
-                        {
-                            Console.WriteLine($"There is already an item with ID {id}! Use the modification option instead (press Escape to return to main menu)");
-                            Console.ReadKey(true);
-                            break;
-                        }
-                    
-                    Console.Write("Enter the name for the dish: ");
-                    string name = Console.ReadLine();
-                    Console.Write("Enter the category of the dish: ");
-                    string category = Console.ReadLine();
-                    Console.Write("Enter the course: ");
-                    string course = Console.ReadLine();
-                    Console.Write("Enter the price for the item (a number): ");
-                    double price =  Convert.ToDouble(Console.ReadLine());
-                    
-                        
-                    Functions_Menu.AddItem(id, name, category, course, price);
-                }
-                catch (System.FormatException WrongFormatting)
-                {
-                    Console.WriteLine($"Error: You've entered the wrong type of value for this attribute");
-                }
-                catch (Exception err)
-                {
-                    Console.WriteLine(err);
-                }
+                Functions_Menu.AddItemOptions();
             }
             else if (variable == 3)
             {
-                try
-                {
-                    Console.Write("Enter the ID to modify (a number): ");
-                    int id = Convert.ToInt32(Console.ReadLine());
-                    Model_Menu ItemToModify = Functions_Menu.FindItem(id);
-                    Console.WriteLine($"Found item: {ItemToModify}");
-                    Console.WriteLine("What do you want to modify?");
-                    string WhatToModify = Console.ReadLine().ToLower();
-                    switch (WhatToModify)
-                    {
-                        case "name":
-                            Console.Write("Enter the name for the dish: ");
-                            ItemToModify.Name = Console.ReadLine();
-                            break;
-                        case "category":
-                            Console.Write("Enter the category of the dish: ");
-                            ItemToModify.Category = Console.ReadLine();
-                            break;
-                        case "price":
-                            Console.Write("Enter the price for the item (a number): ");
-                            ItemToModify.Price = Convert.ToDouble(Console.ReadLine());
-                            break;
-                        case "course":
-                            Console.Write("Enter the course: ");
-                            ItemToModify.Course = Console.ReadLine();
-                            break;
-                    }
-                Console.WriteLine($"Changed item: {ItemToModify}");
-                Functions_Menu.ReplaceItem(ItemToModify);
-                }
-                catch (System.FormatException WrongFormatting)
-                {
-                Console.WriteLine($"Error: You've entered the wrong type of value for this attribute");
-                }
-                catch (Exception err)
-                {
-                    Console.WriteLine(err.Message);
-                }
+                Functions_Menu.ModifyItemOptions();
             }
             else if (variable == 4)
             {
-                try
-                {
-                    Console.Write("Enter the ID to delete (a number): ");
-                    int id = Convert.ToInt32(Console.ReadLine());
-                    Model_Menu ItemToDelete = Functions_Menu.FindItem(id);
-                    Functions_Menu.RemoveItem(ItemToDelete);
-                }
-                catch (Exception err)
-                {
-                    Console.WriteLine(err.Message);
-                }
+                Functions_Menu.RemoveItemOptions();
             }
             else if (variable == 5)
             {
