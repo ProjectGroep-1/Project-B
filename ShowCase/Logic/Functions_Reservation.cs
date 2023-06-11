@@ -110,7 +110,7 @@ public static class Functions_Reservation
 
         List<Model_Capacity> capacity_list = Functions_Capacity.New_Customer_Table(CustomersAmount, correct_hour, (DateTime) date);
 
-        if (capacity_list.Count < 1)
+        if (capacity_list == null || capacity_list.Count < 1)
         {
             Console.WriteLine("No Table found. Please enter other date/time.");
             return;

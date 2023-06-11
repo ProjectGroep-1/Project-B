@@ -195,47 +195,77 @@ public static class Functions_Capacity
             }
         }
 
-        if (!Manually) { if (free_cap_list.Count == 0 || free_cap_list == null) { 
-            free_cap_list = Multiple_Customer_Tables(customers, hour, date); } }
+        if (!Manually) { if (free_cap_list == null || free_cap_list.Count == 0) { 
+            free_cap_list = capacitylogic.SplitReservations(customers, hour, date); } }
 
         return free_cap_list;
     }
 
-    public static List<Model_Capacity> Multiple_Customer_Tables(int customers, string hour, DateTime date){
-        Dictionary<int, int> options = new Dictionary<int, int> {};
-        Console.WriteLine("Looking to split");
+    // public static List<Model_Capacity> Multiple_Customer_Tables(int customers, string hour, DateTime date, bool Manually = false){
+    //     Dictionary<int, int> options = new Dictionary<int, int> {};
+    //     Console.WriteLine("Looking to split");
 
-        for (int i = 0; i < capacitylogic._capacity.Count; i ++)
-        {
-            if (capacitylogic._capacity[i].Date == date && capacitylogic._capacity[i].Time == hour && capacitylogic._capacity[i].RemainingSeats <= customers / 2){
-                int AmountSplits = 4;
-                int SplitTable = 4;
-                if (capacitylogic._capacity[i].RemainingSeats > 0)
-                {
+    //     for (int i = 0; i < capacitylogic._capacity.Count; i ++)
+    //     {
+    //         if (capacitylogic._capacity[i].Date == date && capacitylogic._capacity[i].Time == hour && capacitylogic._capacity[i].RemainingSeats <= customers / 2){
+    //             int AmountSplits = 4;
+    //             int SplitTable = 4;
+    //             if (capacitylogic._capacity[i].RemainingSeats > 0)
+    //             {
                     
-                    AmountSplits = customers / capacitylogic._capacity[i].RemainingSeats;
-                    SplitTable =  customers % capacitylogic._capacity[i].RemainingSeats;
+    //                 AmountSplits = customers / capacitylogic._capacity[i].RemainingSeats;
+    //                 SplitTable =  customers % capacitylogic._capacity[i].RemainingSeats;
                     
-                    Console.WriteLine($"{capacitylogic._capacity[i].ID}, {AmountSplits}");
-                    if (SplitTable == 0){
-                        options.Add(capacitylogic._capacity[i].ID, AmountSplits);
+    //                 Console.WriteLine($"{capacitylogic._capacity[i].ID}, {AmountSplits}");
+    //                 if (SplitTable == 0){
+    //                     options.Add(capacitylogic._capacity[i].ID, AmountSplits);
                 
-                    }
-                }
+    //                 }
+    //             }
                 
-            }
-        }
-        // trying to split by the least amount of tables
-        int LeastSplits = options.Values.Min();
-        var selection = options.Where(x => x.Value == LeastSplits).Take(LeastSplits);
-        Dictionary<int, int> AvaiableTables = new Dictionary<int, int>{};
-        // You can't add a K-V pair directly to a Dictionary, which is why we do this loop
-        foreach (KeyValuePair<int,int> table in selection){
-            AvaiableTables.Add(table.Key, table.Value);
-        }
-        List<Model_Capacity> ConfirmedTables = Confirm_New_Customer_MultTables(AvaiableTables, customers);
-        return ConfirmedTables;
-    }
+    //         }
+    //     }
+    //     if (options.Count == null || options.Count == 0)
+    //     {
+    //         for (int i = 0; i < capacitylogic._capacity.Count; i ++)
+    //         {
+    //             if (capacitylogic._capacity[i].Date == date && capacitylogic._capacity[i].Time == hour && capacitylogic._capacity[i].RemainingSeats <= customers / 2){
+    //                 int AmountSplits = 4;
+    //                 int SplitTable = 4;
+    //                 if (capacitylogic._capacity[i].RemainingSeats > 0)
+    //                 {
+                        
+    //                     AmountSplits = customers / capacitylogic._capacity[i].RemainingSeats;
+    //                     SplitTable =  customers % capacitylogic._capacity[i].RemainingSeats;
+                        
+    //                     Console.WriteLine($"{capacitylogic._capacity[i].ID}, {AmountSplits}");
+    //                     if (SplitTable == 1){
+    //                         options.Add(capacitylogic._capacity[i].ID, AmountSplits);
+                    
+    //                     }
+    //                 }
+                    
+    //             }
+    //         }
+    //     }
+    //     if (options.Count == null || options.Count == 0) { Console.WriteLine("Another Fail"); return null; }
+
+    //     // trying to split by the least amount of tables
+    //     int LeastSplits = options.Values.Min();
+    //     var selection = options.Where(x => x.Value == LeastSplits).Take(LeastSplits);
+    //     Dictionary<int, int> AvaiableTables = new Dictionary<int, int>{};
+    //     // You can't add a K-V pair directly to a Dictionary, which is why we do this loop
+    //     foreach (KeyValuePair<int,int> table in selection){
+    //         AvaiableTables.Add(table.Key, table.Value);
+    //     }
+
+    //     List<Model_Capacity> ConfirmedTables = new();
+        
+    //     if (Manually) { ConfirmedTables = Confirm_New_Customer_MultTables(AvaiableTables, customers, true); }
+    //     else { ConfirmedTables = Confirm_New_Customer_MultTables(AvaiableTables, customers); }
+        
+    //     return ConfirmedTables;
+    // }
     public static void Confirm_New_Customer(Model_Capacity model_capacity, int costumers)
     {
         // model capacity alread checked
@@ -244,39 +274,46 @@ public static class Functions_Capacity
         Access_Capacity.WriteAll(capacitylogic._capacity);
     }
 
-    public static List<Model_Capacity> Confirm_New_Customer_MultTables(Dictionary<int, int> model_capacity, int costumers)
-    {
-        List<Model_Capacity> picked_caps_list = new();
-        Model_Capacity cap = null;
-        //only thing to do there is divide the customers by the amount of splits and write the taken tablesfile
-        foreach (KeyValuePair<int, int> capacity in model_capacity){
-            int index = capacitylogic._capacity.FindIndex(s => s.ID == capacity.Key);
-            Console.WriteLine("bonk");
-            int splits = costumers / capacity.Value;
-            if (capacitylogic._capacity[index].RemainingSeats <= 0){
-                Console.WriteLine("plonk");
-            }
-            else if (capacitylogic._capacity[index].RemainingSeats >= splits){
-                capacitylogic._capacity[index].RemainingSeats -= splits;
-                cap = capacitylogic._capacity[index];
-                picked_caps_list.Add(cap);
-            }
-        }
-        Console.WriteLine("Free Tables found. Confirm reservation? y/n");
-        string q = Console.ReadLine().ToLower();
-        if (q != "yes")
-        {
-            if (q != "y")
-            {
-                Console.WriteLine("Reservation cancelled.");
-                List<Model_Capacity> empty = new();
-                return empty;
-            }
-        }
-        Access_Capacity.WriteAll(capacitylogic._capacity);
+    // public static List<Model_Capacity> Confirm_New_Customer_MultTables(Dictionary<int, int> model_capacity, int costumers, bool Manually = false)
+    // {
+    //     List<Model_Capacity> picked_caps_list = new();
+    //     Model_Capacity cap = null;
+    //     //only thing to do there is divide the customers by the amount of splits and write the taken tablesfile
+    //     foreach (KeyValuePair<int, int> capacity in model_capacity){
+    //         int index = capacitylogic._capacity.FindIndex(s => s.ID == capacity.Key);
+    //         Console.WriteLine("bonk");
+    //         int splits = costumers / capacity.Value;
+    //         if (capacitylogic._capacity[index].RemainingSeats <= 0){
+    //             Console.WriteLine("plonk");
+    //         }
+    //         else if (capacitylogic._capacity[index].RemainingSeats >= splits){
+    //             capacitylogic._capacity[index].RemainingSeats -= splits;
+    //             cap = capacitylogic._capacity[index];
+    //             if (Manually) { capacitylogic.UpdateList(cap); }
+    //             Console.WriteLine("Multiy cap found");
+    //             picked_caps_list.Add(cap);
+    //         }
+    //     }
 
-        return picked_caps_list;
-    }
+    //     if (!Manually)
+    //     {
+    //     Console.WriteLine("Free Tables found. Confirm reservation? y/n");
+    //     string q = Console.ReadLine().ToLower();
+    //     if (q != "yes")
+    //     {
+    //         if (q != "y")
+    //         {
+    //             Console.WriteLine("Reservation cancelled.");
+    //             List<Model_Capacity> empty = new();
+    //             return empty;
+    //         }
+    //     }
+    //     Access_Capacity.WriteAll(capacitylogic._capacity);
+    //     }
+
+
+    //     return picked_caps_list;
+    // }
 
 
 
