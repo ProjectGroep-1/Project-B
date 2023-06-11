@@ -113,7 +113,6 @@ public class Logic_Capacity : Logic_TimeSlots
         Console.WriteLine(capacity.Count);
         Console.ReadKey();
         List<Tuple<Model_Capacity, int>> TablesToLower = new List<Tuple<Model_Capacity, int>>();
-        int AmountToLower = 0;
         for (int c = 0; c < capacity.Count; c++)
         {
             bool split_has_occured = false;
