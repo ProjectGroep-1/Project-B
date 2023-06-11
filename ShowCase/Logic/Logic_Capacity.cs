@@ -110,14 +110,41 @@ public class Logic_Capacity : Logic_TimeSlots
         List<Model_Capacity> tables = new();
         int group_to_split = customers;
         int amount_of_splits = 0;
-
+        Console.WriteLine(capacity.Count);
+        Console.ReadKey();
+        List<Tuple<Model_Capacity, int>> TablesToLower = new List<Tuple<Model_Capacity, int>>();
+        int AmountToLower = 0;
         for (int c = 0; c < capacity.Count; c++)
         {
             bool split_has_occured = false;
-
-            if (group_to_split == 0) {tables.OrderBy(t => t.TotalSeats); ;options.Add(tables, amount_of_splits); tables = new(); amount_of_splits = 0; group_to_split = customers; }
-            if (group_to_split >= capacity[c].RemainingSeats) { group_to_split -= capacity[c].RemainingSeats; capacity[c].RemainingSeats = 0; if(group_to_split != 0){amount_of_splits += 1;} tables.Add(capacity[c]); split_has_occured = true; }
-            if (!split_has_occured) { if (group_to_split < capacity[c].RemainingSeats) { capacity[c].RemainingSeats -= group_to_split; group_to_split = 0; tables.Add(capacity[c]); } }
+            if (group_to_split == 0) 
+            {
+                tables.OrderBy(t => t.TotalSeats);
+                options.Add(tables, amount_of_splits);
+                tables = new(); 
+                amount_of_splits = 0; 
+                group_to_split = customers; 
+            }
+            if (group_to_split >= capacity[c].RemainingSeats) 
+            { 
+                group_to_split -= capacity[c].RemainingSeats; 
+                TablesToLower.Add(new Tuple<Model_Capacity, int>(capacity[c], capacity[c].RemainingSeats));
+                if(group_to_split != 0)
+                {
+                    amount_of_splits += 1;
+                } 
+                tables.Add(capacity[c]); 
+                split_has_occured = true; 
+            }
+            if (!split_has_occured) 
+            { 
+                if (group_to_split < capacity[c].RemainingSeats) 
+                { 
+                    TablesToLower.Add(new Tuple<Model_Capacity, int>(capacity[c], group_to_split));                   
+                    group_to_split = 0; 
+                    tables.Add(capacity[c]);
+                } 
+            }
             // Console.WriteLine(capacity[c].ToString() + " Customers: " + group_to_split);
         }
 
@@ -130,7 +157,18 @@ public class Logic_Capacity : Logic_TimeSlots
 
             // int minimum_split = options.MinBy(s => s).Value;
             // options.Where(t => t.Value == minimum_split).Select(c => c);//.OrderBy(c => c.Key[0].TotalSeats);
-            var best_option = options.MinBy(c => c.Value);            
+
+            var best_option = options.MinBy(c => c.Value);
+
+            foreach (Model_Capacity table in best_option.Key)
+            {
+                foreach (var table2 in TablesToLower)
+                {
+                    if (table2.Item1 == table)
+                        table.RemainingSeats -= table2.Item2; 
+                }
+            }   
+
             Console.WriteLine("Best option:");
             Console.WriteLine("Amount of splits: " + best_option.Value);
             Console.WriteLine("Tables:");

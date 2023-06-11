@@ -195,8 +195,13 @@ public static class Functions_Capacity
             }
         }
 
-        if (!Manually) { if (free_cap_list.Count == 0 || free_cap_list == null) { 
-            free_cap_list = capacitylogic.SplitReservations(customers, hour, date); } }
+        if (!Manually) 
+        { 
+            if (free_cap_list.Count == 0 || free_cap_list == null) 
+            { 
+                free_cap_list = capacitylogic.SplitReservations(customers, hour, date); 
+            } 
+        }
 
         return free_cap_list;
     }
@@ -239,9 +244,22 @@ public static class Functions_Capacity
     public static void Confirm_New_Customer(Model_Capacity model_capacity, int costumers)
     {
         // model capacity alread checked
-        int index = capacitylogic._capacity.FindIndex(s => s.ID == model_capacity.ID);
-        capacitylogic._capacity[index].RemainingSeats -= costumers;
-        Access_Capacity.WriteAll(capacitylogic._capacity);
+        // int index = capacitylogic._capacity.FindIndex(s => s.ID == model_capacity.ID);
+        // capacitylogic._capacity[index].RemainingSeats -= costumers;
+        // Access_Capacity.WriteAll(capacitylogic._capacity);
+
+        model_capacity.RemainingSeats -= costumers;
+        capacitylogic.UpdateList(model_capacity);
+    }
+
+    public static void Confirm_Multiple_Customers(List<Model_Capacity> capacities)
+    {
+        Console.WriteLine(capacities.Count);
+        Console.ReadKey();  
+        foreach (Model_Capacity cap in capacities)
+        {
+            capacitylogic.UpdateList(cap);
+        }
     }
 
     // public static List<Model_Capacity> Confirm_New_Customer_MultTables(Dictionary<int, int> model_capacity, int costumers)

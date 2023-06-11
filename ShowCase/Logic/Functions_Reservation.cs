@@ -152,6 +152,7 @@ public static class Functions_Reservation
         
         Functions_Account.AddReservationToAccount(new_res_id);
         
+        
         Console.WriteLine("Your reservation has been made. You can check your reservation in the 'Your reservations' tab. Press any key to continue.");
     }
 
@@ -159,10 +160,14 @@ public static class Functions_Reservation
     {
         int new_res_id = Functions_Reservation.reservationLogic.GetResNewID();
         List<int> CapIDs = new();
-        foreach (Model_Capacity caps in capacity) {CapIDs.Add(caps.ID);}
+        foreach (Model_Capacity caps in capacity) 
+        {
+            CapIDs.Add(caps.ID);
+        }
         Model_Reservation new_reservation_model = new Model_Reservation(new_res_id, capacity[0].Date, new_customer.FullName, CustomersAmount, capacity[0].Time, CategoryPreference, CapIDs);
         reservationLogic.UpdateList(new_reservation_model);
         Functions_Account.AddReservationToAccount(new_res_id);
+        Functions_Capacity.Confirm_Multiple_Customers(capacity);
         
         Console.WriteLine("Your reservation has been made. You can check your reservation in the 'Your reservations' tab. Press any key to continue.");
     }
