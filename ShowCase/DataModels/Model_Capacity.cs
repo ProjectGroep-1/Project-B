@@ -29,4 +29,9 @@ public class Model_Capacity
         TotalSeats = totalSeats;
         RemainingSeats = remainingSeats;
     }
+
+    public override string ToString()
+    {
+        return $"ID {ID}, Table id {TableID}, Date {Date}, Time {Time}, RemainingSeats {RemainingSeats}/{TotalSeats}";
+    }
 }
