@@ -299,61 +299,63 @@ public class Logic_Capacity : Logic_TimeSlots
         }
     }
 
-    public List<Model_Capacity> Search(string searchType, string searchTerm)
+    public List<Model_Reservation> Search(string searchType, string searchTerm)
     {
-        List<Model_Capacity> usedCapacity = GetUsedCapacity();
-        List<Model_Capacity> SearchItems = new List<Model_Capacity>();
-        List<Model_Reservation> uniqueReservations = new List<Model_Reservation>();
+        List<Model_Reservation> Reservations = new();
 
-        
-        foreach(var cap in usedCapacity)
-        {
-            if (searchType == "1") // Cap ID
+        if (searchType == "1") // Res ID
             {
                 if (!int.TryParse(searchTerm, out int searchTermInt))
                 {
                     Console.WriteLine($"You've entered the wrong type of value. Press any key to continue.");
                     return null; 
                 }
-                if (searchTermInt == cap.ID)
-                    SearchItems.Add(cap);
+                Reservations = Functions_Reservation.reservationLogic._reservations.Where(r => r.Id == searchTermInt).Select(r => r).ToList();
+                return Reservations;
             }
-            Model_Reservation res = Functions_Reservation.reservationLogic.GetByCapacityId(cap.ID);
-            if (!uniqueReservations.Contains(res))
-            {
-                if (searchType == "2") // Date
+       
+        if (searchType == "2") // Date
                 {
                     DateTime date;
                     if (DateTime.TryParseExact(searchTerm, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out date))
                     {
-                        if (cap.Date == date)
-                        {
-                            SearchItems.Add(cap);   
-                        }
-
+                        Reservations = Functions_Reservation.reservationLogic._reservations.Where(r => r.Date == date.Date && r.Id > 0).Select(r => r).ToList();
+                        return Reservations;
                     }
                     else
                     {
                         Console.WriteLine("Invalid date format");
-                        break;
+                        return null;
                     }
 
                 }
-                if (searchType == "3") // Total Seats
-                {
+        
+        if (searchType == "3") // Total Seats
+            {
                     if (!int.TryParse(searchTerm, out int searchTermInt))
                     {
                         Console.WriteLine($"You've entered the wrong type of value. Press any key to continue.");
                         return null;                  
                     }
-                    if (searchTermInt == cap.TotalSeats)
-                        SearchItems.Add(cap);
-                }
-
-                uniqueReservations.Add(res);   
+                    var temp = Functions_Reservation.reservationLogic._reservations.Where(r => r.Id > 0).Select(r => r).ToList();
+                    List<Model_Reservation> reservations_out = new();
+                    if (temp != null && temp.Count > 1)
+                    {
+                        foreach (Model_Reservation res in temp)
+                        {
+                            foreach (int cap_id in res.CapacityIDS)
+                            {
+                                Model_Capacity cap = GetById(cap_id);
+                                if (cap != null && cap.TotalSeats == searchTermInt)
+                                {reservations_out.Add(res);}
+                            }
+                        }
+                        Reservations = reservations_out;
+                        return Reservations;
+                    }
             }
-        }
-        return SearchItems;
+
+        return Reservations;
     }
 
     public List<Model_Capacity> GetUsedCapacity()

@@ -317,7 +317,15 @@ public static class Functions_Reservation
             account.ReservationIDs.Remove(removal.Id);
             Functions_Account.accountLogic.UpdateList(account);
             int index_reservation_id = Current_Reservations.FindIndex(x=> x.Id == removal.Id);
-            if (index_reservation_id != -1) { removal.Id = -1; Functions_Reservation.reservationLogic.UpdateListbyDate(removal); }
+            if (index_reservation_id != -1) { removal.Id = -1; Functions_Reservation.reservationLogic.UpdateListbyDate(removal); 
+            foreach (int cap_id in removal.CapacityIDS)
+            {
+                Model_Capacity cap = Functions_Capacity.capacitylogic.GetById(cap_id);
+                if (cap != null) {Functions_Capacity.ClearByID(cap);}
+            }
+            Functions_Capacity.capacitylogic.ReFillTabels(removal.Date);
+            }
+            
         }
 
         return account;

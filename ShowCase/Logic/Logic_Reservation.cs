@@ -79,11 +79,6 @@ public class Logic_Reservation
         return _reservations.Find(i => i.Id == id);
     }
 
-    public Model_Reservation GetByCapacityId(int CapID)
-    {
-        return _reservations.Find(r => r.CapacityIDS.Contains(CapID));
-    }
-
     public int GetResNewID()
     {
         if (_reservations.Count == 0 || _reservations[_reservations.Count -1].Id <= 0) { return 1; }
