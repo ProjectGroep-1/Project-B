@@ -187,8 +187,6 @@ public static class Functions_Capacity
 
     public static void Confirm_Multiple_Customers(List<Model_Capacity> capacities)
     {
-        Console.WriteLine(capacities.Count);
-        Console.ReadKey();  
         foreach (Model_Capacity cap in capacities)
         {
             capacitylogic.UpdateList(cap);

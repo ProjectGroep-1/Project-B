@@ -98,7 +98,6 @@ public class Logic_Capacity : Logic_TimeSlots
         if (customers < 4) { tables_with_remaining_seats = _capacity.Where(c => c.Date == date.Date && c.Time == hour && c.RemainingSeats > 0).Select(c => c).OrderBy(t => t.RemainingSeats).ToList(); }
         else { tables_with_remaining_seats = _capacity.Where(c => c.Date == date.Date && c.Time == hour && c.RemainingSeats > 0).Select(c => c).OrderByDescending(t => t.RemainingSeats).ToList(); }
 
-        // foreach (Model_Capacity cap in tables_with_remaining_seats) { Console.WriteLine(cap.ToString()); }
         Console.WriteLine();
         return Splitting(tables_with_remaining_seats, customers);
     }
@@ -110,8 +109,6 @@ public class Logic_Capacity : Logic_TimeSlots
         List<Model_Capacity> tables = new();
         int group_to_split = customers;
         int amount_of_splits = 0;
-        Console.WriteLine(capacity.Count);
-        Console.ReadKey();
         List<Tuple<Model_Capacity, int>> TablesToLower = new List<Tuple<Model_Capacity, int>>();
         for (int c = 0; c < capacity.Count; c++)
         {
@@ -144,18 +141,11 @@ public class Logic_Capacity : Logic_TimeSlots
                     tables.Add(capacity[c]);
                 } 
             }
-            // Console.WriteLine(capacity[c].ToString() + " Customers: " + group_to_split);
         }
 
         if (options != null && options.Count > 0)
         {
-            // foreach(KeyValuePair<List<Model_Capacity>, int> t in options)
-            // { Console.WriteLine("Amount of Splits: " + t.Value); }
 
-            // Console.WriteLine();
-
-            // int minimum_split = options.MinBy(s => s).Value;
-            // options.Where(t => t.Value == minimum_split).Select(c => c);//.OrderBy(c => c.Key[0].TotalSeats);
 
             var best_option = options.MinBy(c => c.Value);
 
@@ -167,11 +157,6 @@ public class Logic_Capacity : Logic_TimeSlots
                         table.RemainingSeats -= table2.Item2; 
                 }
             }   
-
-            Console.WriteLine("Best option:");
-            Console.WriteLine("Amount of splits: " + best_option.Value);
-            Console.WriteLine("Tables:");
-            foreach(Model_Capacity cap in best_option.Key) { Console.WriteLine($"ID: {cap.ID}, Seats: {cap.RemainingSeats}/{cap.TotalSeats}."); }
             return best_option.Key;
 
         }

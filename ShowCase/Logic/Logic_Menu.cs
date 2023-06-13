@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 
-
-//This class is not static so later on we can use inheritance and interfaces
 public class Logic_Menu
 {
     public List<Model_Menu> _menuitems;
