@@ -2,40 +2,18 @@ public static class Functions_Capacity
 {
     public static Logic_Capacity capacitylogic = new(); 
 
-    private static List<Model_Capacity> itemsOnPageList = new List<Model_Capacity>();
+    private static List<Model_Reservation> itemsOnPageList = new List<Model_Reservation>();
 
     public static void JsonSize()
     {
         Console.WriteLine("Size json: " + capacitylogic._capacity.Count);
     }
 
-    public static void DisplayReservations()
-    { 
-        int total_reservation = 0;
-        for (int i = 0; i < capacitylogic._capacity.Count; i ++)
-        {
-            Model_Capacity cap = capacitylogic._capacity[i];
-
-           if (cap.RemainingSeats < cap.TotalSeats && cap.Date > DateTime.Now)
-           {
-
-                Console.WriteLine($"Reservation on: {cap.Date.Day}" + $"-{cap.Date.Month}" + $"-{cap.Date.Year}" + "\n" + $"Time: {cap.Time}" + "\n" + $"Table #{cap.TableID}" + "\n" + $"People: {cap.TotalSeats - cap.RemainingSeats}" + "\n" + $"Reservation ID: {cap.ID}" + "\n");
-                total_reservation += 1;
-           }
-        }
-
-        if (total_reservation == 0) { Console.WriteLine("No future Reservations"); }
-        else { Console.WriteLine($"Total future reservations: {total_reservation}"); }
-
-    }
-
     public static void SearchSummary(string searchType, string searchTerm, int pageNumber)
     {
-        List<Model_Capacity> SearchedItems = capacitylogic.Search(searchType, searchTerm);
+        List<Model_Reservation> SearchedItems = capacitylogic.Search(searchType, searchTerm);
         if (SearchedItems == null)
             return;
-
-        // List<Model_Capacity> usedCapacity = capacitylogic.GetUsedCapacity();
         
         int pageTotal = Convert.ToInt32(Math.Ceiling(SearchedItems.Count / 10.0));
         var itemsOnPage = (dynamic)null;
@@ -47,9 +25,9 @@ public static class Functions_Capacity
             itemsOnPage = SearchedItems;
         }
 
-        foreach (Model_Capacity cap in itemsOnPage)
+        foreach (Model_Reservation res in itemsOnPage)
         {
-            itemsOnPageList.Add(cap);
+            itemsOnPageList.Add(res);
         }
         int capCounter = 1;
 
@@ -60,9 +38,8 @@ public static class Functions_Capacity
         }
 
         Console.WriteLine("Capacity:");
-        foreach (Model_Capacity CurrentItem in itemsOnPageList)
+        foreach (Model_Reservation r in itemsOnPageList)
         {
-            Model_Reservation r = Functions_Reservation.reservationLogic.GetByCapacityId(CurrentItem.ID);
             Console.WriteLine($"{capCounter}. {r} {Functions_Capacity.DisplayDate(r.Id)}, {DisplayTableIDS(r)}");
             capCounter++;
         }
@@ -81,7 +58,7 @@ public static class Functions_Capacity
         }
     }
 
-    public static int FlipPage(int pageNumber, int pageTotal, int capCounter, List<Model_Capacity> itemsOnPageList)
+    public static int FlipPage(int pageNumber, int pageTotal, int capCounter, List<Model_Reservation> itemsOnPageList)
     {
         (string FlipOptions, bool PrevAvailable, bool NextAvailable) = Functions_Menu.CheckPrevNextPage(pageNumber, pageTotal);
         Console.WriteLine($"{FlipOptions}View dishes in reservation[V], Quit[Q]");
@@ -110,11 +87,10 @@ public static class Functions_Capacity
                 Console.WriteLine($"Enter the number of the reservation you want.[1-{capCounter-1}]");
                 string reservationChoice = Console.ReadLine();
                 int reservationCounter = 1;
-                foreach (Model_Capacity cap in itemsOnPageList)
+                foreach (Model_Reservation r in itemsOnPageList)
                 {
                     if (reservationChoice == $"{reservationCounter}")
                     {
-                        Model_Reservation r = Functions_Reservation.reservationLogic.GetByCapacityId(cap.ID); 
                         if (r != null) { Functions_Reservation.PrintReservationDishes(r.Id); }
                     }
                     reservationCounter++;
@@ -132,7 +108,7 @@ public static class Functions_Capacity
 
     public static void GetSearchOptions()
     {
-        Console.WriteLine("Search by [1] ID, [2] Date, [3] Total seats, [4] Quit");
+        Console.WriteLine("Search by [1] Reservation ID, [2] Date, [3] Total seats, [4] Quit");
         string searchType = Console.ReadLine();
 
         switch(searchType)
@@ -161,14 +137,6 @@ public static class Functions_Capacity
         }
     }
 
-
-
-    public static Model_Capacity? GetCapByDate(string date)
-    {
-        Model_Capacity cap = GetCapByDate(date);
-        return cap;
-    }
-
     public static void ClearByID(Model_Capacity model_capacity)
     {
         int index = capacitylogic._capacity.FindIndex(s => s.ID == model_capacity.ID);
@@ -195,90 +163,37 @@ public static class Functions_Capacity
             }
         }
 
-        if (!Manually) { if (free_cap_list.Count == 0 || free_cap_list == null) { 
-            free_cap_list = Multiple_Customer_Tables(customers, hour, date); } }
+        if (!Manually) 
+        { 
+            if (free_cap_list.Count == 0 || free_cap_list == null) 
+            { 
+                free_cap_list = capacitylogic.SplitReservations(customers, hour, date); 
+            } 
+        }
 
         return free_cap_list;
     }
 
-    public static List<Model_Capacity> Multiple_Customer_Tables(int customers, string hour, DateTime date){
-        Dictionary<int, int> options = new Dictionary<int, int> {};
-        Console.WriteLine("Looking to split");
-
-        for (int i = 0; i < capacitylogic._capacity.Count; i ++)
-        {
-            if (capacitylogic._capacity[i].Date == date && capacitylogic._capacity[i].Time == hour && capacitylogic._capacity[i].RemainingSeats <= customers / 2){
-                int AmountSplits = 4;
-                int SplitTable = 4;
-                if (capacitylogic._capacity[i].RemainingSeats > 0)
-                {
-                    
-                    AmountSplits = customers / capacitylogic._capacity[i].RemainingSeats;
-                    SplitTable =  customers % capacitylogic._capacity[i].RemainingSeats;
-                    
-                    Console.WriteLine($"{capacitylogic._capacity[i].ID}, {AmountSplits}");
-                    if (SplitTable == 0){
-                        options.Add(capacitylogic._capacity[i].ID, AmountSplits);
-                
-                    }
-                }
-                
-            }
-        }
-        // trying to split by the least amount of tables
-        int LeastSplits = options.Values.Min();
-        var selection = options.Where(x => x.Value == LeastSplits).Take(LeastSplits);
-        Dictionary<int, int> AvaiableTables = new Dictionary<int, int>{};
-        // You can't add a K-V pair directly to a Dictionary, which is why we do this loop
-        foreach (KeyValuePair<int,int> table in selection){
-            AvaiableTables.Add(table.Key, table.Value);
-        }
-        List<Model_Capacity> ConfirmedTables = Confirm_New_Customer_MultTables(AvaiableTables, customers);
-        return ConfirmedTables;
-    }
     public static void Confirm_New_Customer(Model_Capacity model_capacity, int costumers)
     {
         // model capacity alread checked
-        int index = capacitylogic._capacity.FindIndex(s => s.ID == model_capacity.ID);
-        capacitylogic._capacity[index].RemainingSeats -= costumers;
-        Access_Capacity.WriteAll(capacitylogic._capacity);
+        // int index = capacitylogic._capacity.FindIndex(s => s.ID == model_capacity.ID);
+        // capacitylogic._capacity[index].RemainingSeats -= costumers;
+        // Access_Capacity.WriteAll(capacitylogic._capacity);
+
+        model_capacity.RemainingSeats -= costumers;
+        capacitylogic.UpdateList(model_capacity);
     }
 
-    public static List<Model_Capacity> Confirm_New_Customer_MultTables(Dictionary<int, int> model_capacity, int costumers)
+    public static void Confirm_Multiple_Customers(List<Model_Capacity> capacities)
     {
-        List<Model_Capacity> picked_caps_list = new();
-        Model_Capacity cap = null;
-        //only thing to do there is divide the customers by the amount of splits and write the taken tablesfile
-        foreach (KeyValuePair<int, int> capacity in model_capacity){
-            int index = capacitylogic._capacity.FindIndex(s => s.ID == capacity.Key);
-            Console.WriteLine("bonk");
-            int splits = costumers / capacity.Value;
-            if (capacitylogic._capacity[index].RemainingSeats <= 0){
-                Console.WriteLine("plonk");
-            }
-            else if (capacitylogic._capacity[index].RemainingSeats >= splits){
-                capacitylogic._capacity[index].RemainingSeats -= splits;
-                cap = capacitylogic._capacity[index];
-                picked_caps_list.Add(cap);
-            }
-        }
-        Console.WriteLine("Free Tables found. Confirm reservation? y/n");
-        string q = Console.ReadLine().ToLower();
-        if (q != "yes")
+        Console.WriteLine(capacities.Count);
+        Console.ReadKey();  
+        foreach (Model_Capacity cap in capacities)
         {
-            if (q != "y")
-            {
-                Console.WriteLine("Reservation cancelled.");
-                List<Model_Capacity> empty = new();
-                return empty;
-            }
+            capacitylogic.UpdateList(cap);
         }
-        Access_Capacity.WriteAll(capacitylogic._capacity);
-
-        return picked_caps_list;
     }
-
-
 
     public static DateTime? CheckCostumerDate(string date)
     {

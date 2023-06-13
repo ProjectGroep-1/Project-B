@@ -23,9 +23,9 @@ public class Logic_TimeSlots
         List<Model_Table> tables = new List<Model_Table>();
         int seats = 2;
 
-        for (int i = 1; i < 16; i++)
+        for (int i = 1; i < 17; i++)
         {
-            if (i == 8 || i == 14 ) { seats += 2; }
+            if (i == 9 || i == 15 ) { seats += 2; }
 
             Model_Table new_table = new(i, seats);
             tables.Add(new_table);
