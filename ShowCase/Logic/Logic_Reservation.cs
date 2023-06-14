@@ -3,15 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 
-
-//This class is not static so later on we can use inheritance and interfaces
 public class Logic_Reservation
 {
     public List<Model_Reservation> _reservations;
 
-    //Static properties are shared across all instances of the class
-    //This can be used to get the current logged in account from anywhere in the program
-    //private set, so this can only be set by the class itself
+
 
     public Logic_Reservation()
     {
@@ -41,7 +37,7 @@ public class Logic_Reservation
      public void UpdateListbyDate(Model_Reservation reservation)
     {
         //Find if there is already an model with the same id
-        int index = _reservations.FindIndex(s => s.Date == reservation.Date);
+        int index = _reservations.FindIndex(s => s.Date == reservation.Date && s.FullName == reservation.FullName && s.Arrival == reservation.Arrival);
 
         if (index != -1)
         {

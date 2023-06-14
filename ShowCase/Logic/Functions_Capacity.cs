@@ -141,7 +141,7 @@ public static class Functions_Capacity
     {
         int index = capacitylogic._capacity.FindIndex(s => s.ID == model_capacity.ID);
 
-        if (index > 0) 
+        if (index >= 0) 
         {
             capacitylogic._capacity[index].RemainingSeats = capacitylogic._capacity[index].TotalSeats; 
             Access_Capacity.WriteAll(capacitylogic._capacity);
@@ -187,8 +187,6 @@ public static class Functions_Capacity
 
     public static void Confirm_Multiple_Customers(List<Model_Capacity> capacities)
     {
-        Console.WriteLine(capacities.Count);
-        Console.ReadKey();  
         foreach (Model_Capacity cap in capacities)
         {
             capacitylogic.UpdateList(cap);

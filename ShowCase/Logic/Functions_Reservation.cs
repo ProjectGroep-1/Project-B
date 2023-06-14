@@ -129,14 +129,14 @@ public static class Functions_Reservation
                 }
             }
             Functions_Capacity.Confirm_New_Customer(capacity_list[0], CustomersAmount); 
-            Console.WriteLine("Please enter a CategoryPreference.");
+            Console.WriteLine("What is your favorite Food Group? Examples: (Vegan, Fish, Meat)");
             string CategoryPreference = Console.ReadLine();
             ConfirmReservation(capacity_list[0], new_customer, CustomersAmount, CategoryPreference);
             return;
         }
         if (capacity_list.Count > 1) 
         { 
-            Console.WriteLine("Please enter a CategoryPreference.");
+            Console.WriteLine("What is your favorite Food Group? Examples: (Vegan, Fish, Meat)");
             string CategoryPreferenceMulticap = Console.ReadLine();
             ConfirmReservationMulticaps(capacity_list, new_customer, CustomersAmount, CategoryPreferenceMulticap);
         }

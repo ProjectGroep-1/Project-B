@@ -93,8 +93,10 @@ public static class Functions_Menu{
 
     public static int FlipPage(int pageNumber, int pageTotal, int foodCounter)
     {
-        (string FlipOptions, bool PrevAvailable, bool NextAvailable) = CheckPrevNextPage(pageNumber, pageTotal);
-        Console.WriteLine($"{FlipOptions}Add an item to reservation[A], Quit[Q]");
+        (string PrintOptions, bool PrevAvailable, bool NextAvailable) = CheckPrevNextPage(pageNumber, pageTotal);
+        if (!Admin.isAdmin)
+            PrintOptions += "Add an item to reservation[A], ";
+        Console.WriteLine($"{PrintOptions}Quit[Q]");
         string pageFlip = Console.ReadLine();
         switch(pageFlip)
         {
@@ -117,32 +119,41 @@ public static class Functions_Menu{
                     pageNumber++;
                 break;
             case "A": case "a":
-                Console.WriteLine($"Enter the number of the dish you want.[1-{foodCounter-1}]");
-                bool foundItem = false;
-                bool loggedIn = true;
-                string dishChoice = Console.ReadLine();
-                int dishCounter = 1;
-                foreach (Model_Menu item in itemsOnPageList)
+                if (Admin.isAdmin)
                 {
-                        if (dishChoice == $"{dishCounter}")
-                        {
-                            if (Functions_Reservation.AddItemToReservation(item))   
-                            {
-                                Console.WriteLine($"{item.Name} was added to your reservation. Press any key to continue.");
-                                Console.ReadKey();
-                                foundItem = true;
-                            }
-                            else
-                                loggedIn = false;
-                        }
-                        dishCounter++;
-                }
-                if (!foundItem && loggedIn)
-                {
-                    Console.WriteLine($"Please enter a value between [1-{foodCounter-1}]. Press any key to continue.");
+                    Console.WriteLine("Incorrect input. Press any key to continue.");
                     Console.ReadKey();
-                    return pageNumber;
                 }
+                else
+                {
+                    Console.WriteLine($"Enter the number of the dish you want.[1-{foodCounter-1}]");
+                    bool foundItem = false;
+                    bool loggedIn = true;
+                    string dishChoice = Console.ReadLine();
+                    int dishCounter = 1;
+                    foreach (Model_Menu item in itemsOnPageList)
+                    {
+                            if (dishChoice == $"{dishCounter}")
+                            {
+                                if (Functions_Reservation.AddItemToReservation(item))   
+                                {
+                                    Console.WriteLine($"{item.Name} was added to your reservation. Press any key to continue.");
+                                    Console.ReadKey();
+                                    foundItem = true;
+                                }
+                                else
+                                    loggedIn = false;
+                            }
+                            dishCounter++;
+                    }
+                    if (!foundItem && loggedIn)
+                    {
+                        Console.WriteLine($"Please enter a value between [1-{foodCounter-1}]. Press any key to continue.");
+                        Console.ReadKey();
+                        return pageNumber;
+                    }
+                }
+                
                 break;
             case "Q": case "q":
                 return 0;
@@ -216,28 +227,123 @@ public static class Functions_Menu{
     public static void RemoveItem(Model_Menu item){
         menuLogic.RemoveItem(item);
     }
-      public static void Replacekey(string key_1){
-             while (true)
+    public static void Replacekey(string key_1)
+    {
+        while (true)
         {
-        ConsoleKeyInfo key = Console.ReadKey(true);
-    
-        if (key.Key == ConsoleKey.Enter)
+            ConsoleKeyInfo key = Console.ReadKey(true);
+        
+            if (key.Key == ConsoleKey.Enter)
+            {
+                break;
+            }
+            else if (key.Key == ConsoleKey.Backspace)
+            {
+                if (key_1.Length > 0)
+                {
+                    key_1 = key_1.Substring(0, key_1.Length - 1);
+                    Console.Write("\b \b");
+                }
+            }
+            else
+            {
+                key_1 += key.KeyChar;
+                Console.Write("*");
+            }
+        }   
+    }
+
+    public static void AddItemOptions()
+    {
+        try 
         {
-        break;
+            Console.Write("Enter the ID for the item (a number): ");
+            int id = Convert.ToInt32(Console.ReadLine());
+            if (FindItem(id) != null)
+                {
+                    Console.WriteLine($"There is already an item with ID {id}! Use the modification option instead (press Escape to return to main menu)");
+                    Console.ReadKey(true);
+                    return;
+                }
+            
+            Console.Write("Enter the name for the dish: ");
+            string name = Console.ReadLine();
+            Console.Write("Enter the category of the dish: ");
+            string category = Console.ReadLine();
+            Console.Write("Enter the course: ");
+            string course = Console.ReadLine();
+            Console.Write("Enter the price for the item (a number): ");
+            double price =  Convert.ToDouble(Console.ReadLine());
+            
+                
+            AddItem(id, name, category, course, price);
         }
-        else if (key.Key == ConsoleKey.Backspace)
+        catch (System.FormatException WrongFormatting)
         {
-        if (key_1.Length > 0)
+            Console.WriteLine($"Error: You've entered the wrong type of value for this attribute");
+            Console.ReadKey();
+        }
+        catch (Exception err)
         {
-            key_1 = key_1.Substring(0, key_1.Length - 1);
-            Console.Write("\b \b");
+            Console.WriteLine(err);
         }
-        }
-        else
+    }
+
+    public static void ModifyItemOptions()
+    {
+        try
         {
-        key_1 += key.KeyChar;
-        Console.Write("*");
+            Console.Write("Enter the ID to modify (a number): ");
+            int id = Convert.ToInt32(Console.ReadLine());
+            Model_Menu ItemToModify = FindItem(id);
+            Console.WriteLine($"Found item: {ItemToModify}");
+            Console.WriteLine("What do you want to modify?");
+            string WhatToModify = Console.ReadLine().ToLower();
+            switch (WhatToModify)
+            {
+                case "name":
+                    Console.Write("Enter the name for the dish: ");
+                    ItemToModify.Name = Console.ReadLine();
+                    break;
+                case "category":
+                    Console.Write("Enter the category of the dish: ");
+                    ItemToModify.Category = Console.ReadLine();
+                    break;
+                case "price":
+                    Console.Write("Enter the price for the item (a number): ");
+                    ItemToModify.Price = Convert.ToDouble(Console.ReadLine());
+                    break;
+                case "course":
+                    Console.Write("Enter the course: ");
+                    ItemToModify.Course = Console.ReadLine();
+                    break;
+            }
+        Console.WriteLine($"Changed item: {ItemToModify}");
+        ReplaceItem(ItemToModify);
         }
-    }   
+        catch (System.FormatException WrongFormatting)
+        {
+            Console.WriteLine($"Error: You've entered the wrong type of value for this attribute");
+            Console.ReadKey();
+        }
+        catch (Exception err)
+        {
+            Console.WriteLine(err.Message);
+        }
+    }
+
+    public static void RemoveItemOptions()
+    {
+        try
+        {
+            Console.Write("Enter the ID to delete (a number): ");
+            int id = Convert.ToInt32(Console.ReadLine());
+            Model_Menu ItemToDelete = FindItem(id);
+            RemoveItem(ItemToDelete);
+        }
+        catch (Exception err)
+        {
+            Console.WriteLine(err.Message);
+        }
     }
 }

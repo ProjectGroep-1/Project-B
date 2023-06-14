@@ -1,5 +1,6 @@
 public static class Admin
 {
+    public static bool isAdmin = false;
     private static string Username = "Admin1";
     private static string Password = "123";
     public static string Login() => Username + " " + Password;
