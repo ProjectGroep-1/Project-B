@@ -37,7 +37,7 @@ public class Logic_Reservation
      public void UpdateListbyDate(Model_Reservation reservation)
     {
         //Find if there is already an model with the same id
-        int index = _reservations.FindIndex(s => s.Date == reservation.Date);
+        int index = _reservations.FindIndex(s => s.Date == reservation.Date && s.FullName == reservation.FullName && s.Arrival == reservation.Arrival);
 
         if (index != -1)
         {
