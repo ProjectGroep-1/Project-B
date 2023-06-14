@@ -16,32 +16,19 @@ public class Logic_Capacity : Logic_TimeSlots
     public void ReFillTabels(DateTime Date)
     {
         var query = Functions_Reservation.reservationLogic._reservations.Where(x=> x.Date == Date.Date && x.Id != -1).Select(r => r).ToList(); // Reservations on this Date
-        foreach (var reservation in query) {Console.WriteLine( reservation.ToString()); }
-        Console.WriteLine("Clean:");
-        if (query.Count == 0) {Console.WriteLine("Empty"); return;} 
+        if (query.Count == 0) { return; } 
         // Reservations Clean = (customers amount = 6, 4, 2)
         // Reservations Dirty = (customers amount = 1, 3, 5, >6)
         var queryCleanReservations = query.Where(c => c.CustomersAmount % 2 == 0 && c.CustomersAmount <= (int)Table.High).OrderByDescending(c => c.CustomersAmount).ToList();
         var queryDirtyReservations = query.Where(c => c.CustomersAmount % 2 != 0 || c.CustomersAmount > (int)Table.High).OrderByDescending(c => c.CustomersAmount).ToList();
-        foreach (var reservation in queryCleanReservations) {Console.WriteLine( reservation.ToString()); }
-        Console.WriteLine("Dirty:");
-        foreach (var reservation in queryDirtyReservations) {Console.WriteLine( reservation.ToString()); }
         // Resetting all RemainingSeats on this Date
         for (int i = 0; i < _capacity.Count; i++) { if (_capacity[i].Date == Date.Date) { _capacity[i].RemainingSeats = _capacity[i].TotalSeats; UpdateList(_capacity[i]); } }
         // Refilling tables with Reservations Clean
-        Console.WriteLine("Refilling tables:");
         var resClean = ManualRefill(queryCleanReservations);
         // Any Reservations Clean not given a table will be added to the Reservations Dirty
         if  (resClean != null && resClean.Count > 0) {foreach (Model_Reservation reservation in resClean) { queryDirtyReservations.Add(reservation); }}
         // Refilling tables with Reservations Dirty
         var resDirty = ManualRefill(queryDirtyReservations, true);
-        
-        // test writeline
-        if (resDirty != null)
-        {
-            Console.WriteLine($"Reservations without a table: {resDirty.Count}");
-            foreach(var reservation in resDirty) { Console.WriteLine(reservation.ToString()); }
-        }
     }
 
     public List<Model_Reservation> ManualRefill(List<Model_Reservation> reservations, bool dirty = false)
@@ -55,8 +42,6 @@ public class Logic_Capacity : Logic_TimeSlots
                 if (free_cap == null || free_cap.Count == 0) { LeftoverReservations.Add(res); }
                 else
                 {   
-                    // test writeline
-                    Console.WriteLine($"Reservation {res.Id}, cap id {res.CapacityIDS[0]}, was given the table {free_cap[0].TableID}, new cap id = {free_cap[0].ID}");
                     Model_Capacity new_cap = free_cap[0];
                     new_cap.RemainingSeats = new_cap.TotalSeats - res.CustomersAmount;
                     res.CapacityIDS = new List<int>() { new_cap.ID };
@@ -75,16 +60,9 @@ public class Logic_Capacity : Logic_TimeSlots
                 if (free_cap_list != null && free_cap_list.Count > 0)
                 {
                     if (LeftoverReservations.Contains(res)) { LeftoverReservations.Remove(res); }
-                    string updated_res = $"Reservation {res.Id}, with cap ids";
-                    foreach (int c in res.CapacityIDS) { updated_res += $" {c},";}
                     res.CapacityIDS = new List<int>();
                     foreach (Model_Capacity new_cap_split in free_cap_list) {res.CapacityIDS.Add(new_cap_split.ID); UpdateList(new_cap_split); }
                     Functions_Reservation.reservationLogic.UpdateList(res);
-                    updated_res += " was given the tables";
-                    foreach (Model_Capacity new_cap_split in free_cap_list) {updated_res += $" {new_cap_split.TableID},";}
-                    updated_res += " new cap ids =";
-                    foreach (Model_Capacity new_cap_split in free_cap_list) {updated_res += $" {new_cap_split.ID}";}
-                    Console.WriteLine(updated_res);
                 }
 
             }
@@ -98,7 +76,6 @@ public class Logic_Capacity : Logic_TimeSlots
         if (customers < 4) { tables_with_remaining_seats = _capacity.Where(c => c.Date == date.Date && c.Time == hour && c.RemainingSeats > 0).Select(c => c).OrderBy(t => t.RemainingSeats).ToList(); }
         else { tables_with_remaining_seats = _capacity.Where(c => c.Date == date.Date && c.Time == hour && c.RemainingSeats > 0).Select(c => c).OrderByDescending(t => t.RemainingSeats).ToList(); }
 
-        Console.WriteLine();
         return Splitting(tables_with_remaining_seats, customers);
     }
 
@@ -161,7 +138,7 @@ public class Logic_Capacity : Logic_TimeSlots
 
         }
 
-        Console.WriteLine("Empty"); return null;
+        return null;
     }
 
     public void DailyUpdateCapacity(int days)
@@ -191,7 +168,6 @@ public class Logic_Capacity : Logic_TimeSlots
                                 int index_cap_id = Current_Reservations[r].CapacityIDS.FindIndex(x=> x == old_capacity[j].ID);
                                 Current_Reservations[r].CapacityIDS[index_cap_id] = l[i].ID;
                                 Functions_Reservation.reservationLogic.UpdateList(Current_Reservations[r]);
-                                Console.WriteLine($"Current Reservation Id:{Current_Reservations[r].Id} Contains old cap id at index:{index_cap_id}. New id:{l[i].ID}");
                             }
                         }
                        
@@ -324,7 +300,7 @@ public class Logic_Capacity : Logic_TimeSlots
                     }
                     var temp = Functions_Reservation.reservationLogic._reservations.Where(r => r.Id > 0).Select(r => r).ToList();
                     List<Model_Reservation> reservations_out = new();
-                    if (temp != null && temp.Count > 1)
+                    if (temp != null && temp.Count > 0)
                     {
                         foreach (Model_Reservation res in temp)
                         {
