@@ -43,7 +43,9 @@ public static class Functions_Capacity
             Console.WriteLine($"{capCounter}. {r} {Functions_Capacity.DisplayDate(r.Id)}, {DisplayTableIDS(r)}");
             capCounter++;
         }
-        Console.WriteLine($"\x1b[1mPage {pageNumber}/{pageTotal}\x1b[0m");
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine($"Page {pageNumber}/{pageTotal}");
+        Console.ResetColor();
         pageNumber = FlipPage(pageNumber, pageTotal, capCounter, itemsOnPageList);
         if (pageNumber == 0)
         {
